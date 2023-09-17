@@ -1,0 +1,23 @@
+{
+  "name": "@miguelteran/paladins-api-wrapper",
+  "version": "1.0.0",
+  "description": "Paladins API typescript wrapper",
+  "author": "Miguel Teran Benalcazar",
+  "license": "ISC",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@miguelteran"
+  },
+  "dependencies": {
+    "dotenv": "16.3.1"
+  },
+  "devDependencies": {
+    "typescript": "5.2.2"
+  },
+  "scripts": {
+    "prepublish": "tsc",
+    "test": "node --test ./dist/test.js"
+  }
+}
