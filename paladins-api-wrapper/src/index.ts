@@ -9,6 +9,7 @@ dotenv.config();
 const PALADINS_API_URL = 'https://api.paladins.com/paladinsapi.svc';
 const RESPONSE_FORMAT = 'json';
 const ENGLISH_LANGUAGE_CODE = 1;
+const INVALID_SESSION_ID_MESSAGE = 'Invalid session id.';
 enum PALADINS_API_METHODS {
     CREATE_SESSION_METHOD = 'createsession',
     TEST_SESSION = 'testsession',
@@ -81,18 +82,34 @@ async function get(url: string) {
     return await response.json()
 }
 
-async function getRequestToPaladinsApi(method: PALADINS_API_METHODS, ...additionalParams: numberOrString[]) {
+async function getRequestToPaladinsApi(method: PALADINS_API_METHODS, ...additionalParams: numberOrString[]): Promise<any> {
+    return await getRequestToPaladinsApiWithRetry(method, true, ...additionalParams);
+}
+
+async function getRequestToPaladinsApiWithRetry(method: PALADINS_API_METHODS, retry: boolean, ...additionalParams: numberOrString[]): Promise<any> {
     if (!_sessionId) {
-        throw new Error('_sessionId has not been set');
+        _sessionId = await createSession();
     }
+    
     const timestamp = getCurrentUTCTimestamp(); 
     const signature = generateSignature(method, timestamp);
     const params = additionalParams.length > 0 ? '/' + additionalParams.join('/') : '';
     const url = `${PALADINS_API_URL}/${method}${RESPONSE_FORMAT}/${process.env.DEV_ID}/${signature}/${_sessionId}/${timestamp}${params}`;
-    return await get(url);
+    const response = await get(url);
+    
+    if (response && response.length > 0 && response[0].ret_msg === INVALID_SESSION_ID_MESSAGE) {
+        _logger.debug('Invalid session');
+        if (retry) {
+            _sessionId = '';
+            return await getRequestToPaladinsApiWithRetry(method, false, ...additionalParams);
+        }
+    } else {
+        return response;
+    }
 }
 
 export async function createSession() {
+    _logger.debug('Creating new session');
     const timestamp = getCurrentUTCTimestamp();
     const signature = generateSignature(PALADINS_API_METHODS.CREATE_SESSION_METHOD, timestamp);
     const url = `${PALADINS_API_URL}/${PALADINS_API_METHODS.CREATE_SESSION_METHOD}${RESPONSE_FORMAT}/${process.env.DEV_ID}/${signature}/${timestamp}`;
@@ -105,81 +122,103 @@ export async function createSession() {
 }
 
 export async function testSession() {
+    _logger.debug('Testing session');
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.TEST_SESSION);
 }
 
 export async function getDataUsed() {
-    return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_DATA_USED);
+    _logger.debug('Checking data used');
+    const data = await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_DATA_USED);
+    return data ? data[0] : undefined;
 }
 
 export async function getHirezServerStatus() {
+    _logger.debug('Getting HiRez server status');
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_HIREZ_SERVER_STATUS);
 }
 
 export async function getChampions() {
+    _logger.debug('Getting champions');
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_CHAMPIONS, ENGLISH_LANGUAGE_CODE);
 }
 
 export async function getChampionCards(championId: number) {
+    _logger.debug('Getting champion cards for champion ' + championId);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_CHAMPION_CARDS, championId, ENGLISH_LANGUAGE_CODE);
 }
 
 export async function getChampionSkins(championId: number) {
+    _logger.debug('Getting champion skins for champion ' + championId);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_CHAMPION_SKINS, championId, ENGLISH_LANGUAGE_CODE);
 }
 
 export async function getAllChampionSkins() {
+    _logger.debug('Getting all champion skins for champion');
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_CHAMPION_SKINS, -1, ENGLISH_LANGUAGE_CODE);
 }
 
 export async function getItems() {
+    _logger.debug('Getting items');
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_ITEMS, ENGLISH_LANGUAGE_CODE);
 }
 
 export async function getBountyItems() {
+    _logger.debug('Getting bounty items');
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_BOUNTY_ITEMS);
 }
 
 export async function getPlayer(playerId: numberOrString) {
-    return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_PLAYER, playerId);
+    _logger.debug('Getting info for player ' + playerId);
+    const player = await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_PLAYER, playerId);
+    return player ? player[0] : undefined;
 }
 
 export async function getPlayerBatch(playerIds: numberOrString[]) {
+    _logger.debug('Getting info for players ' + playerIds);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_PLAYER_BATCH, csvJoin(playerIds));
 }
 
 export async function getChampionRanks(playerId: numberOrString) {
+    _logger.debug('Getting champion ranks for player ' + playerId);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_CHAMPION_RANKS, playerId);
 }
 
 export async function getPlayerLoadouts(playerId: numberOrString) {
+    _logger.debug('Getting loadouts for player ' + playerId);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_PLAYER_LOADOUTS, playerId, ENGLISH_LANGUAGE_CODE);
 }
 
 export async function getMatchHistory(playerId: numberOrString) {
+    _logger.debug('Getting match history for player ' + playerId);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_MATCH_HISTORY, playerId);
 }
 
 export async function getQueueStats(playerId: numberOrString, queueId: number) {
+    _logger.debug('Getting stats for player ' + playerId + ' and queue ' + queueId);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_QUEUE_STATS, playerId, queueId);
 }
 
 export async function getQueueStatsBatch(playerId: numberOrString, queueIds: number[]) {
+    _logger.debug('Getting batch stats for player ' + playerId + ' and queues ' + queueIds);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_QUEUE_STATS_BATCH, playerId, csvJoin(queueIds));
 }
 
 export async function searchPlayers(playerName: string) {
+    _logger.debug('Searching players with name ' + playerName);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.SEARCH_PLAYERS, playerName);
 }
 
 export async function getMatchDetails(matchId: numberOrString) {
+    _logger.debug('Getting details for match ' + matchId);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_MATCH_DETAILS, matchId);
 }
 
 export async function getMatchDetailsBatch(matchIds: numberOrString[]) {
+    _logger.debug('Getting details for matches ' + matchIds);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_MATCH_DETAILS_BATCH, csvJoin(matchIds));
 }
 
 export async function getMatchIdsByQueue(queueId: number, date: string, hour: string) {
+    _logger.debug('Getting matchs for queue ' + queueId + ' with date ' + date + ' and hour ' + hour);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_MATCH_IDS_BY_QUEUE, queueId, date, hour);
 }

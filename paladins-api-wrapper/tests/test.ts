@@ -5,18 +5,13 @@ import * as PaladinsApiWrapper from '../src/index';
 
 describe('Test Paladins API Functions', () => {
 
-    before(async () => {
-        console.log("Setting sessionId");
-        const sessionId = await PaladinsApiWrapper.createSession();
-        PaladinsApiWrapper.setSessionId(sessionId);
-    });
-
     test('testSession() should not return undefined', async () => {
       const result = await PaladinsApiWrapper.testSession();
       assert.notStrictEqual(result, undefined);
     });
   
     test('getDataUsed() should not return undefined', async () => {
+      PaladinsApiWrapper.setSessionId('123'); // simulate expired session
       const result = await PaladinsApiWrapper.getDataUsed();
       assert.notStrictEqual(result, undefined);
     });
