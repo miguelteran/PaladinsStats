@@ -1,1 +1,6 @@
+src/
+tests/
+dist/tests
+tsconfig.json
 .env
+*.tgz
