@@ -21,7 +21,7 @@
     "typescript": "5.2.2"
   },
   "scripts": {
-    "prepublish": "tsc",
-    "test": "node --test ./dist/tests/test.js"
+    "prepublish": "rm -rf dist; tsc",
+    "test": "tsc; node --test ./dist/tests/test.js"
   }
 }
