@@ -1,0 +1,29 @@
+{
+  "name": "@miguelteran/paladins-stats-ui",
+  "description": "UI for PaladinsStats",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@miguelteran/paladins-api-wrapper": "1.0.0",
+    "@nextui-org/react": "^2.1.13",
+    "@types/node": "20.6.3",
+    "@types/react": "18.2.22",
+    "@types/react-dom": "18.2.7",
+    "eslint": "8.49.0",
+    "eslint-config-next": "13.5.1",
+    "framer-motion": "^10.16.4",
+    "next": "13.5.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  }
+}
