@@ -1,13 +1,19 @@
 'use client'
 
-import { Key, useCallback } from 'react';
+import { Key, useState, useCallback } from 'react';
 import { ChampionStats, RecentMatch } from '@miguelteran/paladins-api-wrapper';
 import { CustomTable, CustomTableColumn } from '@/components/table';
 import { Tab, Tabs } from '@nextui-org/tabs';
+import { SortDescriptor } from '@nextui-org/react';
 import { getPercentageString, getTimeString } from '@/util/string-util';
 
 
 export const PlayerStats = ({recentMatches, championStats}: {recentMatches: RecentMatch[], championStats: ChampionStats[]}) => {
+
+    const [championsSortDescriptor, setChampionsSortDescriptor] = useState<SortDescriptor>({
+        column: 'champion',
+        direction: 'ascending',
+    });
 
     const matchesTableColumns: CustomTableColumn[] = [
         {key: 'Champion', label: 'Champion'},
@@ -18,8 +24,8 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
     ];
 
     const championsTableColumns: CustomTableColumn[] = [
-        {key: 'champion', label: 'Champion'},
-        {key: 'Rank', label: 'Level'},
+        {key: 'champion', label: 'Champion', sortable: true},
+        {key: 'Rank', label: 'Level', sortable: true},
         {key: 'NumberOfMatches', label: 'Total Matches'},
         {key: 'WinRate', label: 'Win Rate'},
         {key: 'KDA', label: 'KDA'},
@@ -66,6 +72,8 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
                     rows={championStats}
                     tableRowKey='champion_id'
                     customCellRenderer={renderChampionsCell}
+                    sortDescriptor={championsSortDescriptor}
+                    onSortChange={setChampionsSortDescriptor}
                 />
             </Tab>
         </Tabs>
