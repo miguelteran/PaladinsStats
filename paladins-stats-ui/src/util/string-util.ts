@@ -1,5 +1,5 @@
-export function getPercentageString(total: number, partial: number): string {
-    return ((partial / total) * 100.0).toFixed(2) + '%';
+export function getPercentageString(percentage: number): string {
+    return percentage.toFixed(2) + '%';
 }
 
 export function getTimeString(minutes: number): string {

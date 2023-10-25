@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue } from '@nextui-org/table';
 import { SortDescriptor } from '@nextui-org/react';
@@ -12,7 +12,6 @@ export interface CustomTableProps<T> {
     customCellRenderer?: (item: T, columnKey: Key) => any,
     sortDescriptor?: SortDescriptor,
     onSortChange?: (sortDescriptor: SortDescriptor) => void,
-    customCellSorter?: (a: T, b: T) => number
 }
 
 export interface CustomTableColumn {
@@ -51,12 +50,9 @@ export function CustomTable<T>(props: CustomTableProps<T>) {
         >
             <TableHeader columns={props.columns}>
                 {(column) => 
-                    <TableColumn 
-                        key={column.key}
-                        allowsSorting={column.sortable}
-                    >
-                        {column.label
-                    }</TableColumn>
+                    <TableColumn key={column.key} allowsSorting={column.sortable}>
+                        {column.label}
+                    </TableColumn>
                 }
             </TableHeader>
             <TableBody<T> items={sortedRows}>

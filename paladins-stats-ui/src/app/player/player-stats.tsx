@@ -1,14 +1,15 @@
 'use client'
 
 import { Key, useState, useCallback } from 'react';
-import { ChampionStats, RecentMatch } from '@miguelteran/paladins-api-wrapper';
+import { RecentMatch } from '@miguelteran/paladins-api-wrapper';
 import { CustomTable, CustomTableColumn } from '@/components/table';
 import { Tab, Tabs } from '@nextui-org/tabs';
 import { SortDescriptor } from '@nextui-org/react';
 import { getPercentageString, getTimeString } from '@/util/string-util';
+import { ChampionStatsSummary } from '@/models/champion-stats-summary';
 
 
-export const PlayerStats = ({recentMatches, championStats}: {recentMatches: RecentMatch[], championStats: ChampionStats[]}) => {
+export const PlayerStats = ({recentMatches, championStats}: {recentMatches: RecentMatch[], championStats: ChampionStatsSummary[]}) => {
 
     const [championsSortDescriptor, setChampionsSortDescriptor] = useState<SortDescriptor>({
         column: 'champion',
@@ -24,12 +25,12 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
     ];
 
     const championsTableColumns: CustomTableColumn[] = [
-        {key: 'champion', label: 'Champion', sortable: true},
-        {key: 'Rank', label: 'Level', sortable: true},
-        {key: 'NumberOfMatches', label: 'Total Matches'},
-        {key: 'WinRate', label: 'Win Rate'},
-        {key: 'KDA', label: 'KDA'},
-        {key: 'TimePlayed', label: 'Time Played'}
+        {key: 'championName', label: 'Champion', sortable: true},
+        {key: 'rank', label: 'Level', sortable: true},
+        {key: 'numberOfMatches', label: 'Total Matches', sortable: true},
+        {key: 'winRate', label: 'Win Rate', sortable: true},
+        {key: 'kdaRatio', label: 'KDA', sortable: true},
+        {key: 'minutesPlayed', label: 'Time Played', sortable: true}
     ]
 
     const renderMatchesCell = useCallback((match: RecentMatch, columnKey: Key) => {
@@ -40,17 +41,14 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
         }
     }, []);
 
-    const renderChampionsCell = useCallback((champion: ChampionStats, columnKey: Key) => {
+    const renderChampionsCell = useCallback((champion: ChampionStatsSummary, columnKey: Key) => {
         switch (columnKey) {
-            case 'NumberOfMatches':
-                return champion.Wins + champion.Losses;
-            case 'WinRate':
-                const numMatches = champion.Wins + champion.Losses;
-                return getPercentageString(numMatches, champion.Wins);
-            case 'KDA':
-                return `${champion.Kills}/${champion.Deaths}/${champion.Assists}`;
-            case 'TimePlayed':
-                return getTimeString(champion.Minutes);
+            case 'winRate':
+                return getPercentageString(champion.winRate);
+            case 'kdaRatio':
+                return `${champion.kda} (${champion.kdaRatio.toFixed(2)})`;
+            case 'minutesPlayed':
+                return getTimeString(champion.minutesPlayed);
             default:
                 return undefined;
         }
@@ -67,10 +65,10 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
                 />
             </Tab>
             <Tab key='championStats' title='Champion Stats'>
-                <CustomTable<ChampionStats>
+                <CustomTable<ChampionStatsSummary>
                     columns={championsTableColumns}
                     rows={championStats}
-                    tableRowKey='champion_id'
+                    tableRowKey='championId'
                     customCellRenderer={renderChampionsCell}
                     sortDescriptor={championsSortDescriptor}
                     onSortChange={setChampionsSortDescriptor}
