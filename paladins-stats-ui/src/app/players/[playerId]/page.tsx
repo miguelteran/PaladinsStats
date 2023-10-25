@@ -1,20 +1,25 @@
 import { getPlayer, getMatchHistory, getChampionRanks } from '@miguelteran/paladins-api-wrapper';
-import { PlayerStats } from './player-stats';
-import { getPercentageString, getTimeString } from '@/util/string-util';
+import { PlayerStats } from '../player-stats';
 import { ChampionStatsSummary } from '@/models/champion-stats-summary';
+import { getPercentageString, getTimeString } from '@/util/string-util';
 import { getKDARatio, getPercentage } from '@/util/number-util';
+import { notFound } from 'next/navigation';
 
 
-export default async function Page() {
+export default async function PlayerPage( { params }: { params: { playerId: string } }) {
 
-    const [player, recentMatches, championStats] = await Promise.all([getPlayer(724293931), getMatchHistory(724293931), getChampionRanks(724293931)]);
+    const [player, recentMatches, championStats] = await Promise.all([getPlayer(params.playerId), getMatchHistory(params.playerId), getChampionRanks(params.playerId)]);
 
+    if (!player) {
+        notFound();
+    }
+    
     const totalMatchesPlayed = player.Wins + player.Losses;
     const winRate = getPercentageString(getPercentage(totalMatchesPlayed, player.Wins));
     const timePlayed = getTimeString(player.MinutesPlayed);
 
     const champions: ChampionStatsSummary[] = championStats.map(champion => {
-        const numMatches = champion.Wins + champion.Losses;
+        const numMatches = champion.Wins + champion.Losses; 
         return {
             championId: champion.champion_id,
             championName: champion.champion,
