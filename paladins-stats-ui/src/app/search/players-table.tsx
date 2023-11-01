@@ -2,9 +2,10 @@
 
 import useSWRImmutable  from 'swr/immutable';
 import { useState, useCallback, Key } from 'react';
-import { User } from "@nextui-org/react";
+import { User } from '@nextui-org/react';
 import { CustomTable, CustomTableColumn, CustomTableLoadingState } from '@/components/table';
-import { Player, PlayerSearchResult, getPlayerBatch } from '@miguelteran/paladins-api-wrapper';
+import { Player, PlayerSearchResult } from '@miguelteran/paladins-api-wrapper';
+import { useRouter } from 'next/navigation';
 
 
 const ROWS_PER_PAGE = 5;
@@ -22,6 +23,8 @@ export interface PlayersTableProps {
 export const PlayersTable = (props: PlayersTableProps) => {
 
     const [ page, setPage ] = useState(1);
+
+    const router = useRouter();
 
     const { playerSearchResults } = props;
 
@@ -53,12 +56,15 @@ export const PlayersTable = (props: PlayersTableProps) => {
         }
     }, []);
 
+    const onRowClick = (key: Key) => { router.push(`/players/${key}`); }
+
     return (
         <CustomTable<Player>
             rows={players}
             columns={columns}
             tableRowKey='Id'
             customCellRenderer={renderCell}
+            onRowClick={onRowClick}
             loadingState={loadingState}
             paginationParams={{
                 activePage: page,
