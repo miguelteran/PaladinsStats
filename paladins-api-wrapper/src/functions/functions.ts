@@ -133,7 +133,7 @@ export async function getChampionCards(championId: number): Promise<ChampionCard
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_CHAMPION_CARDS, championId, ENGLISH_LANGUAGE_CODE);
 }
 
-export async function getChampionSkins(championId: number): Promise<ChampionSkin> {
+export async function getChampionSkins(championId: number): Promise<ChampionSkin[]> {
     _logger.debug('Getting champion skins for champion ' + championId);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_CHAMPION_SKINS, championId, ENGLISH_LANGUAGE_CODE);
 }
@@ -143,12 +143,12 @@ export async function getAllChampionSkins(): Promise<ChampionSkin[]> {
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_CHAMPION_SKINS, -1, ENGLISH_LANGUAGE_CODE);
 }
 
-export async function getItems(): Promise<Item> {
+export async function getItems(): Promise<Item[]> {
     _logger.debug('Getting items');
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_ITEMS, ENGLISH_LANGUAGE_CODE);
 }
 
-export async function getBountyItems(): Promise<BountyItem> {
+export async function getBountyItems(): Promise<BountyItem[]> {
     _logger.debug('Getting bounty items');
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_BOUNTY_ITEMS);
 }
