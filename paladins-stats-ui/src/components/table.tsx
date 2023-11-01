@@ -24,6 +24,7 @@ export interface CustomTableProps<T> {
     customCellRenderer?: (item: T, columnKey: Key) => any,
     sortDescriptor?: SortDescriptor,
     onSortChange?: (sortDescriptor: SortDescriptor) => void,
+    onRowClick?: (key: Key) => void; 
     loadingState?: LoadingState,
     paginationParams?: CustomTablePaginationParams
 }
@@ -42,7 +43,7 @@ export interface CustomTablePaginationParams {
 
 export function CustomTable<T>(props: CustomTableProps<T>) {
 
-    const { columns, rows, tableRowKey, sortDescriptor, paginationParams, loadingState, customCellRenderer, onSortChange } = props;
+    const { columns, rows, tableRowKey, sortDescriptor, paginationParams, loadingState, customCellRenderer, onSortChange, onRowClick } = props;
 
     const sortedRows = useMemo(() => {
         if (!sortDescriptor) {
@@ -91,8 +92,10 @@ export function CustomTable<T>(props: CustomTableProps<T>) {
     return (
         <Table
             isHeaderSticky
+            selectionMode='single'
             sortDescriptor={sortDescriptor}
             onSortChange={onSortChange}
+            onRowAction={onRowClick}
             bottomContent={getPagination()}
         >
             <TableHeader columns={columns}>
