@@ -26,7 +26,8 @@ export interface CustomTableProps<T> {
     onSortChange?: (sortDescriptor: SortDescriptor) => void,
     onRowClick?: (key: Key) => void; 
     loadingState?: LoadingState,
-    paginationParams?: CustomTablePaginationParams
+    paginationParams?: CustomTablePaginationParams,
+    rowsFilter?: (row: T) => boolean;
 }
 
 export interface CustomTableColumn {
@@ -41,21 +42,33 @@ export interface CustomTablePaginationParams {
     onPageChange: (activePage: number) => void;
 }
 
+export interface CustomTableFilter {
+    key: Key,
+    value: any
+}
+
 export function CustomTable<T>(props: CustomTableProps<T>) {
 
-    const { columns, rows, tableRowKey, sortDescriptor, paginationParams, loadingState, customCellRenderer, onSortChange, onRowClick } = props;
+    const { columns, rows, tableRowKey, sortDescriptor, paginationParams, loadingState, rowsFilter, customCellRenderer, onSortChange, onRowClick } = props;
+
+    const filteredRows = useMemo(() => {
+        if (!rowsFilter) {
+            return rows;
+        }
+        return rows.filter(rowsFilter);
+    }, [rowsFilter, rows]);
 
     const sortedRows = useMemo(() => {
         if (!sortDescriptor) {
-            return rows;
+            return filteredRows;
         }
-        return rows.sort((a: T, b: T) => {
+        return filteredRows.sort((a: T, b: T) => {
             const first = a[sortDescriptor.column as keyof T] as number;
             const second = b[sortDescriptor.column as keyof T] as number;
             const cmp = first < second ? -1 : first > second ? 1 : 0;
             return sortDescriptor.direction === CustomTableSortingDirection.DESCENDING_SORTING_DIRECTION ? -cmp : cmp;
         });
-    }, [sortDescriptor, rows]);
+    }, [sortDescriptor, filteredRows]);
 
     const renderCell = useCallback((item: T, columnKey: Key) => {
         let cellContent = undefined;
