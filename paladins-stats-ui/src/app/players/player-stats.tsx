@@ -4,9 +4,11 @@ import { Key, useState, useCallback } from 'react';
 import { RecentMatch } from '@miguelteran/paladins-api-wrapper';
 import { CustomTable, CustomTableColumn, CustomTableSortingDirection } from '@/components/table';
 import { Tab, Tabs } from '@nextui-org/tabs';
-import { SortDescriptor } from '@nextui-org/react';
+import { SortDescriptor, Selection } from '@nextui-org/react';
 import { getPercentageString, getTimeString } from '@/util/string-util';
 import { ChampionStatsSummary } from '@/models/champion-stats-summary';
+import { CustomMultiSelect } from '@/components/multiselect';
+import { paladinsRoles } from '@/models/role';
 
 
 const matchesTableColumns: CustomTableColumn[] = [
@@ -32,6 +34,7 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
         column: 'champion',
         direction: CustomTableSortingDirection.ASCENDING_SORTING_DIRECTION,
     });
+    const [ selectedRoles, setSelectedRoles ] = useState<Selection>(new Set([]));
 
     const renderMatchesCell = useCallback((match: RecentMatch, columnKey: Key) => {
         if (columnKey === 'KDA') {
@@ -54,8 +57,21 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
         }
     }, []);
 
+    const championStatsFilter = (champion: ChampionStatsSummary) => {
+        return selectedRoles === 'all' || selectedRoles.size === 0 || (selectedRoles.has(champion.championRole));
+    }
+
     return (
-        <Tabs>
+        <div>
+            <CustomMultiSelect
+                items={paladinsRoles}
+                keyField='role'
+                textValueField='displayValue'
+                placeholder='Role'
+                selectedKeys={selectedRoles}
+                onSelectionChange={setSelectedRoles}
+            />
+            <Tabs>
             <Tab key='recentMatches' title='Recent Matches'>
                 <CustomTable<RecentMatch>
                     columns={matchesTableColumns}
@@ -69,11 +85,13 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
                     columns={championsTableColumns}
                     rows={championStats}
                     tableRowKey='championId'
+                    rowsFilter={championStatsFilter}
                     customCellRenderer={renderChampionsCell}
                     sortDescriptor={championsSortDescriptor}
                     onSortChange={setChampionsSortDescriptor}
                 />
             </Tab>
         </Tabs>
+        </div>
     );
 }
