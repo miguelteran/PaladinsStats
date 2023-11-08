@@ -6,7 +6,7 @@ import { Logger } from '../interfaces/logger';
 import { Player, PlayerSearchResult } from '../interfaces/player';
 import { ChampionCard, Loadout } from '../interfaces/loadout';
 import { Item } from '../interfaces/item';
-import { MatchSummary, RecentMatch, MatchDetails } from '../interfaces/recent-match';
+import { MatchSummary, RecentMatch, PlayerMatchDetails, MatchDetails } from '../interfaces/match';
 import { Champion } from '../interfaces/champion';
 import { ChampionSkin } from '../interfaces/champion-skin';
 import { ChampionStats, ChampionStatsByQueue } from '../interfaces/champion-stats';
@@ -194,14 +194,23 @@ export async function searchPlayers(playerName: string): Promise<PlayerSearchRes
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.SEARCH_PLAYERS, playerName);
 }
 
-export async function getMatchDetails(matchId: numberOrString): Promise<MatchDetails[]> {
+export async function getMatchDetails(matchId: numberOrString): Promise<PlayerMatchDetails[]> {
     _logger.debug('Getting details for match ' + matchId);
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_MATCH_DETAILS, matchId);
 }
 
-export async function getMatchDetailsBatch(matchIds: numberOrString[]): Promise<MatchDetails[]> {
+export async function getMatchDetailsBatch(matchIds: numberOrString[]): Promise<MatchDetails> {
     _logger.debug('Getting details for matches ' + matchIds);
-    return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_MATCH_DETAILS_BATCH, csvJoin(matchIds));
+    const playerMatchDetails: PlayerMatchDetails[] = await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_MATCH_DETAILS_BATCH, csvJoin(matchIds));
+    const matchDetails: MatchDetails = new Map;
+    playerMatchDetails.forEach(details => {
+        const matchId = details.Match;
+        if (!matchDetails.has(matchId)) {
+           matchDetails.set(matchId, []);
+        }
+        matchDetails.get(matchId)?.push(details);
+    });
+    return matchDetails;
 }
 
 export async function getMatchIdsByQueue(queueId: number, date: string, hour: string): Promise<MatchSummary[]> {

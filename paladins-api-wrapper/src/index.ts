@@ -6,7 +6,7 @@ export * from './interfaces/bounty-item';
 export * from './interfaces/champion';
 export * from './interfaces/champion-skin';
 export * from './interfaces/champion-stats';
-export * from './interfaces/recent-match';
+export * from './interfaces/match';
 export * from './interfaces/api-usage';
 export * from './interfaces/server-status';
 export * from './interfaces/logger';

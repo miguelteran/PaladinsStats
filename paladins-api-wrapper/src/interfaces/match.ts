@@ -82,7 +82,7 @@ export interface RecentMatch {
     ret_msg: null | string;
 }
 
-export interface MatchDetails {
+export interface PlayerMatchDetails {
     Account_Level: number;
     ActiveId1: number;
     ActiveId2: number;
@@ -208,3 +208,5 @@ export interface MatchDetails {
     playerPortalUserId: string;
     ret_msg: null | string;
 }
+
+export type MatchDetails = Map<number, PlayerMatchDetails[]>;
