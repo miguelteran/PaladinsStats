@@ -7,6 +7,7 @@ export interface MatchSummary {
 }
 
 export interface RecentMatch {
+    [key: string]: number|string|null;
     ActiveId1: number;
     ActiveId2: number;
     ActiveId3: number;
@@ -83,6 +84,7 @@ export interface RecentMatch {
 }
 
 export interface PlayerMatchDetails {
+    [key: string]: number|string|null;
     Account_Level: number;
     ActiveId1: number;
     ActiveId2: number;

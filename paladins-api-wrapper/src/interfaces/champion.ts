@@ -1,4 +1,5 @@
 export interface Champion {
+    [key: string]: Ability|number|string|null;
     Ability1: string;
     Ability2: string;
     Ability3: string;
