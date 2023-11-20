@@ -1,0 +1,20 @@
+{
+  "name": "paladins-stats-db",
+  "version": "1.0.0",
+  "description": "Paladins Stats Database Access Layer",
+  "author": "Miguel Teran Benalcazar",
+  "license": "ISC",
+  "main": "index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist; tsc",
+    "get-ranked-matches": "npm run build; node ./dist/scripts/get-ranked-matches.js"
+  },
+  "dependencies": {
+    "@miguelteran/paladins-api-wrapper": "1.0.0",
+    "mongodb": "^6.3.0"
+  },
+  "devDependencies": {
+    "typescript": "5.2.2"
+  }
+}
