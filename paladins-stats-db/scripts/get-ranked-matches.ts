@@ -1,7 +1,7 @@
 import { getMatchIdsByQueue, getMatchDetailsBatch } from '@miguelteran/paladins-api-wrapper';
 import { ChampionBan } from '../models/champion-ban';
 import { ChampionMatch, LeveledItem, MatchResult } from '../models/champion-match';
-import { PaladinsStatsCollections, getPaladinsStatsDatabaseConnection } from '../database/paladins-stats-db';
+import { PaladinsStatsCollections, PaladinsStatsDatabase, getPaladinsStatsDatabaseConnection } from '../database/paladins-stats-db';
 import { ChampionMatchesDAL } from '../dal/champion-matches-dal';
 import { ChampionBansDAL } from '../dal/champion-bans-dal';
 
@@ -11,16 +11,34 @@ const BATCH_SIZE = 10;
 const NUMBER_OF_BANS = 8;
 const NUMBER_OF_ITEMS = 4;
 const NUMBER_OF_CARDS = 5;
+const NUMBER_OF_HOURS_PER_DAY = 24;
+const NUMBER_OF_MINUTES_PER_HOUR = 60;
 
 
 async function main() {
 
     const paladinsStatsDB = await getPaladinsStatsDatabaseConnection();
+
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const date = `${yesterday.getFullYear()}${yesterday.getMonth()}${yesterday.getDate()}`;
+    console.log(`Getting ranked matches from ${date}`);
+
+    for (let hour = 0; hour < NUMBER_OF_HOURS_PER_DAY; hour++) {
+        for (let minutes = 0; minutes < NUMBER_OF_MINUTES_PER_HOUR; minutes += 10) {
+            const time = `${hour},${minutes === 0 ? '00' : minutes}`;
+            await getRankedMatches(paladinsStatsDB, date, time);
+        }
+    }
+}
+
+
+async function getRankedMatches(paladinsStatsDB: PaladinsStatsDatabase, date: string, time: string) {
+
     const championMatchesDAL = paladinsStatsDB.getDal(PaladinsStatsCollections.CHAMPION_MATCHES) as ChampionMatchesDAL;
     const championBansDAL = paladinsStatsDB.getDal(PaladinsStatsCollections.CHAMPION_BANS) as ChampionBansDAL;
-    
-    // date: poll up to the day before so we don't run into matches that are in progress
-    const matchSummaries = await getMatchIdsByQueue(RANKED_QUEUE, '20231118', '0,00');
+
+    const matchSummaries = await getMatchIdsByQueue(RANKED_QUEUE, date, time);
     const batches = Math.ceil(matchSummaries.length / BATCH_SIZE);
     
     for (let i=0; i<batches; i++) {
