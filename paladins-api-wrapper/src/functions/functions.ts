@@ -1,5 +1,5 @@
-const moment = require('moment');
 import * as dotenv from "dotenv";
+import moment from 'moment';
 import { createHash } from 'crypto';
 import { PALADINS_API_URL, RESPONSE_FORMAT, ENGLISH_LANGUAGE_CODE, INVALID_SESSION_ID_MESSAGE, PALADINS_API_METHODS } from '../constants/constants';
 import { Logger } from '../interfaces/logger';
@@ -7,7 +7,7 @@ import { Player, PlayerSearchResult } from '../interfaces/player';
 import { ChampionCard, Loadout } from '../interfaces/loadout';
 import { Item } from '../interfaces/item';
 import { MatchSummary, RecentMatch, PlayerMatchDetails, MatchDetails } from '../interfaces/match';
-import { Champion } from '../interfaces/champion';
+import { Champion, ChampionBan } from '../interfaces/champion';
 import { ChampionSkin } from '../interfaces/champion-skin';
 import { ChampionStats, ChampionStatsByQueue } from '../interfaces/champion-stats';
 import { ApiUsage } from '../interfaces/api-usage';
@@ -18,6 +18,7 @@ import { BountyItem } from '../interfaces/bounty-item';
 dotenv.config();
 
 
+const NUMBER_OF_BANS = 8;
 type numberOrString = number | string;
 
 
@@ -87,6 +88,27 @@ async function getRequestToPaladinsApiWithRetry(method: PALADINS_API_METHODS, re
     } else {
         return response;
     }
+}
+
+function buildMatchDetailsObject(details: PlayerMatchDetails): MatchDetails {
+    const championBans: ChampionBan[] = [];
+    for (let i=1; i<=NUMBER_OF_BANS; i++) {
+        championBans.push({
+            id: Number(details[`BanId${i}`]),
+            name: String(details[`Ban_${i}`]),
+        });
+    }
+
+    return {
+        matchId: details.Match,
+        matchTimestamp: details.Entry_Datetime,
+        matchDuration: details.Match_Duration,
+        queueId: details.match_queue_id,
+        region: details.Region,
+        map: details.Map_Game,
+        championBans: championBans,
+        playerMatchDetails: []
+    };
 }
 
 
@@ -194,23 +216,26 @@ export async function searchPlayers(playerName: string): Promise<PlayerSearchRes
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.SEARCH_PLAYERS, playerName);
 }
 
-export async function getMatchDetails(matchId: numberOrString): Promise<PlayerMatchDetails[]> {
+export async function getMatchDetails(matchId: numberOrString): Promise<MatchDetails> {
     _logger.debug('Getting details for match ' + matchId);
-    return await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_MATCH_DETAILS, matchId);
+    const playerMatchDetails: PlayerMatchDetails[] = await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_MATCH_DETAILS, matchId);
+    const matchDetails = buildMatchDetailsObject(playerMatchDetails[0]);
+    matchDetails.playerMatchDetails = playerMatchDetails;
+    return matchDetails;
 }
 
-export async function getMatchDetailsBatch(matchIds: numberOrString[]): Promise<MatchDetails> {
+export async function getMatchDetailsBatch(matchIds: numberOrString[]): Promise<MatchDetails[]> {
     _logger.debug('Getting details for matches ' + matchIds);
     const playerMatchDetails: PlayerMatchDetails[] = await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_MATCH_DETAILS_BATCH, csvJoin(matchIds));
-    const matchDetails: MatchDetails = new Map;
+    const matchDetailsMap: Map<number, MatchDetails> = new Map;
     playerMatchDetails.forEach(details => {
         const matchId = details.Match;
-        if (!matchDetails.has(matchId)) {
-           matchDetails.set(matchId, []);
+        if (!matchDetailsMap.has(matchId)) {
+           matchDetailsMap.set(matchId, buildMatchDetailsObject(details));
         }
-        matchDetails.get(matchId)?.push(details);
+        matchDetailsMap.get(matchId)?.playerMatchDetails.push(details);
     });
-    return matchDetails;
+    return Array.from(matchDetailsMap.values());
 }
 
 export async function getMatchIdsByQueue(queueId: number, date: string, hour: string): Promise<MatchSummary[]> {

@@ -53,3 +53,8 @@ export interface Ability {
     damageType: string;
     rechargeSeconds: number;
 }
+
+export interface ChampionBan {
+    id: number;
+    name: string;
+}

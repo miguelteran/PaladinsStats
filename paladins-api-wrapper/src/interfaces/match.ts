@@ -1,3 +1,6 @@
+import { ChampionBan } from "./champion";
+
+
 export interface MatchSummary {
     Active_Flag: string;
     Entry_Datetime: string;
@@ -211,4 +214,13 @@ export interface PlayerMatchDetails {
     ret_msg: null | string;
 }
 
-export type MatchDetails = Map<number, PlayerMatchDetails[]>;
+export interface MatchDetails {
+    matchId: number;
+    matchTimestamp: string;
+    matchDuration: number;
+    queueId: number;
+    region: string;
+    map: string;
+    championBans: ChampionBan[];
+    playerMatchDetails: PlayerMatchDetails[];
+}
