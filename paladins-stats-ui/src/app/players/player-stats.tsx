@@ -87,8 +87,10 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
                     tableRowKey='championId'
                     rowsFilter={championStatsFilter}
                     customCellRenderer={renderChampionsCell}
-                    sortDescriptor={championsSortDescriptor}
-                    onSortChange={setChampionsSortDescriptor}
+                    sortParams={{
+                        sortDescriptor: championsSortDescriptor, 
+                        onSortChange: setChampionsSortDescriptor
+                    }}
                 />
             </Tab>
         </Tabs>

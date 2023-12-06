@@ -22,10 +22,9 @@ export interface CustomTableProps<T> {
     rows: T[],
     tableRowKey: string,
     customCellRenderer?: (item: T, columnKey: Key) => any,
-    sortDescriptor?: SortDescriptor,
-    onSortChange?: (sortDescriptor: SortDescriptor) => void,
     onRowClick?: (key: Key) => void; 
     loadingState?: LoadingState,
+    sortParams?: CustomTableSortParams
     paginationParams?: CustomTablePaginationParams,
     rowsFilter?: (row: T) => boolean;
 }
@@ -34,6 +33,11 @@ export interface CustomTableColumn {
     key: string,
     label: string,
     sortable?: boolean
+}
+
+export interface CustomTableSortParams {
+    sortDescriptor: SortDescriptor,
+    onSortChange: (sortDescriptor: SortDescriptor) => void,
 }
 
 export interface CustomTablePaginationParams {
@@ -49,7 +53,7 @@ export interface CustomTableFilter {
 
 export function CustomTable<T>(props: CustomTableProps<T>) {
 
-    const { columns, rows, tableRowKey, sortDescriptor, paginationParams, loadingState, rowsFilter, customCellRenderer, onSortChange, onRowClick } = props;
+    const { columns, rows, tableRowKey, sortParams, paginationParams, loadingState, rowsFilter, customCellRenderer, onRowClick } = props;
 
     const filteredRows = useMemo(() => {
         if (!rowsFilter) {
@@ -59,16 +63,17 @@ export function CustomTable<T>(props: CustomTableProps<T>) {
     }, [rowsFilter, rows]);
 
     const sortedRows = useMemo(() => {
-        if (!sortDescriptor) {
+        if (!sortParams) {
             return filteredRows;
         }
+        const { sortDescriptor } = sortParams;
         return filteredRows.sort((a: T, b: T) => {
             const first = a[sortDescriptor.column as keyof T] as number;
             const second = b[sortDescriptor.column as keyof T] as number;
             const cmp = first < second ? -1 : first > second ? 1 : 0;
             return sortDescriptor.direction === CustomTableSortingDirection.DESCENDING_SORTING_DIRECTION ? -cmp : cmp;
         });
-    }, [sortDescriptor, filteredRows]);
+    }, [sortParams, filteredRows]);
 
     const renderCell = useCallback((item: T, columnKey: Key) => {
         let cellContent = undefined;
@@ -106,8 +111,8 @@ export function CustomTable<T>(props: CustomTableProps<T>) {
         <Table
             isHeaderSticky
             selectionMode='single'
-            sortDescriptor={sortDescriptor}
-            onSortChange={onSortChange}
+            sortDescriptor={sortParams && sortParams.sortDescriptor}
+            onSortChange={sortParams && sortParams.onSortChange}
             onRowAction={onRowClick}
             bottomContent={getPagination()}
         >
