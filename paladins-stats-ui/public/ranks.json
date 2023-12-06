@@ -1,0 +1,142 @@
+[
+    {
+        "id": 0,
+        "name": "Qualifying",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/8/8e/RankIcon_Qualifying.png"
+    },
+    {
+        "id": 1,
+        "name": "Bronze V",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/d/d0/RankIcon_Bronze_5.png"
+    },
+    {
+        "id": 2,
+        "name": "Bronze IV",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/d/d2/RankIcon_Bronze_4.png"
+    },
+    {
+        "id": 3,
+        "name": "Bronze III",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/5/55/RankIcon_Bronze_3.png"
+    },
+    {
+        "id": 4,
+        "name": "Bronze II",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/5/5b/RankIcon_Bronze_2.png"
+    },
+    {
+        "id": 5,
+        "name": "Bronze I",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/6/6e/RankIcon_Bronze_1.png"
+    },
+    {
+        "id": 6,
+        "name": "Silver V",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/1/1c/RankIcon_Silver_5.png"
+    },
+    {
+        "id": 7,
+        "name": "Silver IV",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/1/13/RankIcon_Silver_4.png"
+    },
+    {
+        "id": 8,
+        "name": "Silver III",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/9/95/RankIcon_Silver_3.png"
+    },
+    {
+        "id": 9,
+        "name": "Silver II",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/7/77/RankIcon_Silver_2.pn"
+    },
+    {
+        "id": 10,
+        "name": "Silver I",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/1/17/RankIcon_Silver_1.png"
+    },
+    {
+        "id": 11,
+        "name": "Gold V",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/4/48/RankIcon_Gold_5.png"
+    },
+    {
+        "id": 12,
+        "name": "Gold IV",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/6/6d/RankIcon_Gold_4.png"
+    },
+    {
+        "id": 13,
+        "name": "Gold III",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/1/12/RankIcon_Gold_3.png"
+    },
+    {
+        "id": 14,
+        "name": "Gold II",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/2/21/RankIcon_Gold_2.png"
+    },
+    {
+        "id": 15,
+        "name": "Gold I",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/e/ed/RankIcon_Gold_1.png"
+    },
+    {
+        "id": 16,
+        "name": "Platinum V",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/0/05/RankIcon_Platinum_5.png"
+    },
+    {
+        "id": 17,
+        "name": "Platinum IV",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/e/e1/RankIcon_Platinum_4.png"
+    },
+    {
+        "id": 18,
+        "name": "Platinum III",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/3/3c/RankIcon_Platinum_3.png"
+    },
+    {
+        "id": 19,
+        "name": "Platinum II",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/9/9a/RankIcon_Platinum_2.png"
+    },
+    {
+        "id": 20,
+        "name": "Platinum I",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/c/c3/RankIcon_Platinum_1.pn"
+    },
+    {
+        "id": 21,
+        "name": "Diamond V",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/0/03/RankIcon_Diamond_5.png"
+    },
+    {
+        "id": 22,
+        "name": "Diamond IV",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/8/8a/RankIcon_Diamond_4.png"
+    },
+    {
+        "id": 23,
+        "name": "Diamond III",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/8/84/RankIcon_Diamond_3.png"
+    },
+    {
+        "id": 24,
+        "name": "Diamond II",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/4/4d/RankIcon_Diamond_2.png"
+    },
+    {
+        "id": 25,
+        "name": "Diamond I",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/f/f1/RankIcon_Diamond_1.png"
+    },
+    {
+        "id": 26,
+        "name": "Master",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/9/9c/RankIcon_Master.png"
+    },
+    {
+        "id": 27,
+        "name": "Grandmaster",
+        "imageUrl": "https://static.wikia.nocookie.net/paladins_gamepedia/images/8/86/RankIcon_Grandmaster.png"
+    }
+]
