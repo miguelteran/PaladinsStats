@@ -9,6 +9,7 @@ import { getPercentageString, getTimeString } from '@/util/string-util';
 import { ChampionStatsSummary } from '@/models/champion-stats-summary';
 import { CustomMultiSelect } from '@/components/multiselect';
 import { paladinsRoles } from '@/models/role';
+import { useRouter } from 'next/navigation';
 
 
 const matchesTableColumns: CustomTableColumn[] = [
@@ -36,6 +37,8 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
     });
     const [ selectedRoles, setSelectedRoles ] = useState<Selection>(new Set([]));
 
+    const router = useRouter();
+
     const renderMatchesCell = useCallback((match: RecentMatch, columnKey: Key) => {
         if (columnKey === 'KDA') {
             return `${match.Kills}/${match.Deaths}/${match.Assists}`;
@@ -61,6 +64,8 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
         return selectedRoles === 'all' || selectedRoles.size === 0 || (selectedRoles.has(champion.championRole));
     }
 
+    const onMatchClick = (key: Key) => { router.push(`/matches/${key}`); }
+
     return (
         <div>
             <CustomMultiSelect
@@ -78,6 +83,7 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
                     rows={recentMatches}
                     tableRowKey='Match'
                     customCellRenderer={renderMatchesCell}
+                    onRowClick={onMatchClick}
                 />
             </Tab>
             <Tab key='championStats' title='Champion Stats'>
