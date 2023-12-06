@@ -5,7 +5,7 @@ import { getPercentageString, getTimeString } from '@/util/string-util';
 import { getKDARatio, getPercentage } from '@/util/number-util';
 import { notFound } from 'next/navigation';
 import { PaladinsRoles } from '@/models/role';
-import championSummaries from '../../../../public/champion-summaries.json' assert { type: 'json' };
+import champions from '../../../../public/champions.json' assert { type: 'json' };
 
 
 export default async function PlayerPage( { params }: { params: { playerId: string } }) {
@@ -20,12 +20,12 @@ export default async function PlayerPage( { params }: { params: { playerId: stri
     const winRate = getPercentageString(getPercentage(totalMatchesPlayed, player.Wins));
     const timePlayed = getTimeString(player.MinutesPlayed);
 
-    const champions: ChampionStatsSummary[] = championStats.map(champion => {
+    const championSummaries: ChampionStatsSummary[] = championStats.map(champion => {
         const numMatches = champion.Wins + champion.Losses; 
         return {
             championId: champion.champion_id,
             championName: champion.champion,
-            championRole: championSummaries.find(c => c.id === Number(champion.champion_id))?.role as PaladinsRoles,
+            championRole: champions.find(c => c.id === Number(champion.champion_id))?.Roles as PaladinsRoles,
             rank: champion.Rank,
             numberOfMatches: numMatches,
             winRate: getPercentage(numMatches, champion.Wins),
@@ -54,7 +54,7 @@ export default async function PlayerPage( { params }: { params: { playerId: stri
 
             <PlayerStats
                 recentMatches={recentMatches}
-                championStats={champions}
+                championStats={championSummaries}
             />
 
         </div>
