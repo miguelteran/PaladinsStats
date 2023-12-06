@@ -1,11 +1,19 @@
 {
-  "name": "paladins-stats-db",
+  "name": "@miguelteran/paladins-stats-db",
   "version": "1.0.0",
   "description": "Paladins Stats Database Access Layer",
   "author": "Miguel Teran Benalcazar",
   "license": "ISC",
-  "main": "index.js",
+  "type": "commonjs",
+  "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/miguelteran/PaladinsStats.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@miguelteran"
+  },
   "scripts": {
     "build": "rm -rf dist; tsc",
     "get-ranked-matches": "npm run build; node ./dist/scripts/get-ranked-matches.js"
