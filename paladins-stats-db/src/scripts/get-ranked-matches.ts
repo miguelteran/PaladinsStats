@@ -8,7 +8,6 @@ import { ChampionBansDAL } from '../dal/champion-bans-dal';
 
 const RANKED_QUEUE = 486;
 const BATCH_SIZE = 10;
-const NUMBER_OF_BANS = 8;
 const NUMBER_OF_ITEMS = 4;
 const NUMBER_OF_CARDS = 5;
 const NUMBER_OF_HOURS_PER_DAY = 24;
@@ -45,37 +44,36 @@ async function getRankedMatches(paladinsStatsDB: PaladinsStatsDatabase, date: st
         const start = i * BATCH_SIZE;
         const end = start + BATCH_SIZE;
         const matchIds: string[] = matchSummaries.slice(start, end).map(match => match.Match);
-        const matchDetails = await getMatchDetailsBatch(matchIds);
+        const matchDetailsList = await getMatchDetailsBatch(matchIds);
 
         // Go through each match
 
-        for (let playerDetailsList of matchDetails.values()) {
+        for (let matchDetails of matchDetailsList) {
             
             // Common match information
 
-            const firstPlayer = playerDetailsList[0];
-            const ranks = playerDetailsList.map(details => details.League_Tier);
-            const platforms = playerDetailsList.map(details => details.Platform);
+            const ranks = matchDetails.playerMatchDetails.map(details => details.League_Tier);
+            const platforms = matchDetails.playerMatchDetails.map(details => details.Platform);
             const championBans: ChampionBan[] = [];
 
-            for (let i=1; i<=NUMBER_OF_BANS; i++) {
+            matchDetails.championBans.forEach(ban => {
                 championBans.push({
-                    championId: Number(firstPlayer[`BanId${i}`]),
-                    championName: String(firstPlayer[`Ban_${i}`]),
-                    matchId: firstPlayer.Match,
-                    matchTimestamp: firstPlayer.Entry_Datetime,
-                    region: firstPlayer.Region,
-                    map: firstPlayer.Map_Game,
+                    championId: ban.id,
+                    championName: ban.name,
+                    matchId: matchDetails.matchId,
+                    matchTimestamp: matchDetails.matchTimestamp,
+                    region: matchDetails.region,
+                    map: matchDetails.map,
                     ranks: ranks,
                     platforms: platforms
                 });
-            }
+            })
 
             // Information from each player
 
             const championMatches: ChampionMatch[] = [];
 
-            for (let playerDetails of playerDetailsList) {      
+            for (let playerDetails of matchDetails.playerMatchDetails) {      
                 
                 const cards: LeveledItem[] = [];
                 for (let i=1; i<=NUMBER_OF_CARDS; i++) {
@@ -108,7 +106,7 @@ async function getRankedMatches(paladinsStatsDB: PaladinsStatsDatabase, date: st
                     talent: { id: playerDetails.ItemId6, name: playerDetails.Item_Purch_6 },
                     cards: cards,
                     items: items
-                })
+                });
             }
 
             // Save entries
