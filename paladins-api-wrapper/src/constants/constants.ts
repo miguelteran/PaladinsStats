@@ -2,6 +2,8 @@ export const PALADINS_API_URL = 'https://api.paladins.com/paladinsapi.svc';
 export const RESPONSE_FORMAT = 'json';
 export const ENGLISH_LANGUAGE_CODE = 1;
 export const INVALID_SESSION_ID_MESSAGE = 'Invalid session id.';
+export const NUMBER_OF_BANS = 8;
+export const NUMBER_OF_PLAYERS_IN_MATCH = 10;
 
 export enum PALADINS_API_METHODS {
     CREATE_SESSION_METHOD = 'createsession',

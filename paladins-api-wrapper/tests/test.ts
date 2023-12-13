@@ -55,6 +55,11 @@ describe('Test Paladins API Functions', () => {
       const result = await PaladinsApiWrapper.getPlayer('Xero1st');
       assert.notStrictEqual(result, undefined);
     });
+
+    test('getPlayer() should return undefined if player does not exist', async () => {
+      const result = await PaladinsApiWrapper.getPlayer('nonexistent123');
+      assert.strictEqual(result, undefined);
+    });
   
     test('getPlayerBatch() should not return undefined', async () => {
       const result = await PaladinsApiWrapper.getPlayerBatch(['123', '456']);
@@ -91,14 +96,29 @@ describe('Test Paladins API Functions', () => {
       assert.notStrictEqual(result, undefined);
     });
   
-    test('getMatchDetails() should not return undefined', async () => {
-      const result = await PaladinsApiWrapper.getMatchDetails('123');
+    test('getMatchDetails() should not return undefined for valid match', async () => {
+      const result = await PaladinsApiWrapper.getMatchDetails('1240496890');
       assert.notStrictEqual(result, undefined);
     });
+
+    test('getMatchDetails() should return undefined for corrupted match', async () => {
+      const result = await PaladinsApiWrapper.getMatchDetails('1238618129');
+      assert.strictEqual(result, undefined);
+    });
+
+    test('getMatchDetails() should return undefined for invalid match', async () => {
+      const result = await PaladinsApiWrapper.getMatchDetails('123');
+      assert.strictEqual(result, undefined);
+    });
   
-    test('getMatchDetailsBatch() should not return undefined', async () => {
-      const result = await PaladinsApiWrapper.getMatchDetailsBatch(['123', '456']);
+    test('getMatchDetailsBatch() should not return undefined for valid matches', async () => {
+      const result = await PaladinsApiWrapper.getMatchDetailsBatch(['1240496890', '1240764083']);
       assert.notStrictEqual(result, undefined);
+    });
+
+    test('getMatchDetailsBatch() should return empty list for corrupted matches', async () => {
+      const result = await PaladinsApiWrapper.getMatchDetailsBatch(['1238618129', '1238618135']);
+      assert.strictEqual(result.length, 0);
     });
   
     test('getMatchIdsByQueue() should not return undefined', async () => {

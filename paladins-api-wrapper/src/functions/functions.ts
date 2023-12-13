@@ -1,7 +1,8 @@
 import * as dotenv from "dotenv";
 import moment from 'moment';
 import { createHash } from 'crypto';
-import { PALADINS_API_URL, RESPONSE_FORMAT, ENGLISH_LANGUAGE_CODE, INVALID_SESSION_ID_MESSAGE, PALADINS_API_METHODS } from '../constants/constants';
+import { PALADINS_API_URL, RESPONSE_FORMAT, ENGLISH_LANGUAGE_CODE, INVALID_SESSION_ID_MESSAGE,
+    PALADINS_API_METHODS, NUMBER_OF_BANS, NUMBER_OF_PLAYERS_IN_MATCH } from '../constants/constants';
 import { Logger } from '../interfaces/logger';
 import { Player, PlayerSearchResult } from '../interfaces/player';
 import { ChampionCard, Loadout } from '../interfaces/loadout';
@@ -18,9 +19,7 @@ import { BountyItem } from '../interfaces/bounty-item';
 dotenv.config();
 
 
-const NUMBER_OF_BANS = 8;
 type numberOrString = number | string;
-
 
 
 let _logger: Logger = console;
@@ -109,6 +108,10 @@ function buildMatchDetailsObject(details: PlayerMatchDetails): MatchDetails {
         championBans: championBans,
         playerMatchDetails: []
     };
+}
+
+function logCorruptedMatch(matchId: numberOrString) {
+    _logger.warn(`Match ${matchId} is corrupted`);
 }
 
 
@@ -216,9 +219,17 @@ export async function searchPlayers(playerName: string): Promise<PlayerSearchRes
     return await getRequestToPaladinsApi(PALADINS_API_METHODS.SEARCH_PLAYERS, playerName);
 }
 
-export async function getMatchDetails(matchId: numberOrString): Promise<MatchDetails> {
+export async function getMatchDetails(matchId: numberOrString): Promise<MatchDetails|undefined> {
     _logger.debug('Getting details for match ' + matchId);
     const playerMatchDetails: PlayerMatchDetails[] = await getRequestToPaladinsApi(PALADINS_API_METHODS.GET_MATCH_DETAILS, matchId);
+    if (playerMatchDetails.length === 0) {
+        _logger.warn(`Match ${matchId} not found`);
+        return undefined;
+    }
+    if (playerMatchDetails.length < NUMBER_OF_PLAYERS_IN_MATCH || playerMatchDetails.findIndex(d => d.ret_msg !== null) !== -1) {
+        logCorruptedMatch(matchId);
+        return undefined;
+    }
     const matchDetails = buildMatchDetailsObject(playerMatchDetails[0]);
     matchDetails.playerMatchDetails = playerMatchDetails;
     return matchDetails;
@@ -230,12 +241,20 @@ export async function getMatchDetailsBatch(matchIds: numberOrString[]): Promise<
     const matchDetailsMap: Map<number, MatchDetails> = new Map;
     playerMatchDetails.forEach(details => {
         const matchId = details.Match;
-        if (!matchDetailsMap.has(matchId)) {
-           matchDetailsMap.set(matchId, buildMatchDetailsObject(details));
+        if (matchId !== 0 && details.ret_msg === null) {
+            if (!matchDetailsMap.has(matchId)) {
+                matchDetailsMap.set(matchId, buildMatchDetailsObject(details));
+             }
+             matchDetailsMap.get(matchId)?.playerMatchDetails.push(details);
         }
-        matchDetailsMap.get(matchId)?.playerMatchDetails.push(details);
     });
-    return Array.from(matchDetailsMap.values());
+    return Array.from(matchDetailsMap.values()).filter(details => {
+        if (details.playerMatchDetails.length !== NUMBER_OF_PLAYERS_IN_MATCH) {
+            logCorruptedMatch(details.matchId);
+            return false;
+        }
+        return true;
+    });
 }
 
 export async function getMatchIdsByQueue(queueId: number, date: string, hour: string): Promise<MatchSummary[]> {
