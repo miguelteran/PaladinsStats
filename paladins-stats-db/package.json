@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "rm -rf dist; tsc",
-    "get-ranked-matches": "npm run build; node ./dist/scripts/get-ranked-matches.js"
+    "test": "tsc; node --test ./dist/tests/*-test.js"
   },
   "dependencies": {
     "@miguelteran/paladins-api-wrapper": "1.0.0",
