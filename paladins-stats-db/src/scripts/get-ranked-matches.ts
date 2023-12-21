@@ -20,7 +20,7 @@ async function main() {
 
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    const date = `${yesterday.getFullYear()}${yesterday.getMonth()}${yesterday.getDate()}`;
+    const date = `${yesterday.getFullYear()}${yesterday.getMonth()+1}${yesterday.getDate()}`;
     console.log(`Getting ranked matches from ${date}`);
 
     for (let hour = 0; hour < NUMBER_OF_HOURS_PER_DAY; hour++) {
@@ -52,8 +52,8 @@ async function getRankedMatches(paladinsStatsDB: PaladinsStatsDatabase, date: st
             
             // Common match information
 
-            const ranks = matchDetails.playerMatchDetails.map(details => details.League_Tier);
-            const platforms = matchDetails.playerMatchDetails.map(details => details.Platform);
+            const ranks = [...new Set(matchDetails.playerMatchDetails.map(details => details.League_Tier))];
+            const platforms = [...new Set(matchDetails.playerMatchDetails.map(details => details.Platform))];
             const championBans: ChampionBan[] = [];
 
             matchDetails.championBans.forEach(ban => {
