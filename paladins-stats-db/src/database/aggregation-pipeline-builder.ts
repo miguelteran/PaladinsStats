@@ -3,8 +3,8 @@ import { Document } from "mongodb";
 
 export class AggregationPipelineBuilder {
 
-    _pipeline: Document[];
-    _group?: Document;
+    private _pipeline: Document[];
+    private _group?: Document;
 
     constructor() {
         this._pipeline = [];
@@ -13,15 +13,6 @@ export class AggregationPipelineBuilder {
     match(match: Document) {
         this._pipeline.push({'$match': match});
         return this;
-    }
-
-    matchRange(matchField: string, gte: number, lte: number) {
-        const match: any = {};
-        match[matchField] = {
-            '$gte': gte, 
-            '$lte': lte
-        };
-        return this.match(match);
     }
 
     group(group: Document) {

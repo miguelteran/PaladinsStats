@@ -3,7 +3,6 @@ import { PaladinsStatsCollections, PaladinsStatsDatabase, getPaladinsStatsDataba
 import { ChampionItemMatchCount } from "../models/aggregations/champion-item-match-count";
 import { MatchCount } from "../models/aggregations/match-count";
 import { MatchCountFilter } from "../models/filter/match-count-filter";
-import { getRankBoundaries, getRankFromString } from "../models/paladins-rank";
 
 
 let paladinsStatsDB: PaladinsStatsDatabase;
@@ -15,46 +14,47 @@ async function getPaladinsStatsDb() {
     return paladinsStatsDB;
 }
 
-function buildMatchObject(filter: MatchCountFilter) {
-    const match: any = {};
-    Object.keys(filter).forEach(key => {
-        const value = filter[key];
-        if (value) {
-            if (key === 'rank') {
-                const rankIds = getRankBoundaries(value as number);
-                match['rank'] = rankIds.length === 1 ? rankIds[0] : {'$gte': rankIds[0], '$lte': rankIds[1]}
-            } else {
-                match[key] = value;
-            }
-        }
-    });
-    return match;
-}
+async function getCount(collectionEnum: PaladinsStatsCollections, filter: MatchCountFilter): Promise<MatchCount> {
+    const db = await getPaladinsStatsDb();
+    const dal = db.getDal(collectionEnum);
 
-export async function getMatchCount(filter: MatchCountFilter): Promise<MatchCount> {
-    const pipelineBuilder = new AggregationPipelineBuilder().match(buildMatchObject(filter));
+    const pipelineBuilder = new AggregationPipelineBuilder().match(dal.buildMatch(filter));
     if (!filter.championId) {
         pipelineBuilder.group({'id':'$matchId'});
     }
     const pipeline = pipelineBuilder.count().build();
-    const db = await getPaladinsStatsDb();
-    const result = await db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES).aggregate<MatchCount>(pipeline);
-    return result[0] ?? {count: 0};
+
+    const result = await dal.aggregate<MatchCount>(pipeline);
+    return result[0] ?? { count: 0 };
 }
 
-export async function getMatchCountForAllChampions(filter: MatchCountFilter): Promise<MatchCount[]> {
+async function getCounts(collectionEnum: PaladinsStatsCollections, filter: MatchCountFilter): Promise<MatchCount[]> {
+    const db = await getPaladinsStatsDb();
+    const dal = db.getDal(collectionEnum);
+
     const pipeline = new AggregationPipelineBuilder()
-        .match(buildMatchObject(filter))
+        .match(dal.buildMatch(filter))
         .groupedCount({'id': '$championId', 'name': '$championName'})
         .projectIdFieldsOnRootLevel()
         .build();
-    const db = await getPaladinsStatsDb();
-    return await db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES).aggregate<MatchCount>(pipeline);
+
+    return await dal.aggregate<MatchCount>(pipeline);
+}
+
+export async function getMatchCount(filter: MatchCountFilter): Promise<MatchCount> {
+    return getCount(PaladinsStatsCollections.CHAMPION_MATCHES, filter);
+}
+
+export async function getMatchCountForAllChampions(filter: MatchCountFilter): Promise<MatchCount[]> {
+    return getCounts(PaladinsStatsCollections.CHAMPION_MATCHES, filter);
 }
 
 export async function getTalentMatchCount(filter: MatchCountFilter): Promise<ChampionItemMatchCount[]> {
+    const db = await getPaladinsStatsDb();
+    const championMatchesDAL = db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES);
+
     const pipeline = new AggregationPipelineBuilder()
-        .match(buildMatchObject(filter))
+        .match(championMatchesDAL.buildMatch(filter))
         .groupedCount({
             'id': '$talent.id',
             'name': '$talent.name',
@@ -63,14 +63,17 @@ export async function getTalentMatchCount(filter: MatchCountFilter): Promise<Cha
         })
         .projectIdFieldsOnRootLevel()
         .build();
-    const db = await getPaladinsStatsDb();
-    return await db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES).aggregate<ChampionItemMatchCount>(pipeline);
+
+    return await championMatchesDAL.aggregate<ChampionItemMatchCount>(pipeline);
 }
 
 
 export async function getCardMatchCount(filter: MatchCountFilter): Promise<ChampionItemMatchCount[]> {
+    const db = await getPaladinsStatsDb();
+    const championMatchesDAL = db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES);
+
     const pipeline = new AggregationPipelineBuilder()
-        .match(buildMatchObject(filter))
+        .match(championMatchesDAL.buildMatch(filter))
         .unwind('$cards')
         .groupedCount({
             'id': '$cards.id',
@@ -80,13 +83,16 @@ export async function getCardMatchCount(filter: MatchCountFilter): Promise<Champ
         })
         .projectIdFieldsOnRootLevel()
         .build();
-    const db = await getPaladinsStatsDb();
-    return await db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES).aggregate<ChampionItemMatchCount>(pipeline);
+
+    return await championMatchesDAL.aggregate<ChampionItemMatchCount>(pipeline);
 }
 
 export async function getItemMatchCount(filter: MatchCountFilter): Promise<MatchCount[]> {
+    const db = await getPaladinsStatsDb();
+    const championMatchesDAL = db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES);
+
     const pipeline = new AggregationPipelineBuilder()
-        .match(buildMatchObject(filter))
+        .match(championMatchesDAL.buildMatch(filter))
         .unwind('$items')
         .groupedCount({
             'id': '$items.id',
@@ -94,6 +100,14 @@ export async function getItemMatchCount(filter: MatchCountFilter): Promise<Match
         })
         .projectIdFieldsOnRootLevel()
         .build();
-    const db = await getPaladinsStatsDb();
-    return await db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES).aggregate<ChampionItemMatchCount>(pipeline);
+
+    return await championMatchesDAL.aggregate<ChampionItemMatchCount>(pipeline);
+}
+
+export async function getBanCount(filter: MatchCountFilter): Promise<MatchCount> {
+    return getCount(PaladinsStatsCollections.CHAMPION_BANS, filter);
+}
+
+export async function getBanCountForAllChampions(filter: MatchCountFilter): Promise<MatchCount[]> {
+    return getCounts(PaladinsStatsCollections.CHAMPION_BANS, filter);
 }

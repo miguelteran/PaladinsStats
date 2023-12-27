@@ -1,7 +1,8 @@
 import * as dotenv from 'dotenv';
 import { MongoClient, Db } from 'mongodb';
-import { BaseDAL, DAL } from '../dal/base-dal';
-
+import { DAL } from '../dal/base-dal';
+import { ChampionMatchesDAL } from '../dal/champion-matches-dal';
+import { ChampionBansDAL } from '../dal/champion-bans-dal';
 
 dotenv.config();
 
@@ -24,10 +25,21 @@ export class PaladinsStatsDatabase {
         this.database = database;
         this.dals = new Map;
     }
+    
+    private initializeDal(collectionEnum: PaladinsStatsCollections): DAL {
+        switch(collectionEnum) {
+            case PaladinsStatsCollections.CHAMPION_MATCHES:
+                return new ChampionMatchesDAL(this.database.collection(collectionEnum.valueOf()));
+            case PaladinsStatsCollections.CHAMPION_BANS:
+                return new ChampionBansDAL(this.database.collection(collectionEnum.valueOf()));
+            default:
+                throw new Error('Invalid collection ' + collectionEnum);  
+        }
+    }
 
     getDal(collectionEnum: PaladinsStatsCollections): DAL {
         if (!this.dals.has(collectionEnum)) {
-            this.dals.set(collectionEnum, new BaseDAL(this.database.collection(collectionEnum.valueOf())));
+            this.dals.set(collectionEnum, this.initializeDal(collectionEnum));
         }
         return this.dals.get(collectionEnum)!!;
     }

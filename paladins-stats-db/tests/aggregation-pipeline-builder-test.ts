@@ -11,24 +11,6 @@ describe('AggregationPipelineBuilderTest', () => {
         assert.deepEqual(pipeline, [{'$match': match}]);
     });
 
-    test('matchRange', async () => {
-        const matchField = 'rank';
-        const gte = 21;
-        const lte = 24;
-        const expected = [
-            {
-                '$match': {
-                    'rank': {
-                        '$gte': gte, 
-                        '$lte': lte
-                    }
-                }
-            }
-        ];
-        const pipeline = new AggregationPipelineBuilder().matchRange(matchField, gte, lte).build();
-        assert.deepEqual(pipeline, expected);
-    });
-
     test('groupedCount', async () => {
         const group = {
             'id': '$championId', 
