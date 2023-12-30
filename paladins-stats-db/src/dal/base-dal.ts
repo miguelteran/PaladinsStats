@@ -1,12 +1,12 @@
 import { Collection, Document } from "mongodb";
 import { BaseModel } from "../models/base-model";
-import { MatchCountFilter } from "../models/filter/match-count-filter";
+import { CountFilter } from "../models/filter/count-filter";
 
 
 export interface DAL {
     insertMany(entries: BaseModel[]): void;
     aggregate<U extends Document>(pipeline: Document[]): Promise<U[]>;
-    buildMatch(filter: MatchCountFilter): Document;
+    buildMatch(filter: CountFilter): Document;
 }
 
 
@@ -30,5 +30,5 @@ export abstract class BaseDAL<T extends BaseModel> implements DAL {
         return await cursor.toArray();
     }
 
-    abstract buildMatch(filter: MatchCountFilter): Document;
+    abstract buildMatch(filter: CountFilter): Document;
 }

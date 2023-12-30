@@ -1,8 +1,7 @@
 import { AggregationPipelineBuilder } from "../database/aggregation-pipeline-builder";
 import { PaladinsStatsCollections, PaladinsStatsDatabase, getPaladinsStatsDatabaseConnection } from "../database/paladins-stats-db";
-import { ChampionItemMatchCount } from "../models/aggregations/champion-item-match-count";
-import { MatchCount } from "../models/aggregations/match-count";
-import { MatchCountFilter } from "../models/filter/match-count-filter";
+import { CountResult } from "../models/aggregations/count-result";
+import { CountFilter } from "../models/filter/count-filter";
 
 
 let paladinsStatsDB: PaladinsStatsDatabase;
@@ -14,7 +13,7 @@ async function getPaladinsStatsDb() {
     return paladinsStatsDB;
 }
 
-async function getCount(collectionEnum: PaladinsStatsCollections, filter: MatchCountFilter): Promise<MatchCount> {
+async function getMatchCount(collectionEnum: PaladinsStatsCollections, filter: CountFilter): Promise<CountResult[]> {
     const db = await getPaladinsStatsDb();
     const dal = db.getDal(collectionEnum);
 
@@ -24,32 +23,31 @@ async function getCount(collectionEnum: PaladinsStatsCollections, filter: MatchC
     }
     const pipeline = pipelineBuilder.count().build();
 
-    const result = await dal.aggregate<MatchCount>(pipeline);
-    return result[0] ?? { count: 0 };
+    return await dal.aggregate<CountResult>(pipeline);
 }
 
-async function getCounts(collectionEnum: PaladinsStatsCollections, filter: MatchCountFilter): Promise<MatchCount[]> {
+async function getChampionCount(collectionEnum: PaladinsStatsCollections, filter: CountFilter): Promise<CountResult[]> {
     const db = await getPaladinsStatsDb();
     const dal = db.getDal(collectionEnum);
 
     const pipeline = new AggregationPipelineBuilder()
         .match(dal.buildMatch(filter))
-        .groupedCount({'id': '$championId', 'name': '$championName'})
+        .groupedCount({'id': '$championId', 'champion': '$championName'})
         .projectIdFieldsOnRootLevel()
         .build();
 
-    return await dal.aggregate<MatchCount>(pipeline);
+    return await dal.aggregate<CountResult>(pipeline);
 }
 
-export async function getMatchCount(filter: MatchCountFilter): Promise<MatchCount> {
-    return getCount(PaladinsStatsCollections.CHAMPION_MATCHES, filter);
+export async function getTotalMatchCount(filter: CountFilter): Promise<CountResult[]> {
+    return getMatchCount(PaladinsStatsCollections.CHAMPION_MATCHES, filter);
 }
 
-export async function getMatchCountForAllChampions(filter: MatchCountFilter): Promise<MatchCount[]> {
-    return getCounts(PaladinsStatsCollections.CHAMPION_MATCHES, filter);
+export async function getMatchCountForAllChampions(filter: CountFilter): Promise<CountResult[]> {
+    return getChampionCount(PaladinsStatsCollections.CHAMPION_MATCHES, filter);
 }
 
-export async function getTalentMatchCount(filter: MatchCountFilter): Promise<ChampionItemMatchCount[]> {
+export async function getTalentMatchCount(filter: CountFilter): Promise<CountResult[]> {
     const db = await getPaladinsStatsDb();
     const championMatchesDAL = db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES);
 
@@ -57,18 +55,18 @@ export async function getTalentMatchCount(filter: MatchCountFilter): Promise<Cha
         .match(championMatchesDAL.buildMatch(filter))
         .groupedCount({
             'id': '$talent.id',
-            'name': '$talent.name',
+            'talent': '$talent.name',
             'championId': '$championId',
-            'championName': '$championName'
+            'champion': '$championName'
         })
         .projectIdFieldsOnRootLevel()
         .build();
 
-    return await championMatchesDAL.aggregate<ChampionItemMatchCount>(pipeline);
+    return await championMatchesDAL.aggregate<CountResult>(pipeline);
 }
 
 
-export async function getCardMatchCount(filter: MatchCountFilter): Promise<ChampionItemMatchCount[]> {
+export async function getCardMatchCount(filter: CountFilter): Promise<CountResult[]> {
     const db = await getPaladinsStatsDb();
     const championMatchesDAL = db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES);
 
@@ -77,17 +75,17 @@ export async function getCardMatchCount(filter: MatchCountFilter): Promise<Champ
         .unwind('$cards')
         .groupedCount({
             'id': '$cards.id',
-            'name': '$cards.name',
+            'card': '$cards.name',
             'championId': '$championId',
-            'championName': '$championName'
+            'champion': '$championName'
         })
         .projectIdFieldsOnRootLevel()
         .build();
 
-    return await championMatchesDAL.aggregate<ChampionItemMatchCount>(pipeline);
+    return await championMatchesDAL.aggregate<CountResult>(pipeline);
 }
 
-export async function getItemMatchCount(filter: MatchCountFilter): Promise<MatchCount[]> {
+export async function getItemCount(filter: CountFilter): Promise<CountResult[]> {
     const db = await getPaladinsStatsDb();
     const championMatchesDAL = db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES);
 
@@ -96,18 +94,18 @@ export async function getItemMatchCount(filter: MatchCountFilter): Promise<Match
         .unwind('$items')
         .groupedCount({
             'id': '$items.id',
-            'name': '$items.name'  
+            'item': '$items.name'  
         })
         .projectIdFieldsOnRootLevel()
         .build();
 
-    return await championMatchesDAL.aggregate<ChampionItemMatchCount>(pipeline);
+    return await championMatchesDAL.aggregate<CountResult>(pipeline);
 }
 
-export async function getBanCount(filter: MatchCountFilter): Promise<MatchCount> {
-    return getCount(PaladinsStatsCollections.CHAMPION_BANS, filter);
+export async function getBanCount(filter: CountFilter): Promise<CountResult[]> {
+    return getMatchCount(PaladinsStatsCollections.CHAMPION_BANS, filter);
 }
 
-export async function getBanCountForAllChampions(filter: MatchCountFilter): Promise<MatchCount[]> {
-    return getCounts(PaladinsStatsCollections.CHAMPION_BANS, filter);
+export async function getBanCountForAllChampions(filter: CountFilter): Promise<CountResult[]> {
+    return getChampionCount(PaladinsStatsCollections.CHAMPION_BANS, filter);
 }
