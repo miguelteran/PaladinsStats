@@ -1,0 +1,11 @@
+[
+    { "id": 1, "name": "Ranked Bazaar" },
+    { "id": 2, "name": "Ranked Brightmarsh" },
+    { "id": 3, "name": "Ranked Dawnforge" },
+    { "id": 4, "name": "Ranked Frog Isle" },
+    { "id": 5, "name": "Ranked Ice Mines" },
+    { "id": 6, "name": "Ranked Shattered Desert" },
+    { "id": 7, "name": "Ranked Splitstone Quarry" },
+    { "id": 8, "name": "Ranked Timber Mill" },
+    { "id": 9, "name": "Ranked Warder's Gate" }
+]
