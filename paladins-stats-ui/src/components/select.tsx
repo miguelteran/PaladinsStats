@@ -4,9 +4,9 @@ import { Key, ReactNode } from 'react';
 import { Select, Selection, SelectItem, SelectedItems, getKeyValue } from '@nextui-org/react';
 
 
-export interface CustomSelectItem {
-    key: Key,
-    textValue: string
+export interface NamedSelectItem {
+    id: number,
+    name: string
 }
 
 export interface CustomSelectProps<T> {

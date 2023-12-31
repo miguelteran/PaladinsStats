@@ -18,7 +18,7 @@ export enum CustomTableLoadingState {
 type LoadingState = 'loading' | 'sorting' | 'loadingMore' | 'error' | 'idle' | 'filtering'
 
 export interface CustomTableProps<T> {
-    columns?: CustomTableColumn[],
+    columns: CustomTableColumn[],
     rows: T[],
     tableRowKey: string,
     customCellRenderer?: (item: T, columnKey: Key) => any,
@@ -44,11 +44,6 @@ export interface CustomTablePaginationParams {
     numPages: number;
     activePage: number;
     onPageChange: (activePage: number) => void;
-}
-
-export interface CustomTableFilter {
-    key: Key,
-    value: any
 }
 
 export function CustomTable<T>(props: CustomTableProps<T>) {
