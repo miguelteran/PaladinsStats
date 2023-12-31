@@ -5,7 +5,7 @@ import { getPercentageString, getTimeString } from '@/util/string-util';
 import { getKDARatio, getPercentage } from '@/util/number-util';
 import { notFound } from 'next/navigation';
 import { PaladinsRoles } from '@/models/role';
-import champions from '../../../../public/champions.json' assert { type: 'json' };
+import { championsMap } from '@/util/static-data';
 
 
 export default async function PlayerPage( { params }: { params: { playerId: string } }) {
@@ -25,7 +25,7 @@ export default async function PlayerPage( { params }: { params: { playerId: stri
         return {
             championId: champion.champion_id,
             championName: champion.champion,
-            championRole: champions.find(c => c.id === Number(champion.champion_id))?.Roles as PaladinsRoles,
+            championRole: championsMap.get(Number(champion.champion_id))?.Roles as PaladinsRoles,
             rank: champion.Rank,
             numberOfMatches: numMatches,
             winRate: getPercentage(numMatches, champion.Wins),
