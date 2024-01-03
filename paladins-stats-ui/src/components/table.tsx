@@ -17,6 +17,8 @@ export enum CustomTableLoadingState {
 
 type LoadingState = 'loading' | 'sorting' | 'loadingMore' | 'error' | 'idle' | 'filtering'
 
+export type CustomTableRowsFilter<T> = (row: T) => boolean;
+
 export interface CustomTableProps<T> {
     columns: CustomTableColumn[],
     rows: T[],
@@ -26,7 +28,7 @@ export interface CustomTableProps<T> {
     loadingState?: LoadingState,
     sortParams?: CustomTableSortParams
     paginationParams?: CustomTablePaginationParams,
-    rowsFilter?: (row: T) => boolean;
+    rowsFilter?: CustomTableRowsFilter<T>;
 }
 
 export interface CustomTableColumn {
