@@ -1,15 +1,14 @@
 'use client'
 
 import { Key, useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { RecentMatch } from '@miguelteran/paladins-api-wrapper';
-import { CustomTable, CustomTableColumn, CustomTableSortingDirection } from '@/components/table';
 import { Tab, Tabs } from '@nextui-org/tabs';
 import { SortDescriptor, Selection } from '@nextui-org/react';
-import { getPercentageString, getTimeString } from '@/util/string-util';
+import { CustomTable, CustomTableColumn, CustomTableSortingDirection } from '@/components/table';
+import { RolesSelect } from '@/components/roles-select';
 import { ChampionStatsSummary } from '@/models/champion-stats-summary';
-import { CustomMultiSelect } from '@/components/multiselect';
-import { paladinsRoles } from '@/models/role';
-import { useRouter } from 'next/navigation';
+import { getPercentageString, getTimeString } from '@/util/string-util';
 
 
 const matchesTableColumns: CustomTableColumn[] = [
@@ -68,13 +67,9 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
 
     return (
         <div>
-            <CustomMultiSelect
-                items={paladinsRoles}
-                keyField='role'
-                textValueField='displayValue'
-                placeholder='Role'
-                selectedKeys={selectedRoles}
-                onSelectionChange={setSelectedRoles}
+            <RolesSelect
+                selectedRoles={selectedRoles}
+                onSelectedRolesChange={setSelectedRoles}
             />
             <Tabs>
             <Tab key='recentMatches' title='Recent Matches'>
