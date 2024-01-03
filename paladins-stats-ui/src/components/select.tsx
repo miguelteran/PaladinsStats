@@ -5,18 +5,20 @@ import { Select, Selection, SelectItem, SelectedItems, getKeyValue } from '@next
 
 
 export interface NamedSelectItem {
-    id: number,
-    name: string
+    id: number;
+    name: string;
 }
 
+export type OnSelectionChange = (keys: Selection) => any;
+
 export interface CustomSelectProps<T> {
-    items: T[],
-    keyField: string,
-    textValueField: string,
-    placeholder: string,
-    selectionMode?: 'single' | 'multiple',
-    selectedKeys: 'all' | Iterable<Key>,
-    onSelectionChange: (keys: Selection) => any;
+    items: T[];
+    keyField?: string;
+    textValueField?: string;
+    placeholder: string;
+    selectionMode?: 'single' | 'multiple';
+    selectedKeys: 'all' | Iterable<Key>;
+    onSelectionChange: OnSelectionChange;
     customRender?: (items: SelectedItems<T>) => ReactNode;
     expandedCustomRender?: (item: T) => JSX.Element;
 }
@@ -42,8 +44,8 @@ export function CustomSelect<T>(props: CustomSelectProps<T>) {
             onSelectionChange={onSelectionChange}
         >
             {(item) => {
-                const key = getKeyValue(item, keyField);
-                const textValue = getKeyValue(item, textValueField);
+                const key = getKeyValue(item, keyField || 'id');
+                const textValue = getKeyValue(item, textValueField || 'name');
                 return (
                     <SelectItem key={key} textValue={textValue}>
                         {expandedCustomRender ? expandedCustomRender(item) : textValue}
