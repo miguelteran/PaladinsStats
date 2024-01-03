@@ -5,14 +5,9 @@ export enum PaladinsRoles {
     FLANKER = 'Paladins Flanker'
 }
 
-export interface Role {
-    role: PaladinsRoles;
-    displayValue: string;
-}
-
-export const paladinsRoles: Role[] = [
-    { role: PaladinsRoles.SUPPORT, displayValue: 'Support' },
-    { role: PaladinsRoles.FRONTLINE, displayValue: 'Frontline' },
-    { role: PaladinsRoles.DAMAGE, displayValue: 'Damage' },
-    { role: PaladinsRoles.FLANKER, displayValue: 'Flanker' }
+export const paladinsRoles = [
+    { id: PaladinsRoles.SUPPORT, name: 'Support' },
+    { id: PaladinsRoles.FRONTLINE, name: 'Frontline' },
+    { id: PaladinsRoles.DAMAGE, name: 'Damage' },
+    { id: PaladinsRoles.FLANKER, name: 'Flanker' }
 ]
