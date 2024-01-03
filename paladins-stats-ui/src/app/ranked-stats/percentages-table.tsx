@@ -3,9 +3,10 @@
 import { Key, useCallback, useState } from "react";
 import { SortDescriptor } from "@nextui-org/react";
 import { CountResult } from "@miguelteran/paladins-stats-db/dist/src/models/aggregations/count-result";
-import { CustomTable, CustomTableColumn, CustomTableSortingDirection } from "../../components/table";
+import { CustomTable, CustomTableColumn, CustomTableRowsFilter, CustomTableSortingDirection } from "../../components/table";
 import { getPercentageString } from "@/util/string-util";
 import { getPercentage } from "@/util/number-util";
+import { PaladinsRoles } from "@/models/role";
 
 
 export interface PercentagesTableProps<T> {
@@ -15,19 +16,21 @@ export interface PercentagesTableProps<T> {
     entryId: string;
     getPercentagesTableRow: (entry: T) => PercentagesTableRow;
     columns: CustomTableColumn[];
+    filter: CustomTableRowsFilter<PercentagesTableRow>;
 }
 
 export interface PercentagesTableRow {
     id: number;
-    champion?: string;
-    talent?: string;
-    item?: string;
+    championName: string;
+    championId?: number;
+    talentName?: string;
+    role: PaladinsRoles;
     percentage: number;
 }
 
 export function PercentagesTable<T>(props: PercentagesTableProps<T>) {
 
-    const { totalCounts, partialCounts, entries, entryId, columns, getPercentagesTableRow } = props;
+    const { totalCounts, partialCounts, entries, entryId, columns, getPercentagesTableRow, filter } = props;
 
     const [ sortDescriptor, setSortDescriptor ] = useState<SortDescriptor>({
         column: 'percentage',
@@ -56,6 +59,7 @@ export function PercentagesTable<T>(props: PercentagesTableProps<T>) {
             columns={columns}
             tableRowKey='id'
             customCellRenderer={renderCell}
+            rowsFilter={filter}
             sortParams={{
                 sortDescriptor: sortDescriptor,
                 onSortChange: setSortDescriptor

@@ -10,7 +10,10 @@ import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/filt
 import { CountResult } from "@miguelteran/paladins-stats-db/dist/src/models/aggregations/count-result";
 import { PercentagesTable, PercentagesTableRow } from "@/app/ranked-stats/percentages-table";
 import { CustomTableColumn } from "@/components/table";
-import { CustomSelect, NamedSelectItem } from "@/components/select";
+import { CustomSelect, NamedSelectItem, OnSelectionChange } from "@/components/select";
+import { CustomMultiSelect } from "@/components/multiselect";
+import { RolesSelect } from "@/components/roles-select";
+import { PaladinsRoles } from "@/models/role";
 import { StatsCategory, statsCategories } from "@/models/stats-category";
 import { championsMap } from "@/util/static-data";
 import champions from '../../../public/champions.json';
@@ -21,13 +24,13 @@ import platforms from '../../../public/platforms.json';
 
 
 const championsTableColumns: CustomTableColumn[] = [
-    { key: 'champion', label: 'Champion', sortable: true },
+    { key: 'championName', label: 'Champion', sortable: true },
     { key: 'percentage', label: 'Rate', sortable: true }
 ];
 
 const talentsTableColumns: CustomTableColumn[] = [
-    { key: 'talent', label: 'Talent', sortable: true },
-    { key: 'champion', label: 'Champion', sortable: true },
+    { key: 'talentName', label: 'Talent', sortable: true },
+    { key: 'championName', label: 'Champion', sortable: true },
     { key: 'percentage', label: 'Rate', sortable: true }
 ];
 
@@ -44,6 +47,9 @@ export const RankedStats = (props: RankedStatsProps) => {
     const [ selectedMap, setSelectedMap ] = useState<Selection>(new Set([]));
     const [ selectedRank, setSelectedRank ] = useState<Selection>(new Set([]));
     const [ selectedPlatform, setSelectedPlatform ] = useState<Selection>(new Set([]));
+    const [ selectedRoles, setSelectedRoles ] = useState<Selection>(new Set([]));
+    const [ selectedChampions, setSelectedChampions ] = useState<Selection>(new Set([]));
+    const [ championsForSelect, setChampionsForSelect ] = useState<Champion[]>(champions);
 
     const getSelectedItemId = (selection: Selection) => {
         const key = Array.from(selection as Iterable<Key>)[0];
@@ -68,12 +74,10 @@ export const RankedStats = (props: RankedStatsProps) => {
             body: JSON.stringify(filter)
         }).then(res => res.json());
 
-    const renderSelects = (items: NamedSelectItem[], placeholder: string, selectedKeys: Iterable<Key>, onSelectionChange: (keys: Selection) => any) => {
+    const renderSelects = (items: NamedSelectItem[], placeholder: string, selectedKeys: Iterable<Key>, onSelectionChange: OnSelectionChange) => {
         return (
             <CustomSelect<NamedSelectItem>
                 items={items}
-                keyField='id'
-                textValueField='name'
                 placeholder={placeholder}
                 selectionMode='single'
                 selectedKeys={selectedKeys}
@@ -81,6 +85,37 @@ export const RankedStats = (props: RankedStatsProps) => {
             />
         );
     };
+    
+    const renderRolesMultiSelect = () => {
+        return(
+            <RolesSelect
+                selectedRoles={selectedRoles}
+                onSelectedRolesChange={onSelectedRolesChange}
+            />
+        );
+    }
+
+    const onSelectedRolesChange = (selectedRoles: Selection) => {
+        if (selectedRoles === 'all' || selectedRoles.size === 0) {
+            setChampionsForSelect(champions);
+        } else {
+            setChampionsForSelect(champions.filter(champion => selectedRoles.has(champion.Roles)));
+        }
+        setSelectedChampions(new Set([]));
+        setSelectedRoles(selectedRoles);
+    }
+
+    const renderChampionsMultiSelect = () => {
+        return(
+            <CustomMultiSelect<Champion>
+                items={championsForSelect}
+                textValueField="Name"
+                placeholder='Champions'
+                selectedKeys={selectedChampions}
+                onSelectionChange={setSelectedChampions}
+            />
+        );
+    }
 
     const renderStatsTable = () => {
         const statsCategory = getSelectedItemId(selectedCategory);
@@ -116,6 +151,7 @@ export const RankedStats = (props: RankedStatsProps) => {
                 entryId='id'
                 getPercentagesTableRow={getChampionsTableRow}
                 columns={championsTableColumns}
+                filter={rowsFilter}
             />
         );
     };
@@ -129,23 +165,40 @@ export const RankedStats = (props: RankedStatsProps) => {
                 entryId='ItemId'
                 getPercentagesTableRow={getTalentsTableRow}
                 columns={talentsTableColumns}
+                filter={rowsFilter}
             />
         );
     };
 
+    const rowsFilter = (row: PercentagesTableRow) => {
+        const championId = row.championId || row.id;
+        const roles = Array.from(selectedRoles as Iterable<Key>);
+        const champions = Array.from(selectedChampions as Iterable<Key>);
+        const roleSelected = roles.findIndex(r => r === row.role) !== -1;
+        const championSelected = champions.findIndex(id => Number(id) === championId) !== -1;
+        return (roles.length === 0 && champions.length === 0) ||
+               (roles.length === 0 && championSelected) ||
+               (champions.length === 0 && roleSelected) ||
+               (roleSelected && championSelected);
+    }
+
     const getChampionsTableRow = (champion: Champion): PercentagesTableRow => {
         return {
             id: champion.id,
-            champion: champion.Name,
+            championName: champion.Name,
+            role: champion.Roles as PaladinsRoles,
             percentage: 0
         }
     }
 
     const getTalentsTableRow = (talent: Item): PercentagesTableRow => {
+        const champion: Champion = championsMap.get(talent.champion_id);
         return {
             id: talent.ItemId,
-            talent: talent.DeviceName,
-            champion: championsMap.get(talent.champion_id).Name,
+            championId: champion.id,
+            championName: champion.Name,
+            talentName: talent.DeviceName,
+            role: champion.Roles as PaladinsRoles,
             percentage: 0
         }
     }
@@ -175,6 +228,8 @@ export const RankedStats = (props: RankedStatsProps) => {
                 {renderSelects(rankGroups, 'Rank', selectedRank, setSelectedRank)}
                 {renderSelects(rankedMaps, 'Map', selectedMap, setSelectedMap)}
                 {renderSelects(platforms, 'Platform', selectedPlatform, setSelectedPlatform)}
+                {renderRolesMultiSelect()}
+                {renderChampionsMultiSelect()}
             </div>
             <div>
                 {renderStatsTable()}
