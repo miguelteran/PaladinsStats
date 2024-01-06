@@ -8,31 +8,22 @@ import { Champion } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/
 import { Item } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/item";
 import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/filter/count-filter";
 import { CountResult } from "@miguelteran/paladins-stats-db/dist/src/models/aggregations/count-result";
-import { PercentagesTable, PercentagesTableRow } from "@/app/ranked-stats/percentages-table";
-import { CustomTableColumn } from "@/components/table";
 import { CustomSelect, NamedSelectItem, OnSelectionChange } from "@/components/select";
 import { CustomMultiSelect } from "@/components/multiselect";
 import { RolesSelect } from "@/components/roles-select";
-import { PaladinsRoles } from "@/models/role";
 import { StatsCategory, statsCategories } from "@/models/stats-category";
 import { championsMap } from "@/util/static-data";
+import { getPercentage } from "@/util/number-util";
+import { CHAMPION_ID_FIELD, ITEM_CHAMPION_ID_FIELD, ITEM_ID_FIELD } from "@/util/constants";
+import { ChampionsStatsTable, ChampionsStatsTableRow } from "./champions-stats-table";
+import { ItemsStatsTable, ItemsStatsTableRow } from "./items-stats-table";
 import champions from '../../../public/champions.json';
+import cards from '../../../public/champion-cards.json';
 import talents from '../../../public/champion-talents.json';
 import regions from '../../../public/regions.json';
 import rankedMaps from '../../../public/ranked-maps.json';
 import platforms from '../../../public/platforms.json';
 
-
-const championsTableColumns: CustomTableColumn[] = [
-    { key: 'championName', label: 'Champion', sortable: true },
-    { key: 'percentage', label: 'Rate', sortable: true }
-];
-
-const talentsTableColumns: CustomTableColumn[] = [
-    { key: 'talentName', label: 'Talent', sortable: true },
-    { key: 'championName', label: 'Champion', sortable: true },
-    { key: 'percentage', label: 'Rate', sortable: true }
-];
 
 export interface RankedStatsProps {
     rankGroups: NamedSelectItem[];
@@ -109,7 +100,7 @@ export const RankedStats = (props: RankedStatsProps) => {
         return(
             <CustomMultiSelect<Champion>
                 items={championsForSelect}
-                textValueField="Name"
+                textValueField='Name'
                 placeholder='Champions'
                 selectedKeys={selectedChampions}
                 onSelectionChange={setSelectedChampions}
@@ -126,6 +117,8 @@ export const RankedStats = (props: RankedStatsProps) => {
                 return renderPercentagesTable(championsMatchCountResponse, championsWinCountResponse, renderChampionsTable);
             case StatsCategory.ChampionBans:
                 return renderPercentagesTable(matchCountResponse, championsBanCountResponse, renderChampionsTable);
+            case StatsCategory.ChampionCards:
+                return renderPercentagesTable(matchCountResponse, championsCardCountResponse, renderCardsTable);
             case StatsCategory.TalentPicks:
                 return renderPercentagesTable(matchCountResponse, talentsMatchCountResponse, renderTalentsTable);
             case StatsCategory.TalentWins:
@@ -141,67 +134,78 @@ export const RankedStats = (props: RankedStatsProps) => {
         }
         return renderTable(totalCountResponse.data ?? [], partialCountResponse.data ?? []);
     };
-
-    const renderChampionsTable = (totalCounts: CountResult[], partialCounts: CountResult[]) => {
-        return (
-            <PercentagesTable<Champion>
-                totalCounts={totalCounts} 
-                partialCounts={partialCounts}
-                entries={champions}
-                entryId='id'
-                getPercentagesTableRow={getChampionsTableRow}
-                columns={championsTableColumns}
-                filter={rowsFilter}
-            />
-        );
+    
+    const getPercentageForEntry = (entry: any, idField: string, totalCounts: CountResult[], partialCounts: CountResult[]): number => {
+        const totalCount = totalCounts.length === 1 ? totalCounts[0] : totalCounts.find(matchCount => matchCount.id === entry[idField]);
+        const partialCount = partialCounts.find(matchCount => matchCount.id === entry[idField]);
+        return totalCount && totalCount.count !== 0 ? getPercentage(totalCount.count, partialCount ? partialCount.count : 0) : 0;
     };
 
-    const renderTalentsTable = (totalCounts: CountResult[], partialCounts: CountResult[]) => {
-        return (
-            <PercentagesTable<Item>
-                totalCounts={totalCounts} 
-                partialCounts={partialCounts}
-                entries={talents}
-                entryId='ItemId'
-                getPercentagesTableRow={getTalentsTableRow}
-                columns={talentsTableColumns}
-                filter={rowsFilter}
-            />
-        );
+    const getChampionsTableRows = (totalCounts: CountResult[], partialCounts: CountResult[]): ChampionsStatsTableRow[] => {
+        return champions.map(champion => {
+            return {
+                ...champion,
+                percentage: getPercentageForEntry(champion, CHAMPION_ID_FIELD, totalCounts, partialCounts)
+            };
+        });
     };
 
-    const rowsFilter = (row: PercentagesTableRow) => {
-        const championId = row.championId || row.id;
+    const getItemsTableRows = (items: Item[], totalCounts: CountResult[], partialCounts: CountResult[]): ItemsStatsTableRow[] => {
+        return items.map(item => {
+            const champion: Champion = championsMap.get(item.champion_id);
+            return {
+                ...item,
+                Name: champion.Name,
+                Roles: champion.Roles,
+                percentage: getPercentageForEntry(item, ITEM_ID_FIELD, totalCounts, partialCounts)
+            };
+        });
+    };
+
+    const rowsFilter = (row: any, championIdField: string) => {
         const roles = Array.from(selectedRoles as Iterable<Key>);
         const champions = Array.from(selectedChampions as Iterable<Key>);
-        const roleSelected = roles.findIndex(r => r === row.role) !== -1;
-        const championSelected = champions.findIndex(id => Number(id) === championId) !== -1;
+        const roleSelected = roles.findIndex(r => r === row.Roles) !== -1;
+        const championSelected = champions.findIndex(id => Number(id) === row[championIdField]) !== -1;
         return (roles.length === 0 && champions.length === 0) ||
                (roles.length === 0 && championSelected) ||
                (champions.length === 0 && roleSelected) ||
                (roleSelected && championSelected);
     }
 
-    const getChampionsTableRow = (champion: Champion): PercentagesTableRow => {
-        return {
-            id: champion.id,
-            championName: champion.Name,
-            role: champion.Roles as PaladinsRoles,
-            percentage: 0
-        }
+    const championsTableRowsFilter = (row: ChampionsStatsTableRow) => {
+        return rowsFilter(row, CHAMPION_ID_FIELD);
     }
 
-    const getTalentsTableRow = (talent: Item): PercentagesTableRow => {
-        const champion: Champion = championsMap.get(talent.champion_id);
-        return {
-            id: talent.ItemId,
-            championId: champion.id,
-            championName: champion.Name,
-            talentName: talent.DeviceName,
-            role: champion.Roles as PaladinsRoles,
-            percentage: 0
-        }
+    const itemsTableRowsFilter = (row: ItemsStatsTableRow) => {
+        return rowsFilter(row, ITEM_CHAMPION_ID_FIELD);
     }
+
+    const renderChampionsTable = (totalCounts: CountResult[], partialCounts: CountResult[]) => {
+        return (
+            <ChampionsStatsTable
+                rows={getChampionsTableRows(totalCounts, partialCounts)}
+                filter={championsTableRowsFilter}
+            />
+        );
+    };
+
+    const renderTalentsTable = (totalCounts: CountResult[], partialCounts: CountResult[]) => {
+        return renderItemsTable(talents, totalCounts, partialCounts);
+    };
+
+    const renderCardsTable = (totalCounts: CountResult[], partialCounts: CountResult[]) => {
+        return renderItemsTable(cards, totalCounts, partialCounts);
+    };
+
+    const renderItemsTable = (items: Item[], totalCounts: CountResult[], partialCounts: CountResult[]) => {
+        return (
+            <ItemsStatsTable
+                rows={getItemsTableRows(items, totalCounts, partialCounts)}
+                filter={itemsTableRowsFilter}
+            />
+        );
+    };
 
     const matchCountFilter: CountFilter = {
         region: getSelectedItemName(regions, selectedRegion),
@@ -217,6 +221,7 @@ export const RankedStats = (props: RankedStatsProps) => {
     const championsMatchCountResponse = getCounts('champions-match-count', matchCountFilter);
     const championsWinCountResponse = getCounts('champions-match-count', winCountFilter);
     const championsBanCountResponse = getCounts('champions-ban-count', matchCountFilter);
+    const championsCardCountResponse = getCounts('champions-card-count', matchCountFilter);
     const talentsMatchCountResponse = getCounts('talents-match-count', matchCountFilter);
     const talentsWinCountResponse = getCounts('talents-match-count', winCountFilter);
 
