@@ -16,6 +16,7 @@ export interface CustomSelectProps<T> {
     keyField?: string;
     textValueField?: string;
     placeholder: string;
+    isRequired?: boolean;
     selectionMode?: 'single' | 'multiple';
     selectedKeys: 'all' | Iterable<Key>;
     onSelectionChange: OnSelectionChange;
@@ -25,13 +26,18 @@ export interface CustomSelectProps<T> {
 
 export function CustomSelect<T>(props: CustomSelectProps<T>) {
     
-    const { items, keyField, textValueField, selectionMode, placeholder, selectedKeys, onSelectionChange, customRender, expandedCustomRender } = props;
+    const { items, keyField, textValueField, isRequired, selectionMode, placeholder, selectedKeys, onSelectionChange, customRender, expandedCustomRender } = props;
+
+    const isInvalid = isRequired && (selectedKeys as Set<Key>).size === 0;
 
     return (
         <Select
             items={items}
             variant="bordered"
-            isMultiline={true}
+            isMultiline
+            isRequired={isRequired}
+            isInvalid={isInvalid}
+            errorMessage={isInvalid ? 'Select an item' : ''}
             selectionMode={selectionMode}
             placeholder={placeholder}
             labelPlacement="outside"
