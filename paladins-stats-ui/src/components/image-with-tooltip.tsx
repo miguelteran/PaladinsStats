@@ -1,27 +1,27 @@
 'use client'
 
-import { Item } from "@miguelteran/paladins-api-wrapper"
 import { Tooltip } from "@nextui-org/react";
 
 
-export interface ItemWithTooltipProps {
+export interface ImageWithTooltipProps {
     key: number;
-    item: Item;
+    content: string;
+    imageUrl: string;
 }
 
-export function ItemWithTooltip(props: ItemWithTooltipProps) {
+export function ImageWithTooltip(props: ImageWithTooltipProps) {
 
-    const { key, item } = props;
+    const { key, content, imageUrl } = props;
 
     return (
         <div>
             <Tooltip
                 key={key}
                 placement='bottom'
-                content={item.Description}
+                content={content}
             >
                 <img
-                    src={item.itemIcon_URL}
+                    src={imageUrl}
                     alt='item'
                     height='90'
                     width='90'
