@@ -78,7 +78,7 @@ export function CustomTable<T>(props: CustomTableProps<T>) {
             cellContent = customCellRenderer(item, columnKey);
         } 
         return cellContent !== undefined ? cellContent : getKeyValue(item, columnKey);
-    }, []);
+    }, [customCellRenderer]);
 
     const getPagination = () => {
         if (!paginationParams) {
