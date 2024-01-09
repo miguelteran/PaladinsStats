@@ -8,14 +8,19 @@ const writeFile = (fileName, arr) => {
 
 async function main() {
     const champions = await paw.getChampions();
-    const items = (await paw.getItems()).sort((a,b) => a.champion_id - b.champion_id);
-    const talents = items.filter(item => item.champion_id !== 0 && item.item_type === 'Inventory Vendor - Talents');
-    talents.forEach(talent => talent.itemIcon_URL = talent.itemIcon_URL.replace('champion-cards', 'champion-legendaries-badge').replace('jpg', 'png'));
-
+    const talents = [];
+    const cards = [];
+    for (let champion of champions) {
+        const championCards = await paw.getChampionCards(champion.id);
+        talents.push(...championCards.filter(c => c.championTalent_URL !== null));
+        cards.push(...championCards.filter(c => c.championTalent_URL === null));
+    }
+    const items = (await paw.getItems()).filter(i => i.item_type.indexOf('Burn Card') !== -1);
+    
     writeFile('champions.json', champions);
-    writeFile('champion-cards.json', items.filter(item => item.champion_id !== 0 && item.item_type !== 'Inventory Vendor - Talents'));
-    writeFile('champion-talents.json', items.filter(item => item.champion_id !== 0 && item.item_type === 'Inventory Vendor - Talents'));
-    writeFile('items.json', items.filter(item => item.champion_id === 0));
+    writeFile('champion-talents.json', talents);
+    writeFile('champion-cards.json', cards);
+    writeFile('items.json', items);
 }
 
 main();
