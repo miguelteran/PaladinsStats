@@ -5,17 +5,16 @@ import { SWRResponse } from "swr";
 import { useState, Key } from "react"
 import { Selection, Spinner } from "@nextui-org/react";
 import { Champion } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/champion";
-import { Item } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/item";
+import { ChampionCard } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/loadout";
 import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/filter/count-filter";
 import { CountResult } from "@miguelteran/paladins-stats-db/dist/src/models/aggregations/count-result";
 import { CustomSelect, NamedSelectItem, OnSelectionChange } from "@/components/select";
 import { RolesSelect } from "@/components/roles-select";
 import { StatsCategory, itemsStatsCategories, statsCategories } from "@/models/stats-category";
-import { championsMap } from "@/util/static-data";
 import { getPercentage } from "@/util/number-util";
-import { CHAMPION_ID_FIELD, ITEM_ID_FIELD } from "@/util/constants";
+import { CHAMPION_CARD_ID_FIELD, CHAMPION_ID_FIELD } from "@/util/constants";
 import { ChampionsStatsTable, ChampionsStatsTableRow } from "./champions-stats-table";
-import { ItemsStatsTable, ItemsStatsTableRow } from "./items-stats-table";
+import { ChampionCardsStatsMode, ChampionCardsStatsTable, ChampionCardsStatsTableRow } from "./champion-cards-stats-table";
 import champions from '../../../public/champions.json';
 import cards from '../../../public/champion-cards.json';
 import talents from '../../../public/champion-talents.json';
@@ -76,7 +75,7 @@ export const RankedStats = (props: RankedStatsProps) => {
         );
     };
     
-    const renderRolesMultiSelect = () => {
+    const renderRolesSelect = () => {
         return(
             <RolesSelect
                 selectedRoles={selectedRole}
@@ -153,14 +152,11 @@ export const RankedStats = (props: RankedStatsProps) => {
         });
     };
 
-    const getItemsTableRows = (items: Item[], totalCounts: CountResult[], partialCounts: CountResult[]): ItemsStatsTableRow[] => {
-        return items.map(item => {
-            const champion: Champion = championsMap.get(item.champion_id);
+    const getChampionCardsTableRows = (cards: ChampionCard[], totalCounts: CountResult[], partialCounts: CountResult[]): ChampionCardsStatsTableRow[] => {
+        return cards.map(card => {
             return {
-                ...item,
-                Name: champion.Name,
-                Roles: champion.Roles,
-                percentage: getPercentageForEntry(item, ITEM_ID_FIELD, totalCounts, partialCounts)
+                ...card,
+                percentage: getPercentageForEntry(card, CHAMPION_CARD_ID_FIELD, totalCounts, partialCounts)
             };
         });
     };
@@ -170,7 +166,7 @@ export const RankedStats = (props: RankedStatsProps) => {
         return roles.length === 0 || roles.findIndex(r => r === row.Roles) !== -1;
     }
 
-    const itemsTableRowsFilter = (row: ItemsStatsTableRow) => {
+    const championCardsTableRowsFilter = (row: ChampionCardsStatsTableRow) => {
         const champions = Array.from(selectedChampion as Set<Key>);
         return champions.length !== 0 && champions.findIndex(id => Number(id) === row.champion_id) !== -1;
     }
@@ -185,18 +181,19 @@ export const RankedStats = (props: RankedStatsProps) => {
     };
 
     const renderTalentsTable = (totalCounts: CountResult[], partialCounts: CountResult[]) => {
-        return renderItemsTable(talents, totalCounts, partialCounts);
+        return renderChampionCardsTable('Talent', totalCounts, partialCounts);
     };
 
     const renderCardsTable = (totalCounts: CountResult[], partialCounts: CountResult[]) => {
-        return renderItemsTable(cards, totalCounts, partialCounts);
+        return renderChampionCardsTable('Card', totalCounts, partialCounts);
     };
 
-    const renderItemsTable = (items: Item[], totalCounts: CountResult[], partialCounts: CountResult[]) => {
+    const renderChampionCardsTable = (mode: ChampionCardsStatsMode, totalCounts: CountResult[], partialCounts: CountResult[]) => {
         return (
-            <ItemsStatsTable
-                rows={getItemsTableRows(items, totalCounts, partialCounts)}
-                filter={itemsTableRowsFilter}
+            <ChampionCardsStatsTable
+                mode={mode}
+                rows={getChampionCardsTableRows(mode === 'Card' ? cards : talents, totalCounts, partialCounts)}
+                filter={championCardsTableRowsFilter}
             />
         );
     };
@@ -227,7 +224,7 @@ export const RankedStats = (props: RankedStatsProps) => {
                 {renderSelects(rankGroups, 'Rank', selectedRank, setSelectedRank)}
                 {renderSelects(rankedMaps, 'Map', selectedMap, setSelectedMap)}
                 {renderSelects(platforms, 'Platform', selectedPlatform, setSelectedPlatform)}
-                {renderRolesMultiSelect()}
+                {renderRolesSelect()}
                 {renderChampionsSelect()}
             </div>
             <div>
