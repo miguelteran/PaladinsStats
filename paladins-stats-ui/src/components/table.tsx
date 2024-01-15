@@ -16,14 +16,14 @@ export enum CustomTableLoadingState {
 }
 
 type LoadingState = 'loading' | 'sorting' | 'loadingMore' | 'error' | 'idle' | 'filtering'
-
+export type CustomTableCellRenderer<T> = (item: T, columnKey: Key) => any;
 export type CustomTableRowsFilter<T> = (row: T) => boolean;
 
 export interface CustomTableProps<T> {
     columns: CustomTableColumn[],
     rows: T[],
     tableRowKey: string,
-    customCellRenderer?: (item: T, columnKey: Key) => any,
+    customCellRenderer?: CustomTableCellRenderer<T>,
     onRowClick?: (key: Key) => void; 
     loadingState?: LoadingState,
     sortParams?: CustomTableSortParams
