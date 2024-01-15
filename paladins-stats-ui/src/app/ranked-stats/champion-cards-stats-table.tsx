@@ -1,38 +1,30 @@
 'use client'
 
-import { Key, useCallback, useState } from "react";
-import { SortDescriptor } from "@nextui-org/react";
+import { Key, useCallback } from "react";
+import { Selection } from "@nextui-org/react";
 import { ChampionCard } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/loadout";
 import { ImageWithTooltip } from "@/components/image-with-tooltip";
-import { StatsTableRow } from "@/models/stats-table-row";
-import { getPercentageString } from "@/util/string-util";
-import { CHAMPION_CARD_ID_FIELD } from "@/util/constants";
-import { CustomTable, CustomTableColumn, CustomTableRowsFilter, CustomTableSortingDirection } from "../../components/table";
+import { CustomTableColumn } from "../../components/table";
+import { CountRequest, StatsTable, StatsTableRow } from "./stats-table";
+import cards from '../../../public/champion-cards.json';
+import talents from '../../../public/champion-talents.json';
 
-
-export type ChampionCardsStatsTableRow = ChampionCard & StatsTableRow;
 
 export type ChampionCardsStatsMode = 'Card' | 'Talent';
 
 export interface ChampionCardsStatsTableProps {
+    totalCountRequest: CountRequest;
+    partialCountRequest: CountRequest;
+    selectedChampion: Selection;
     mode: ChampionCardsStatsMode;
-    rows: ChampionCardsStatsTableRow[];
-    filter: CustomTableRowsFilter<ChampionCardsStatsTableRow>;
 }
 
 export function ChampionCardsStatsTable(props: ChampionCardsStatsTableProps) {
 
-    const { mode, rows, filter } = props;
+    const { totalCountRequest, partialCountRequest, selectedChampion, mode } = props;
 
-    const [ sortDescriptor, setSortDescriptor ] = useState<SortDescriptor>({
-        column: 'percentage',
-        direction: CustomTableSortingDirection.DESCENDING_SORTING_DIRECTION,
-    });
-
-    const renderCell = useCallback((row: ChampionCardsStatsTableRow, columnKey: Key) => {
-        if (columnKey === 'percentage') {
-            return getPercentageString(row.percentage);
-        } else if (columnKey === 'image') {
+    const renderCell = useCallback((row: StatsTableRow<ChampionCard>, columnKey: Key) => {
+        if (columnKey === 'image') {
             return (
                 <ImageWithTooltip 
                     key={row.card_id2} 
@@ -42,7 +34,12 @@ export function ChampionCardsStatsTable(props: ChampionCardsStatsTableProps) {
             );
         }
         return undefined;
-    }, [rows, mode]);
+    }, [mode]);
+
+    const rowsFilter = (row: StatsTableRow<ChampionCard>) => {
+        const champions = Array.from(selectedChampion as Set<Key>);
+        return champions.length !== 0 && champions.findIndex(id => Number(id) === row.champion_id) !== -1;
+    }
 
     const columns: CustomTableColumn[] = [
         { key: 'card_name', label: mode, sortable: true },
@@ -51,16 +48,14 @@ export function ChampionCardsStatsTable(props: ChampionCardsStatsTableProps) {
     ];
 
     return (
-        <CustomTable<ChampionCardsStatsTableRow>
-            rows={rows}
+        <StatsTable<ChampionCard>
+            totalCountRequest={totalCountRequest}
+            partialCountRequest={partialCountRequest}
+            objects={mode === 'Card' ? cards : talents}
+            idField='card_id2'
             columns={columns}
-            tableRowKey={CHAMPION_CARD_ID_FIELD}
-            customCellRenderer={renderCell}
-            rowsFilter={filter}
-            sortParams={{
-                sortDescriptor: sortDescriptor,
-                onSortChange: setSortDescriptor
-            }}
+            cellRenderer={renderCell}
+            rowsFilter={rowsFilter}
         />
     );
 }

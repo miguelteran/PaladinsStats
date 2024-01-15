@@ -1,12 +1,11 @@
 'use client'
 
-import { Key, useCallback, useState } from "react";
-import { SortDescriptor } from "@nextui-org/react";
+import { Key } from "react";
+import { Selection } from "@nextui-org/react";
 import { Champion } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/champion";
-import { StatsTableRow } from "@/models/stats-table-row";
-import { getPercentageString } from "@/util/string-util";
-import { CHAMPION_ID_FIELD } from "@/util/constants";
-import { CustomTable, CustomTableColumn, CustomTableRowsFilter, CustomTableSortingDirection } from "../../components/table";
+import { CustomTableColumn } from "../../components/table";
+import { CountRequest, StatsTable, StatsTableRow } from "./stats-table";
+import champions from '../../../public/champions.json';
 
 
 const columns: CustomTableColumn[] = [
@@ -14,40 +13,29 @@ const columns: CustomTableColumn[] = [
     { key: 'percentage', label: 'Rate', sortable: true }
 ];
 
-export type ChampionsStatsTableRow = Champion & StatsTableRow;
-
 export interface ChampionsStatsTableProps {
-    rows: ChampionsStatsTableRow[];
-    filter: CustomTableRowsFilter<ChampionsStatsTableRow>;
+    totalCountRequest: CountRequest;
+    partialCountRequest: CountRequest;
+    selectedRole: Selection; 
 }
 
 export function ChampionsStatsTable(props: ChampionsStatsTableProps) {
 
-    const { rows, filter } = props;
+    const { totalCountRequest, partialCountRequest, selectedRole } = props;
 
-    const [ sortDescriptor, setSortDescriptor ] = useState<SortDescriptor>({
-        column: 'percentage',
-        direction: CustomTableSortingDirection.DESCENDING_SORTING_DIRECTION,
-    });
-
-    const renderCell = useCallback((row: ChampionsStatsTableRow, columnKey: Key) => {
-        if (columnKey === 'percentage') {
-            return getPercentageString(row.percentage);
-        }
-        return undefined;
-    }, []);
+    const rowsFilter = (row: StatsTableRow<Champion>) => {
+        const roles = Array.from(selectedRole as Set<Key>);
+        return roles.length === 0 || roles.findIndex(r => r === row.Roles) !== -1;
+    }
 
     return (
-        <CustomTable<ChampionsStatsTableRow>
-            rows={rows}
+        <StatsTable<Champion>
+            totalCountRequest={totalCountRequest}
+            partialCountRequest={partialCountRequest}
+            objects={champions}
+            idField='id'
             columns={columns}
-            tableRowKey={CHAMPION_ID_FIELD}
-            customCellRenderer={renderCell}
-            rowsFilter={filter}
-            sortParams={{
-                sortDescriptor: sortDescriptor,
-                onSortChange: setSortDescriptor
-            }}
+            rowsFilter={rowsFilter}
         />
     );
 }
