@@ -4,7 +4,8 @@ export enum StatsCategory {
     ChampionBans,
     ChampionCards,
     TalentPicks,
-    TalentWins
+    TalentWins,
+    Items,
 }
 
 export const statsCategories = [
@@ -14,10 +15,12 @@ export const statsCategories = [
     { id: StatsCategory.ChampionCards, name: 'Champion Cards Pick Rates' },
     { id: StatsCategory.TalentPicks, name: 'Talent Pick Rates' },
     { id: StatsCategory.TalentWins, name: 'Talent Pick Rates' },
+    { id: StatsCategory.Items, name: 'Item Pick Rates' },
 ]
 
-export const itemsStatsCategories = [
+export const perChampionStatsCategories = [
     StatsCategory.ChampionCards,
     StatsCategory.TalentPicks,
-    StatsCategory.TalentWins
+    StatsCategory.TalentWins,
+    StatsCategory.Items
 ]

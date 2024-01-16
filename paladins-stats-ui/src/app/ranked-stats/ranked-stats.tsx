@@ -6,10 +6,11 @@ import { Champion } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/
 import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/filter/count-filter";
 import { CustomSelect, NamedSelectItem, OnSelectionChange } from "@/components/select";
 import { RolesSelect } from "@/components/roles-select";
-import { StatsCategory, itemsStatsCategories, statsCategories } from "@/models/stats-category";
+import { StatsCategory, statsCategories, perChampionStatsCategories } from "@/models/stats-category";
 import { CHAMPIONS_BAN_COUNT_URI, CHAMPIONS_CARD_COUNT_URI, CHAMPIONS_MATCH_COUNT_URI, TALENTS_MATCH_COUNT_URI, TOTAL_MATCH_COUNT_URI } from "@/util/constants";
 import { ChampionsStatsTable } from "./champions-stats-table";
 import { ChampionCardsStatsTable } from "./champion-cards-stats-table";
+import { ItemsStatsTable } from "./items-stats-table";
 import champions from '../../../public/champions.json';
 import regions from '../../../public/regions.json';
 import rankedMaps from '../../../public/ranked-maps.json';
@@ -80,12 +81,13 @@ export const RankedStats = (props: RankedStatsProps) => {
     }
 
     const renderChampionsSelect = () => {
-        if (itemsStatsCategories.findIndex(c => c === getSelectedItemId(selectedCategory)) === -1) {
+        const category = getSelectedItemId(selectedCategory);
+        if (perChampionStatsCategories.findIndex(c => c === category) === -1) {
             return undefined;
         }
         return(
             <CustomSelect<Champion>
-                isRequired
+                isRequired={category !== StatsCategory.Items}
                 items={championsForSelect}
                 textValueField='Name'
                 placeholder='Champions'
@@ -110,6 +112,8 @@ export const RankedStats = (props: RankedStatsProps) => {
                 return renderTalentPicksTable();
             case StatsCategory.TalentWins:
                 return renderTalenWinsTable();
+            case StatsCategory.Items:
+                return renderItemsTable();
             default:
                 return undefined;
         }
@@ -120,11 +124,11 @@ export const RankedStats = (props: RankedStatsProps) => {
             <ChampionsStatsTable
                 totalCountRequest={{
                     uri: TOTAL_MATCH_COUNT_URI,
-                    filter: matchCountFilter
+                    filter: countFilter
                 }}
                 partialCountRequest={{
                     uri: CHAMPIONS_MATCH_COUNT_URI,
-                    filter: matchCountFilter
+                    filter: countFilter
                 }}
                 selectedRole={selectedRole}
             />
@@ -136,7 +140,7 @@ export const RankedStats = (props: RankedStatsProps) => {
             <ChampionsStatsTable
                 totalCountRequest={{
                     uri: CHAMPIONS_MATCH_COUNT_URI,
-                    filter: matchCountFilter
+                    filter: countFilter
                 }}
                 partialCountRequest={{
                     uri: CHAMPIONS_MATCH_COUNT_URI,
@@ -152,11 +156,11 @@ export const RankedStats = (props: RankedStatsProps) => {
             <ChampionsStatsTable
                 totalCountRequest={{
                     uri: TOTAL_MATCH_COUNT_URI,
-                    filter: matchCountFilter
+                    filter: countFilter
                 }}
                 partialCountRequest={{
                     uri: CHAMPIONS_BAN_COUNT_URI,
-                    filter: matchCountFilter
+                    filter: countFilter
                 }}
                 selectedRole={selectedRole}
             />
@@ -168,11 +172,11 @@ export const RankedStats = (props: RankedStatsProps) => {
             <ChampionCardsStatsTable
                 totalCountRequest={{
                     uri: TOTAL_MATCH_COUNT_URI,
-                    filter: matchCountFilter
+                    filter: countFilter
                 }}
                 partialCountRequest={{
                     uri: CHAMPIONS_CARD_COUNT_URI,
-                    filter: matchCountFilter
+                    filter: countFilter
                 }}
                 selectedChampion={selectedChampion}
                 mode='Card'
@@ -185,11 +189,11 @@ export const RankedStats = (props: RankedStatsProps) => {
             <ChampionCardsStatsTable
                 totalCountRequest={{
                     uri: TOTAL_MATCH_COUNT_URI,
-                    filter: matchCountFilter
+                    filter: countFilter
                 }}
                 partialCountRequest={{
                     uri: TALENTS_MATCH_COUNT_URI,
-                    filter: matchCountFilter
+                    filter: countFilter
                 }}
                 selectedChampion={selectedChampion}
                 mode='Talent'
@@ -202,7 +206,7 @@ export const RankedStats = (props: RankedStatsProps) => {
             <ChampionCardsStatsTable
                 totalCountRequest={{
                     uri: TALENTS_MATCH_COUNT_URI,
-                    filter: matchCountFilter
+                    filter: countFilter
                 }}
                 partialCountRequest={{
                     uri: TALENTS_MATCH_COUNT_URI,
@@ -214,18 +218,26 @@ export const RankedStats = (props: RankedStatsProps) => {
         );
     };
 
-    const matchCountFilter: CountFilter = {
+    const renderItemsTable = () => {
+        return (
+            <ItemsStatsTable
+                filter={countFilterWithChampion}
+            />
+        );
+    };
+
+    const countFilter: CountFilter = {
         region: getSelectedItemName(regions, selectedRegion),
         map: getSelectedItemName(rankedMaps, selectedMap),
         rank: getSelectedItemId(selectedRank),
         platform: getSelectedItemName(platforms, selectedPlatform)
     };
 
-    const winCountFilter = { ...matchCountFilter };
+    const winCountFilter = { ...countFilter };
     winCountFilter.matchResult = 'Winner';
 
-    const itemCountFilter = { ...matchCountFilter };
-    itemCountFilter.championId = getSelectedItemId(selectedChampion);
+    const countFilterWithChampion = { ...countFilter };
+    countFilterWithChampion.championId = getSelectedItemId(selectedChampion);
 
     return (
         <div>
