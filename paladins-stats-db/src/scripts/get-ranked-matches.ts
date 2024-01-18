@@ -14,10 +14,41 @@ const NUMBER_OF_HOURS_PER_DAY = 24;
 const NUMBER_OF_MINUTES_PER_HOUR = 60;
 
 
+function printUsage() {
+    console.log('Usage:');
+    console.log('node get-ranked-matches.js');
+    console.log('node get-ranked-matches.js -d YYYYMMDD -t hh,mm');
+}
+
+function getScriptParameter(paramFlag: string, errorMessage: string) {
+    const paramIndex = process.argv.indexOf(paramFlag);
+    if (paramIndex === -1) {
+        console.error(errorMessage);
+        printUsage();
+        process.exit(1);
+    }
+    return process.argv[paramIndex + 1];
+}
+
 async function main() {
+    const numArgs = process.argv.length;
+    if (numArgs === 2) {
+        await getRankedMatchesFromYesterday();
+    } else if (numArgs === 6) {
+        const date = getScriptParameter('-d', 'Date must be provided');
+        const time = getScriptParameter('-t', 'Time must be provided');
+        console.log('Getting ranked matches with date %s and time %s', date, time);
+        const paladinsStatsDB = await getPaladinsStatsDatabaseConnection();
+        await getRankedMatches(paladinsStatsDB, date, time);
+    } else {
+        printUsage();
+        process.exit(1);
+    }
+}
 
+async function getRankedMatchesFromYesterday() {
     const paladinsStatsDB = await getPaladinsStatsDatabaseConnection();
-
+    
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     const date = `${yesterday.getFullYear()}${yesterday.getMonth()+1}${yesterday.getDate()}`;
