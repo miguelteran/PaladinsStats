@@ -26,7 +26,7 @@ jobs:
     - name: Install Dependencies
       run: npm ci
       env:
-        NODE_AUTH_TOKEN: ${{ secret.GITHUB_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build and run script
       run: npm run get-ranked-matches-test
