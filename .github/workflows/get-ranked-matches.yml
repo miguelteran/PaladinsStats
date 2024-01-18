@@ -9,6 +9,10 @@ jobs:
   run-script:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: 'paladins-stats-db'
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
@@ -17,9 +21,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-
-    - name: Change working directory to paladins-stats-db
-      run: cd paladins-stats-db
 
     - name: Install Dependencies
       run: npm install
