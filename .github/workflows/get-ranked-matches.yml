@@ -18,6 +18,9 @@ jobs:
       with:
         node-version: '18'
 
+    - name: Change working directory to paladins-stats-db
+      run: cd paladins-stats-db
+
     - name: Install Dependencies
       run: npm install
 
