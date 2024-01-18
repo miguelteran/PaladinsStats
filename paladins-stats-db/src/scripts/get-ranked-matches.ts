@@ -34,12 +34,14 @@ async function main() {
     const numArgs = process.argv.length;
     if (numArgs === 2) {
         await getRankedMatchesFromYesterday();
+        process.exit(0);
     } else if (numArgs === 6) {
         const date = getScriptParameter('-d', 'Date must be provided');
         const time = getScriptParameter('-t', 'Time must be provided');
         console.log('Getting ranked matches with date %s and time %s', date, time);
         const paladinsStatsDB = await getPaladinsStatsDatabaseConnection();
         await getRankedMatches(paladinsStatsDB, date, time);
+        process.exit(0);
     } else {
         printUsage();
         process.exit(1);
