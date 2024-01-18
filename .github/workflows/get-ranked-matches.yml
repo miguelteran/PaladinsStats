@@ -21,9 +21,12 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
+        registry-url: "https://npm.pkg.github.com"
 
     - name: Install Dependencies
-      run: npm install
+      run: npm ci
+      env:
+        NODE_AUTH_TOKEN: ${{ secret.GITHUB_TOKEN }}
 
     - name: Build and run script
       run: npm run get-ranked-matches-test
