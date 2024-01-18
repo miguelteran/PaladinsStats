@@ -22,4 +22,4 @@ jobs:
       run: npm install
 
     - name: Build and run script
-      run: npm run get-ranked-matches
+      run: npm run get-ranked-matches-test
