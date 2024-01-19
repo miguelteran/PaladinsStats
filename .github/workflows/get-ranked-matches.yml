@@ -2,8 +2,8 @@ name: get-ranked-matches
 
 on:
   workflow_dispatch:
-  #schedule:
-  #  - cron: '0 2 * * *'
+  schedule:
+   - cron: '0 12 * * *'
 
 jobs:
   run-script:
