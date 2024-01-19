@@ -29,7 +29,7 @@ jobs:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build and run script
-      run: npm run get-ranked-matches-test
+      run: npm run get-ranked-matches
       env:
         DEV_ID: ${{ secrets.DEV_ID }}
         AUTH_KEY: ${{ secrets.AUTH_KEY }}
