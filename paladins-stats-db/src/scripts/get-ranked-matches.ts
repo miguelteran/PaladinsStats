@@ -53,7 +53,8 @@ async function getRankedMatchesFromYesterday() {
     
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    const date = `${yesterday.getFullYear()}${yesterday.getMonth()+1}${yesterday.getDate()}`;
+    const month = yesterday.getMonth()+1;
+    const date = `${yesterday.getFullYear()}${month < 10 ? '0' + month : month}${yesterday.getDate()}`;
     console.log(`Getting ranked matches from ${date}`);
 
     for (let hour = 0; hour < NUMBER_OF_HOURS_PER_DAY; hour++) {
