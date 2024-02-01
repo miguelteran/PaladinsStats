@@ -13,6 +13,8 @@ const NUMBER_OF_CARDS = 5;
 const NUMBER_OF_HOURS_PER_DAY = 24;
 const NUMBER_OF_MINUTES_PER_HOUR = 60;
 
+let insertedChampionMatches = 0;
+let insertedChampionBans = 0;
 
 function printUsage() {
     console.log('Usage:');
@@ -63,6 +65,9 @@ async function getRankedMatchesFromYesterday() {
             await getRankedMatches(paladinsStatsDB, date, time);
         }
     }
+
+    console.log('Inserted %d entries to champion-matches', insertedChampionMatches);
+    console.log('Inserted %d entries to champion-bans', insertedChampionBans);
 }
 
 
@@ -145,8 +150,8 @@ async function getRankedMatches(paladinsStatsDB: PaladinsStatsDatabase, date: st
 
             // Save entries
 
-            await championMatchesDAL.insertMany(championMatches);
-            await championBansDAL.insertMany(championBans);
+            insertedChampionMatches += await championMatchesDAL.insertMany(championMatches);
+            insertedChampionBans += await championBansDAL.insertMany(championBans);
         }
     }
 }
