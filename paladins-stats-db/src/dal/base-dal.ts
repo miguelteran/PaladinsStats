@@ -1,12 +1,13 @@
-import { Collection, Document } from "mongodb";
+import { Collection, Document, Filter } from "mongodb";
 import { BaseModel } from "../models/base-model";
 import { CountFilter } from "../models/filter/count-filter";
 
 
 export interface DAL {
-    insertMany(entries: BaseModel[]): void;
+    insertMany(entries: BaseModel[]): Promise<void>;
     aggregate<U extends Document>(pipeline: Document[]): Promise<U[]>;
     buildMatch(filter: CountFilter): Document;
+    delete(filter: Filter<any>): Promise<void>;
 }
 
 
@@ -31,4 +32,9 @@ export abstract class BaseDAL<T extends BaseModel> implements DAL {
     }
 
     abstract buildMatch(filter: CountFilter): Document;
+
+    async delete(filter: Filter<T>) {
+        const result = await this.collection.deleteMany(filter);
+        console.debug('%s: Deleted %d entries', this.constructor.name, result.deletedCount);
+    }
 }

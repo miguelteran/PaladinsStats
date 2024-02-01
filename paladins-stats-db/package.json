@@ -18,6 +18,7 @@
     "build": "rm -rf dist; tsc",
     "get-ranked-matches": "npm run build; node ./dist/src/scripts/get-ranked-matches.js ",
     "get-ranked-matches-test": "npm run build; node ./dist/src/scripts/get-ranked-matches.js -d 20240117 -t 00,00",
+    "clean-database": "npm run build; node dist/src/scripts/clean-database.js",
     "test": "tsc; node --test ./dist/tests/*-test.js"
   },
   "dependencies": {

@@ -58,6 +58,16 @@ export class AggregationPipelineBuilder {
         return this;
     }
 
+    sort(sort: Document) {
+        this._pipeline.push({'$sort': sort});
+        return this;
+    }
+
+    limit(count: number) {
+        this._pipeline.push({'$limit': count});
+        return this;
+    }
+
     build() {
         return this._pipeline;
     }

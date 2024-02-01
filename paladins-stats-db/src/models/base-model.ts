@@ -1,6 +1,6 @@
 import { Document, ObjectId } from "mongodb";
 
 
-export interface BaseModel {
-    id?: ObjectId;
+export interface BaseModel extends Document {
+    _id?: ObjectId;
 }
