@@ -1,16 +1,21 @@
-import Image from 'next/image'
-import styles from './page.module.css'
-import * as PaladinsApiWrapper from '@miguelteran/paladins-api-wrapper'
+'use client'
+
+import { useRouter } from "next/navigation";
+import { Button } from "@nextui-org/button";
 
 
-export default async function Home() {
+export default function Home() {
 
-  const player = await PaladinsApiWrapper.getPlayer('Xero1st')
-  
+    const router = useRouter();
 
-  return (
-    <div>
-      {JSON.stringify(player)}
-    </div>
-  )
+    return (
+        <div>
+            <Button onPress={() => router.push('/search')}>
+                Search Players
+            </Button>
+            <Button onPress={() => router.push('/ranked-stats')}>
+                Ranked Stats
+            </Button>
+        </div>
+    );
 }
