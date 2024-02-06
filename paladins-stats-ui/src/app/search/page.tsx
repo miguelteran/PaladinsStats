@@ -46,7 +46,7 @@ export default function SearchPage() {
 
     const search = () => {
         setIsLoading(true);
-        fetch('http://localhost:3000/api/search-players?playerName=' + playerName)
+        fetch(`http://${window.location.hostname}:${window.location.port}/api/search-players?playerName=` + playerName)
             .then(res => res.json())
             .then(searchResult => {
                 setPlayerSearchResult(searchResult);

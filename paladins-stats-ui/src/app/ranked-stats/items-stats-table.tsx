@@ -27,7 +27,7 @@ export function ItemsStatsTable(props: ItemsStatsTableProps) {
     const { filter } = props;
 
     const response = useSWRImmutable(filter, (filter: CountFilter) => 
-        fetch(`http://localhost:3000/api/items-count`, {
+        fetch(`http://${window.location.hostname}:${window.location.port}/api/items-count`, {
             method: 'POST',
             body: JSON.stringify(filter)
         }).then(res => res.json())

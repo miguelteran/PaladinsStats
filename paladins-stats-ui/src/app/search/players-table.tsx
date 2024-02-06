@@ -37,7 +37,7 @@ export const PlayersTable = (props: PlayersTableProps) => {
     const playerIds: string[] = playerSearchResults.slice(start, end).map(playerSearchResult => playerSearchResult.player_id);
 
     // Get player information for group of ids
-    const { data, isLoading } = useSWRImmutable(playerIds, (playerIds) => fetch(`http://localhost:3000/api/players?ids=${playerIds.join(',')}`).then(res => res.json()));
+    const { data, isLoading } = useSWRImmutable(playerIds, (playerIds) => fetch(`http://${window.location.hostname}:${window.location.port}/api/players?ids=${playerIds.join(',')}`).then(res => res.json()));
     const players: Player[] = data ?? [];
     const loadingState = isLoading || data?.length === 0 ? CustomTableLoadingState.LOADING : CustomTableLoadingState.IDLE;
 
