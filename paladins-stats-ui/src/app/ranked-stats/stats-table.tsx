@@ -10,6 +10,15 @@ import { getPercentage } from "@/util/number-util";
 import { CustomTable, CustomTableCellRenderer, CustomTableColumn, CustomTableRowsFilter, CustomTableSortingDirection } from "../../components/table";
 
 
+function useCountRequest(request: CountRequest) {
+    return useSWRImmutable(request, (request) => {
+        return fetch(`http://${window.location.hostname}:${window.location.port}/api/${request.uri}`, {
+            method: 'POST',
+            body: JSON.stringify(request.filter)
+        }).then(res => res.json());
+    });
+};
+
 export type StatsTableRow<T> = T & { percentage: number };
 
 export interface CountRequest {
@@ -36,15 +45,6 @@ export function StatsTable<T>(props: StatsTableProps<T>) {
         direction: CustomTableSortingDirection.DESCENDING_SORTING_DIRECTION,
     });
 
-    const getCounts = (request: CountRequest) => {
-        return useSWRImmutable(request, (request) => {
-            return fetch(`http://localhost:3000/api/${request.uri}`, {
-                method: 'POST',
-                body: JSON.stringify(request.filter)
-            }).then(res => res.json());
-        });
-    };
-
     const renderCell = useCallback((row: StatsTableRow<T>, columnKey: Key) => {
         if (columnKey === 'percentage') {
             return getPercentageString(row.percentage);
@@ -70,8 +70,8 @@ export function StatsTable<T>(props: StatsTableProps<T>) {
         });
     };
 
-    const totalCountResponse = getCounts(totalCountRequest);
-    const partialCountResponse = getCounts(partialCountRequest);
+    const totalCountResponse = useCountRequest(totalCountRequest);
+    const partialCountResponse = useCountRequest(partialCountRequest);
 
     if (totalCountResponse.isLoading || partialCountResponse.isLoading) {
         return <Spinner/>;
