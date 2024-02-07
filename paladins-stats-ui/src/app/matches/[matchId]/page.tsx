@@ -32,7 +32,7 @@ export default async function MatchPage({ params }: { params: { matchId: string 
 
     return (
         <div>
-            <div>{matchDetails.matchId}</div>
+            <div>Match Id: {matchDetails.matchId}</div>
             <div>{matchDetails.matchTimestamp}</div>
             <div>{matchDetails.map}</div>
             <div>{matchDetails.region}</div>
