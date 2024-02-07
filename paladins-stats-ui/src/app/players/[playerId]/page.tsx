@@ -5,7 +5,7 @@ import { getPercentageString, getTimeString } from '@/util/string-util';
 import { getKDARatio, getPercentage } from '@/util/number-util';
 import { notFound } from 'next/navigation';
 import { PaladinsRoles } from '@/models/role';
-import { championsMap } from '@/util/static-data';
+import { championsMap, getRank } from '@/util/static-data';
 
 
 export default async function PlayerPage( { params }: { params: { playerId: string } }) {
@@ -16,6 +16,7 @@ export default async function PlayerPage( { params }: { params: { playerId: stri
         notFound();
     }
     
+    const rank = getRank(player.Tier_RankedKBM);
     const totalMatchesPlayed = player.Wins + player.Losses;
     const winRate = getPercentageString(getPercentage(totalMatchesPlayed, player.Wins));
     const timePlayed = getTimeString(player.MinutesPlayed);
@@ -43,14 +44,14 @@ export default async function PlayerPage( { params }: { params: { playerId: stri
             />
             <div>{player.Name}</div>
             <div>{player.Title}</div>
-            <div>{player.Tier_RankedKBM}</div>
+            <div>{rank}</div>
             <div>{player.Last_Login_Datetime}</div>
             <div>{player.Platform}</div>
             <div>{player.Region}</div>
-            <div>{player.Level}</div>
-            <div>{winRate}</div>
-            <div>{totalMatchesPlayed}</div>
-            <div>{timePlayed}</div>
+            <div>Level: {player.Level}</div>
+            <div>Win Rate: {winRate}</div>
+            <div>Matches Played: {totalMatchesPlayed}</div>
+            <div>Time Played: {timePlayed}</div>
 
             <PlayerStats
                 recentMatches={recentMatches}
