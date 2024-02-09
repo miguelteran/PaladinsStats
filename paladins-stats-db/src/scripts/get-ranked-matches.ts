@@ -16,6 +16,11 @@ const NUMBER_OF_MINUTES_PER_HOUR = 60;
 let insertedChampionMatches = 0;
 let insertedChampionBans = 0;
 
+
+function formatNumber(n: number) {
+    return n < 10 ? '0' + n : n;
+}
+
 function printUsage() {
     console.log('Usage:');
     console.log('node get-ranked-matches.js');
@@ -55,8 +60,9 @@ async function getRankedMatchesFromYesterday() {
     
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    const month = yesterday.getMonth()+1;
-    const date = `${yesterday.getFullYear()}${month < 10 ? '0' + month : month}${yesterday.getDate()}`;
+    const month = formatNumber(yesterday.getMonth() + 1);
+    const day = formatNumber(yesterday.getDate());
+    const date = `${yesterday.getFullYear()}${month}${day}`;
     console.log(`Getting ranked matches from ${date}`);
 
     for (let hour = 0; hour < NUMBER_OF_HOURS_PER_DAY; hour++) {
