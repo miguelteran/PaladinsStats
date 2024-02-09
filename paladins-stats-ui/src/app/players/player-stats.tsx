@@ -72,29 +72,29 @@ export const PlayerStats = ({recentMatches, championStats}: {recentMatches: Rece
                 onSelectedRolesChange={setSelectedRoles}
             />
             <Tabs>
-            <Tab key='recentMatches' title='Recent Matches'>
-                <CustomTable<RecentMatch>
-                    columns={matchesTableColumns}
-                    rows={recentMatches}
-                    tableRowKey='Match'
-                    customCellRenderer={renderMatchesCell}
-                    onRowClick={onMatchClick}
-                />
-            </Tab>
-            <Tab key='championStats' title='Champion Stats'>
-                <CustomTable<ChampionStatsSummary>
-                    columns={championsTableColumns}
-                    rows={championStats}
-                    tableRowKey='championId'
-                    rowsFilter={championStatsFilter}
-                    customCellRenderer={renderChampionsCell}
-                    sortParams={{
-                        sortDescriptor: championsSortDescriptor, 
-                        onSortChange: setChampionsSortDescriptor
-                    }}
-                />
-            </Tab>
-        </Tabs>
+                <Tab key='recentMatches' title='Recent Matches'>
+                    <CustomTable<RecentMatch>
+                        columns={matchesTableColumns}
+                        rows={recentMatches}
+                        tableRowKey='Match'
+                        customCellRenderer={renderMatchesCell}
+                        onRowClick={onMatchClick}
+                    />
+                </Tab>
+                <Tab key='championStats' title='Champion Stats'>
+                    <CustomTable<ChampionStatsSummary>
+                        columns={championsTableColumns}
+                        rows={championStats}
+                        tableRowKey='championId'
+                        rowsFilter={championStatsFilter}
+                        customCellRenderer={renderChampionsCell}
+                        sortParams={{
+                            sortDescriptor: championsSortDescriptor, 
+                            onSortChange: setChampionsSortDescriptor
+                        }}
+                    />
+                </Tab>
+            </Tabs>
         </div>
     );
 }
