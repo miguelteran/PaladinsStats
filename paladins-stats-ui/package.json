@@ -5,9 +5,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "./update-build-hash.sh; next build",
+    "build": "npm run update-build-hash; next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "update-build-hash": "chmod +x ./update-build-hash.sh; ./update-build-hash.sh"
   },
   "dependencies": {
     "@miguelteran/paladins-api-wrapper": "1.0.0",
