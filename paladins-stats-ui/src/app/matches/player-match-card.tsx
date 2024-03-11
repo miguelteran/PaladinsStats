@@ -3,8 +3,8 @@
 import { RANKED_QUEUE_ID } from "@/util/constants";
 import { PlayerMatchDetails } from "@miguelteran/paladins-api-wrapper"
 import { Card, CardBody, Link } from "@nextui-org/react";
+import { TextWithLabel } from "@/components/text-with-label";
 import ranks from '../../../public/ranks.json' assert { type: 'json' };
-
 
 
 export interface PlayerMatchCardProps {
@@ -27,12 +27,12 @@ export const PlayerMatchCard = (props: PlayerMatchCardProps) => {
     return (
         <Card key={key}>
             <CardBody>
-                <div>
-                    <div><Link href={`/players/${playerMatchDetails.playerId}`}>{playerMatchDetails.playerName}</Link></div>
-                    <div>{playerMatchDetails.Account_Level}</div>
-                    <div>{renderRank(playerMatchDetails.League_Tier)}</div>
-                    <div>{playerMatchDetails.Reference_Name}</div>
-                    <div>{playerMatchDetails.Item_Purch_6}</div>
+                <div id='player-match-card-content'>
+                    <Link href={`/players/${playerMatchDetails.playerId}`}>{playerMatchDetails.playerName}</Link>
+                    <TextWithLabel label='Rank' value={renderRank(playerMatchDetails.League_Tier)}/>
+                    <TextWithLabel label='Level' value={playerMatchDetails.Account_Level}/>
+                    <p>{playerMatchDetails.Reference_Name}</p>
+                    <p>{playerMatchDetails.Item_Purch_6}</p>
                 </div>
             </CardBody>
         </Card>

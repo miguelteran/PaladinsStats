@@ -14,10 +14,14 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className}`}>
         <Providers>
-          <div>{buildHash.hash}</div>
-          {children}
+          <div className='min-h-dvh p-8'>
+            {children}
+          </div>
+          <footer>
+            <p>Build Hash: {buildHash.hash}</p>
+          </footer>
         </Providers>
       </body>
     </html>

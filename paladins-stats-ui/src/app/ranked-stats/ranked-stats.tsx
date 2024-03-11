@@ -241,7 +241,7 @@ export const RankedStats = (props: RankedStatsProps) => {
 
     return (
         <div>
-            <div>
+            <div id='ranked-stats-selects-container' className='flex flex-row flex-wrap w-full columns-8 gap-2 pb-4'>
                 {renderSelects(statsCategories, 'Category', selectedCategory, setSelectedCategory)}
                 {renderSelects(regions, 'Region', selectedRegion, setSelectedRegion)}
                 {renderSelects(rankGroups, 'Rank', selectedRank, setSelectedRank)}
@@ -250,7 +250,7 @@ export const RankedStats = (props: RankedStatsProps) => {
                 {renderRolesSelect()}
                 {renderChampionsSelect()}
             </div>
-            <div>
+            <div id='ranked-stats-table-container' className='flex w-full min-h-dvh place-content-center'>
                 {renderStatsTable()}
             </div>
         </div>

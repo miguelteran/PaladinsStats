@@ -8,14 +8,20 @@ export default function Home() {
 
     const router = useRouter();
 
+    const renderButton = (uri: string, displayText: string) => {
+        return (
+            <div className="flex flex-col w-full place-content-center px-4">
+                <Button onPress={() => router.push(uri)}>
+                    {displayText}
+                </Button>
+            </div>
+        );
+    };
+
     return (
-        <div>
-            <Button onPress={() => router.push('/search')}>
-                Search Players
-            </Button>
-            <Button onPress={() => router.push('/ranked-stats')}>
-                Ranked Stats
-            </Button>
+        <div className="flex w-full min-h-dvh columns-2">
+            {renderButton('/search', 'Search Players')}
+            {renderButton('/ranked-stats', 'Ranked Stats')}
         </div>
     );
 }

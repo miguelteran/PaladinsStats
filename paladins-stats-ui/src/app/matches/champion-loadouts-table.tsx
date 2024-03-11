@@ -40,7 +40,7 @@ export const ChampionLoadoutsTable = (props: ChampionLoadoutsTableProps) => {
 
     const renderImages = (details: PlayerMatchDetails, key: string, numberOfItems: number, renderImage: (details: PlayerMatchDetails, key: string) => any) => {
         return (
-            <div>
+            <div className="flex flex-row">
                 {Array.from({length: numberOfItems}, (v, k) => k+1).map(k => renderImage(details, `${key}${k}`))}
             </div>
         );

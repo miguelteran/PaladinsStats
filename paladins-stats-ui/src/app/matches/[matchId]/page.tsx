@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { MatchStatsTable } from '../match-stats-table';
 import { PlayerMatchCard } from '../player-match-card';
 import { ChampionLoadoutsTable } from '../champion-loadouts-table';
+import { TextWithLabel } from '@/components/text-with-label';
 
 
 export default async function MatchPage({ params }: { params: { matchId: string } }) {
@@ -21,10 +22,12 @@ export default async function MatchPage({ params }: { params: { matchId: string 
         return (
             playerDetails.map((details, index) => {
                 return (
-                    <PlayerMatchCard
-                        key={index}
-                        playerMatchDetails={details}
-                    />
+                    <div id='player-match-card-container' className='py-1'>
+                        <PlayerMatchCard
+                            key={index}
+                            playerMatchDetails={details}
+                        />
+                    </div>
                 );
             })
         );
@@ -32,24 +35,34 @@ export default async function MatchPage({ params }: { params: { matchId: string 
 
     return (
         <div>
-            <div>Match Id: {matchDetails.matchId}</div>
-            <div>{matchDetails.matchTimestamp}</div>
-            <div>{matchDetails.map}</div>
-            <div>{matchDetails.region}</div>
-            <div>{matchDetails.matchDuration}</div>
-
-            <div>
-                <div>{renderPlayerCards(winners)}</div>
-                <div>{renderPlayerCards(losers)}</div>
+            <div id='match-info-container' className='pb-4'>
+                <TextWithLabel label='ID' value={matchDetails.matchId}/>
+                <TextWithLabel label='Date' value={matchDetails.matchTimestamp}/>
+                <TextWithLabel label='Mode' value={matchDetails.map}/>
+                <TextWithLabel label='Region' value={matchDetails.region}/>
+                <TextWithLabel label='Duration' value={matchDetails.matchDuration}/>
             </div>
 
-            <ChampionLoadoutsTable
-                playerMatchDetails={playerMatchDetails}
-            />
+            <div className='columns-2 pb-4'>
+                <div className='flex-col'>
+                    {renderPlayerCards(winners)}
+                </div>
+                <div className='flex-col'>
+                    {renderPlayerCards(losers)}
+                </div>
+            </div>
 
-            <MatchStatsTable
-                matchDetails={matchDetails}
-            />
+            <div id='champion-loadouts-table-container' className='pb-4'>
+                <ChampionLoadoutsTable
+                    playerMatchDetails={playerMatchDetails}
+                />
+            </div>
+
+            <div id='match-stats-table-container'>
+                <MatchStatsTable
+                    matchDetails={matchDetails}
+                />
+            </div>
         </div>
     );
 }

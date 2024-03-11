@@ -14,13 +14,16 @@ export default function SearchPage() {
 
     const renderSearchBar = () => {
         return(
-            <div>
+            <div id='search-bar-container' className='flex pb-4'>
                 <Input
+                    id='search-bar'
                     placeholder='Player Name'
                     value={playerName}
                     onValueChange={setPlayerName}
+                    className='min-w-40 max-w-xs pr-2'
                 />
                 <Button
+                    id='search-button'
                     onPress={search}
                 >
                     Search
@@ -55,9 +58,11 @@ export default function SearchPage() {
     }
 
     return (
-        <div>
+        <div id='search-container'>
             {renderSearchBar()}
-            {renderPlayersTable()}
+            <div id='players-table-container' className='flex min-h-dvh place-content-center'>
+                {renderPlayersTable()}
+            </div>
         </div>
     );
 }

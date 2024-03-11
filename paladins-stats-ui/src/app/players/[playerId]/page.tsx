@@ -6,6 +6,7 @@ import { getKDARatio, getPercentage } from '@/util/number-util';
 import { notFound } from 'next/navigation';
 import { PaladinsRoles } from '@/models/role';
 import { championsMap, getRank } from '@/util/static-data';
+import { TextWithLabel } from '@/components/text-with-label';
 
 
 export default async function PlayerPage( { params }: { params: { playerId: string } }) {
@@ -37,22 +38,29 @@ export default async function PlayerPage( { params }: { params: { playerId: stri
     });
 
     return (
-        <div>
-            <img
-                src={player.AvatarURL}
-                alt="Profile picture"
-            />
-            <div>{player.Name}</div>
-            <div>{player.Title}</div>
-            <div>{rank}</div>
-            <div>{player.Last_Login_Datetime}</div>
-            <div>{player.Platform}</div>
-            <div>{player.Region}</div>
-            <div>Level: {player.Level}</div>
-            <div>Win Rate: {winRate}</div>
-            <div>Matches Played: {totalMatchesPlayed}</div>
-            <div>Time Played: {timePlayed}</div>
-
+        <div id='player-container'>
+            <div className='flex flex-row flex-wrap pb-4'>
+                <img
+                    src={player.AvatarURL}
+                    alt="Profile picture"
+                    className='max-h-40'
+                />
+                <div className='p-4'>
+                    <p className='text-3xl font-bold'>{player.Name}</p>
+                    <p>{player.Title}</p>
+                </div>
+            </div>
+            <div id='player-info-container' className='pb-4'>
+                <TextWithLabel label='ID' value={player.Id}/>
+                <TextWithLabel label='Last Played' value={player.Last_Login_Datetime}/>
+                <TextWithLabel label='Rank' value={rank}/>
+                <TextWithLabel label='Level' value={player.Level}/>
+                <TextWithLabel label='Platform' value={player.Platform}/>
+                <TextWithLabel label='Region' value={player.Region}/>
+                <TextWithLabel label='Win Rate' value={winRate}/>
+                <TextWithLabel label='Matches Played' value={totalMatchesPlayed}/>
+                <TextWithLabel label='Time Played' value={timePlayed}/>
+            </div>
             <PlayerStats
                 recentMatches={recentMatches}
                 championStats={championSummaries}

@@ -42,7 +42,7 @@ export function CustomSelect<T>(props: CustomSelectProps<T>) {
             placeholder={placeholder}
             labelPlacement="outside"
             classNames={{
-                base: "max-w-xs",
+                base: "min-w-40 max-w-60",
                 trigger: "min-h-unit-12 py-2",
             }}
             renderValue={customRender}
