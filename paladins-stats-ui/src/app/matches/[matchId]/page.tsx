@@ -22,7 +22,7 @@ export default async function MatchPage({ params }: { params: { matchId: string 
         return (
             playerDetails.map((details, index) => {
                 return (
-                    <div id='player-match-card-container' className='py-1'>
+                    <div id={`player-match-card-container-${details.playerId}`} className='py-1' key={index}>
                         <PlayerMatchCard
                             key={index}
                             playerMatchDetails={details}
