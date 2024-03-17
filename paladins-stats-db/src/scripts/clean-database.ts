@@ -4,26 +4,31 @@ import { ChampionMatch } from "../models/champion-match";
 
 
 const BYTES_TO_MEGABTES = 1024 * 1024;
-const MAX_DB_SIZE_MB = 480;
+const MAX_DB_SIZE_MB = 490;
 
 async function main() {
     const db = await getPaladinsStatsDatabaseConnection();
-    const dbStats = await db.database.stats({scale: BYTES_TO_MEGABTES});
-    const dbSize = dbStats.dataSize;
-    console.log('Database size is %d MB', dbSize);
-    if (dbStats.dataSize >= MAX_DB_SIZE_MB) {
-        console.log('Performing cleanup...');
+    while (await getDatabaseSize(db) >= MAX_DB_SIZE_MB) {
         await deleteOldestEntries(db);
-    } else {
-        console.log('Nothing to do');
     }
+    console.log('Database is now below threshold');
     process.exit(0);
 }
 
+async function getDatabaseSize(db: PaladinsStatsDatabase) {
+    console.log('Getting database stats...');
+    const dbStats = await db.database.stats({scale: BYTES_TO_MEGABTES});
+    const totalSize = dbStats.dataSize + dbStats.indexSize;
+    console.log('Database size: %d MB', dbStats.dataSize);
+    console.log('Index size: %d MB', dbStats.indexSize);
+    console.log('Total size: %d MB', totalSize);
+    return totalSize;
+}
+
 async function deleteOldestEntries(db: PaladinsStatsDatabase) {
+    console.log('Performing cleanup...');
     const championMatchesDAL = db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES);
     const championBansDAL = db.getDal(PaladinsStatsCollections.CHAMPION_BANS);
-
     const pipeline = new AggregationPipelineBuilder().sort({matchTimestamp: 1}).limit(1).build();
     const championMatch = await championMatchesDAL.aggregate<ChampionMatch>(pipeline);
 
