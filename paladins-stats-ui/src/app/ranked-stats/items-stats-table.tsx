@@ -1,7 +1,7 @@
 'use client'
 
 import useSWRImmutable from "swr/immutable";
-import { Key, useCallback } from "react";
+import { Key, useCallback, useState } from "react";
 import { Spinner } from "@nextui-org/react";
 import { Item } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/item";
 import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/filter/count-filter";
@@ -10,6 +10,8 @@ import { ImageWithTooltip } from "@/components/image-with-tooltip";
 import { CustomTable, CustomTableColumn } from "../../components/table";
 import items from '../../../public/items.json';
 
+
+const ROWS_PER_PAGE = 5;
 
 const columns: CustomTableColumn[] = [
     { key: 'DeviceName', label: 'Item' },
@@ -25,6 +27,8 @@ export interface ItemsStatsTableProps {
 export function ItemsStatsTable(props: ItemsStatsTableProps) {
 
     const { filter } = props;
+
+    const [ page, setPage ] = useState(1);
 
     const response = useSWRImmutable(filter, (filter: CountFilter) => 
         fetch(`http://${window.location.hostname}:${window.location.port}/api/items-count`, {
@@ -65,6 +69,11 @@ export function ItemsStatsTable(props: ItemsStatsTableProps) {
             columns={columns}
             tableRowKey='ItemId'
             customCellRenderer={renderCell}
+            paginationParams={{
+                activePage: page,
+                onPageChange: setPage,
+                rowsPerPage: ROWS_PER_PAGE
+            } }
         />
     );
 }

@@ -10,6 +10,8 @@ import { getPercentage } from "@/util/number-util";
 import { CustomTable, CustomTableCellRenderer, CustomTableColumn, CustomTableRowsFilter, CustomTableSortingDirection } from "../../components/table";
 
 
+const ROWS_PER_PAGE = 10;
+
 function useCountRequest(request: CountRequest) {
     return useSWRImmutable(request, (request) => {
         return fetch(`http://${window.location.hostname}:${window.location.port}/api/${request.uri}`, {
@@ -34,16 +36,25 @@ export interface StatsTableProps<T> {
     columns: CustomTableColumn[];
     cellRenderer?: CustomTableCellRenderer<StatsTableRow<T>>;
     rowsFilter: CustomTableRowsFilter<StatsTableRow<T>>;
+    rowsPerPage?: number;
 }
 
 export function StatsTable<T>(props: StatsTableProps<T>) {
 
-    const { totalCountRequest, partialCountRequest, objects, idField, columns, cellRenderer, rowsFilter } = props;
+    const { totalCountRequest, partialCountRequest, objects, idField, columns, rowsPerPage, cellRenderer, rowsFilter } = props;
 
     const [ sortDescriptor, setSortDescriptor ] = useState<SortDescriptor>({
         column: 'percentage',
         direction: CustomTableSortingDirection.DESCENDING_SORTING_DIRECTION,
     });
+
+    const [ page, setPage ] = useState(1);
+
+    const paginationParams = !rowsPerPage ? undefined : {
+        activePage: page,
+        onPageChange: setPage,
+        rowsPerPage: rowsPerPage
+    } 
 
     const renderCell = useCallback((row: StatsTableRow<T>, columnKey: Key) => {
         if (columnKey === 'percentage') {
@@ -88,6 +99,7 @@ export function StatsTable<T>(props: StatsTableProps<T>) {
                 sortDescriptor: sortDescriptor,
                 onSortChange: setSortDescriptor
             }}
+            paginationParams={paginationParams}
         />
     );
 }

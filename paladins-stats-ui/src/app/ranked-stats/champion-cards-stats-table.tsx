@@ -10,6 +10,8 @@ import cards from '../../../public/champion-cards.json';
 import talents from '../../../public/champion-talents.json';
 
 
+const ROWS_PER_PAGE = 6;
+
 export type ChampionCardsStatsMode = 'Card' | 'Talent';
 
 export interface ChampionCardsStatsTableProps {
@@ -56,6 +58,7 @@ export function ChampionCardsStatsTable(props: ChampionCardsStatsTableProps) {
             columns={columns}
             cellRenderer={renderCell}
             rowsFilter={rowsFilter}
+            rowsPerPage={ROWS_PER_PAGE}
         />
     );
 }

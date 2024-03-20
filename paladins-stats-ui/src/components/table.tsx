@@ -43,9 +43,10 @@ export interface CustomTableSortParams {
 }
 
 export interface CustomTablePaginationParams {
-    numPages: number;
     activePage: number;
     onPageChange: (activePage: number) => void;
+    numPages?: number;
+    rowsPerPage?: number; // when this parameter is given, the table will determine which rows to display for the active page
 }
 
 export function CustomTable<T>(props: CustomTableProps<T>) {
@@ -72,6 +73,16 @@ export function CustomTable<T>(props: CustomTableProps<T>) {
         });
     }, [sortParams, filteredRows]);
 
+    const getRows = () => {
+        if (!paginationParams || !paginationParams.rowsPerPage) {
+            return sortedRows;
+        }
+        const { activePage, rowsPerPage } = paginationParams;
+        const start = (activePage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        return sortedRows.slice(start, end);
+    };
+
     const renderCell = useCallback((item: T, columnKey: Key) => {
         let cellContent = undefined;
         if (customCellRenderer) {
@@ -84,8 +95,9 @@ export function CustomTable<T>(props: CustomTableProps<T>) {
         if (!paginationParams) {
             return undefined;
         }
-        const { activePage, numPages, onPageChange } = paginationParams;
-        if (numPages > 0) {
+        const { activePage, numPages, rowsPerPage, onPageChange } = paginationParams;
+        const totalPages = numPages ?? Math.ceil(sortedRows.length / rowsPerPage!);
+        if (totalPages && totalPages > 1) {
             return (
                 <div className='flex w-full justify-center'>
                     <Pagination
@@ -94,7 +106,7 @@ export function CustomTable<T>(props: CustomTableProps<T>) {
                         showShadow
                         color='secondary'
                         page={activePage}
-                        total={numPages}
+                        total={totalPages}
                         onChange={onPageChange}
                     />
                 </div>
@@ -121,7 +133,7 @@ export function CustomTable<T>(props: CustomTableProps<T>) {
                 }
             </TableHeader>
             <TableBody<T> 
-                items={sortedRows}
+                items={getRows()}
                 loadingContent={<Spinner/>}
                 loadingState={loadingState}
             >

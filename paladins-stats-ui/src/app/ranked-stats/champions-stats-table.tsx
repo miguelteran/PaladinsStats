@@ -8,6 +8,8 @@ import { CountRequest, StatsTable, StatsTableRow } from "./stats-table";
 import champions from '../../../public/champions.json';
 
 
+const ROWS_PER_PAGE = 15;
+
 const columns: CustomTableColumn[] = [
     { key: 'Name', label: 'Champion', sortable: true },
     { key: 'percentage', label: 'Rate', sortable: true }
@@ -36,6 +38,7 @@ export function ChampionsStatsTable(props: ChampionsStatsTableProps) {
             idField='id'
             columns={columns}
             rowsFilter={rowsFilter}
+            rowsPerPage={ROWS_PER_PAGE}
         />
     );
 }
