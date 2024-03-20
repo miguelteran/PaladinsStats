@@ -168,6 +168,9 @@ export const RankedStats = (props: RankedStatsProps) => {
     };
 
     const renderChampionCardsTable = () => {
+        if (!getSelectedItemId(selectedChampion)) {
+            return undefined;
+        }
         return (
             <ChampionCardsStatsTable
                 totalCountRequest={{
@@ -185,6 +188,9 @@ export const RankedStats = (props: RankedStatsProps) => {
     };
 
     const renderTalentPicksTable = () => {
+        if (!getSelectedItemId(selectedChampion)) {
+            return undefined;
+        }
         return (
             <ChampionCardsStatsTable
                 totalCountRequest={{
@@ -202,6 +208,9 @@ export const RankedStats = (props: RankedStatsProps) => {
     };
 
     const renderTalenWinsTable = () => {
+        if (!getSelectedItemId(selectedChampion)) {
+            return undefined;
+        }
         return (
             <ChampionCardsStatsTable
                 totalCountRequest={{
