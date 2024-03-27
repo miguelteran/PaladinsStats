@@ -1,5 +1,5 @@
-import { MatchResult } from "../champion-match";
-import { PaladinsRank } from "../paladins-rank";
+import { MatchResult } from "./champion-match";
+import { PaladinsRank } from "./paladins-rank";
 
 
 export interface CountFilter {

@@ -3,7 +3,7 @@ import { BaseDAL } from "./base-dal";
 import { MatchBuilder } from "../database/match-builder";
 import { ChampionBan } from "../models/champion-ban";
 import { getRankBoundaries } from "../models/paladins-rank";
-import { CountFilter } from "../models/filter/count-filter";
+import { CountFilter } from "../models/count-filter";
 
 
 export class ChampionBansDAL extends BaseDAL<ChampionBan> {

@@ -1,6 +1,6 @@
 import { Collection, Document, Filter } from "mongodb";
 import { BaseModel } from "../models/base-model";
-import { CountFilter } from "../models/filter/count-filter";
+import { CountFilter } from "../models/count-filter";
 
 
 export interface DAL {
