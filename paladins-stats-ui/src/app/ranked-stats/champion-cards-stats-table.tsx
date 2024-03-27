@@ -15,15 +15,14 @@ const ROWS_PER_PAGE = 6;
 export type ChampionCardsStatsMode = 'Card' | 'Talent';
 
 export interface ChampionCardsStatsTableProps {
-    totalCountRequest: CountRequest;
-    partialCountRequest: CountRequest;
+    request: CountRequest;
     selectedChampion: Selection;
     mode: ChampionCardsStatsMode;
 }
 
 export function ChampionCardsStatsTable(props: ChampionCardsStatsTableProps) {
 
-    const { totalCountRequest, partialCountRequest, selectedChampion, mode } = props;
+    const { request, selectedChampion, mode } = props;
 
     const renderCell = useCallback((row: StatsTableRow<ChampionCard>, columnKey: Key) => {
         if (columnKey === 'image') {
@@ -46,13 +45,15 @@ export function ChampionCardsStatsTable(props: ChampionCardsStatsTableProps) {
     const columns: CustomTableColumn[] = [
         { key: 'card_name', label: mode, sortable: true },
         { key: 'image', label: '' },
-        { key: 'percentage', label: 'Rate', sortable: true }
+        { key: 'percentage', label: 'Rate', sortable: true },
+        // for debugging
+        // { key: 'partial', label: 'Partial'},
+        // { key: 'total', label: 'Total'},
     ];
 
     return (
         <StatsTable<ChampionCard>
-            totalCountRequest={totalCountRequest}
-            partialCountRequest={partialCountRequest}
+            request={request}
             objects={mode === 'Card' ? cards : talents}
             idField='card_id2'
             columns={columns}

@@ -12,18 +12,20 @@ const ROWS_PER_PAGE = 15;
 
 const columns: CustomTableColumn[] = [
     { key: 'Name', label: 'Champion', sortable: true },
-    { key: 'percentage', label: 'Rate', sortable: true }
+    { key: 'percentage', label: 'Rate', sortable: true },
+    // for debugging
+    // { key: 'partial', label: 'Partial'},
+    // { key: 'total', label: 'Total'},
 ];
 
 export interface ChampionsStatsTableProps {
-    totalCountRequest: CountRequest;
-    partialCountRequest: CountRequest;
+    request: CountRequest;
     selectedRole: Selection; 
 }
 
 export function ChampionsStatsTable(props: ChampionsStatsTableProps) {
 
-    const { totalCountRequest, partialCountRequest, selectedRole } = props;
+    const { request, selectedRole } = props;
 
     const rowsFilter = (row: StatsTableRow<Champion>) => {
         const roles = Array.from(selectedRole as Set<Key>);
@@ -32,8 +34,7 @@ export function ChampionsStatsTable(props: ChampionsStatsTableProps) {
 
     return (
         <StatsTable<Champion>
-            totalCountRequest={totalCountRequest}
-            partialCountRequest={partialCountRequest}
+            request={request}
             objects={champions}
             idField='id'
             columns={columns}

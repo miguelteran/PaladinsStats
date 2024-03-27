@@ -4,8 +4,8 @@ import useSWRImmutable from "swr/immutable";
 import { Key, useCallback, useState } from "react";
 import { Spinner } from "@nextui-org/react";
 import { Item } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/item";
-import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/filter/count-filter";
-import { CountResult } from "@miguelteran/paladins-stats-db/dist/src/models/aggregations/count-result";
+import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/count-filter";
+import { ItemsAggregrationResult } from "@miguelteran/paladins-stats-db/dist/src/models/aggregations/items-aggregation-result";
 import { ImageWithTooltip } from "@/components/image-with-tooltip";
 import { CustomTable, CustomTableColumn } from "../../components/table";
 import items from '../../../public/items.json';
@@ -18,7 +18,7 @@ const columns: CustomTableColumn[] = [
     { key: 'itemIcon_URL', label: '' }
 ];
 
-type ItemsStatsTableRow = Item & CountResult;
+type ItemsStatsTableRow = Item & { count: number };
 
 export interface ItemsStatsTableProps {
     filter: CountFilter;
@@ -31,7 +31,7 @@ export function ItemsStatsTable(props: ItemsStatsTableProps) {
     const [ page, setPage ] = useState(1);
 
     const response = useSWRImmutable(filter, (filter: CountFilter) => 
-        fetch(`http://${window.location.hostname}:${window.location.port}/api/items-count`, {
+        fetch(`http://${window.location.hostname}:${window.location.port}/api/item-picks`, {
             method: 'POST',
             body: JSON.stringify(filter)
         }).then(res => res.json())
@@ -54,9 +54,9 @@ export function ItemsStatsTable(props: ItemsStatsTableProps) {
         return <Spinner/>
     }
 
-    const counts: CountResult[] = response.data ?? [];
+    const results: ItemsAggregrationResult[] = response.data ?? [];
     const rows: ItemsStatsTableRow[] = items.map(item => {
-        const countResult = counts.find(c => c.id === item.ItemId);
+        const countResult = results.find(r => r.itemId === item.ItemId);
         return {
             ...item,
             count: countResult ? countResult.count : 0

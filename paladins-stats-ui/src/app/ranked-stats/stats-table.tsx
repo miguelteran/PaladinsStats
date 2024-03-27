@@ -3,14 +3,12 @@
 import useSWRImmutable from "swr/immutable";
 import { Key, useCallback, useState } from "react";
 import { SortDescriptor, Spinner } from "@nextui-org/react";
-import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/filter/count-filter";
-import { CountResult } from "@miguelteran/paladins-stats-db/dist/src/models/aggregations/count-result";
+import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/count-filter";
+import { CountResult } from "@miguelteran/paladins-stats-db/dist/src/models/count-result";
 import { getPercentageString } from "@/util/string-util";
 import { getPercentage } from "@/util/number-util";
 import { CustomTable, CustomTableCellRenderer, CustomTableColumn, CustomTableRowsFilter, CustomTableSortingDirection } from "../../components/table";
 
-
-const ROWS_PER_PAGE = 10;
 
 function useCountRequest(request: CountRequest) {
     return useSWRImmutable(request, (request) => {
@@ -21,7 +19,7 @@ function useCountRequest(request: CountRequest) {
     });
 };
 
-export type StatsTableRow<T> = T & { percentage: number };
+export type StatsTableRow<T> = T & CountResult & { percentage: number };
 
 export interface CountRequest {
     uri: string;
@@ -29,8 +27,7 @@ export interface CountRequest {
 }
 
 export interface StatsTableProps<T> {
-    totalCountRequest: CountRequest;
-    partialCountRequest: CountRequest;
+    request: CountRequest;
     objects: T[];
     idField: string;
     columns: CustomTableColumn[];
@@ -41,7 +38,7 @@ export interface StatsTableProps<T> {
 
 export function StatsTable<T>(props: StatsTableProps<T>) {
 
-    const { totalCountRequest, partialCountRequest, objects, idField, columns, rowsPerPage, cellRenderer, rowsFilter } = props;
+    const { request, objects, idField, columns, rowsPerPage, cellRenderer, rowsFilter } = props;
 
     const [ sortDescriptor, setSortDescriptor ] = useState<SortDescriptor>({
         column: 'percentage',
@@ -66,31 +63,26 @@ export function StatsTable<T>(props: StatsTableProps<T>) {
         }
     }, [cellRenderer]);
 
-    const getPercentageForEntry = (entry: any, totalCounts: CountResult[], partialCounts: CountResult[]): number => {
-        const totalCount = totalCounts.length === 1 ? totalCounts[0] : totalCounts.find(count => count.id === entry[idField]);
-        const partialCount = partialCounts.find(count => count.id === entry[idField]);
-        return totalCount && totalCount.count !== 0 ? getPercentage(totalCount.count, partialCount ? partialCount.count : 0) : 0;
-    };
-
-    const getRows = (totalCounts: CountResult[], partialCounts: CountResult[]) => {
-        return objects.map(o => {
+    const getRows = (countResults: CountResult[]) => {
+        return objects.map((o: any) => {
+            const result = countResults.find(r => r.id === o[idField]);
             return {
                 ...o,
-                percentage: getPercentageForEntry(o, totalCounts, partialCounts)
+                ...result,
+                percentage: result ? getPercentage(result.total, result.partial) : 0
             };
         });
     };
 
-    const totalCountResponse = useCountRequest(totalCountRequest);
-    const partialCountResponse = useCountRequest(partialCountRequest);
+    const response = useCountRequest(request);
 
-    if (totalCountResponse.isLoading || partialCountResponse.isLoading) {
+    if (response.isLoading) {
         return <Spinner/>;
     }
 
     return (
         <CustomTable<StatsTableRow<T>>
-            rows={getRows(totalCountResponse.data ?? [], partialCountResponse.data ?? [])}
+            rows={getRows(response.data ?? [])}
             columns={columns}
             tableRowKey={idField}
             customCellRenderer={renderCell}

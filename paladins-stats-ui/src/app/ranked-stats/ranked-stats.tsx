@@ -3,11 +3,11 @@
 import { useState, Key } from "react"
 import { Selection } from "@nextui-org/react";
 import { Champion } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/champion";
-import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/filter/count-filter";
+import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/count-filter";
 import { CustomSelect, NamedSelectItem, OnSelectionChange } from "@/components/select";
 import { RolesSelect } from "@/components/roles-select";
 import { StatsCategory, statsCategories, perChampionStatsCategories } from "@/models/stats-category";
-import { CHAMPIONS_BAN_COUNT_URI, CHAMPIONS_CARD_COUNT_URI, CHAMPIONS_MATCH_COUNT_URI, TALENTS_MATCH_COUNT_URI, TOTAL_MATCH_COUNT_URI } from "@/util/constants";
+import { CARD_PICKS_URI, CHAMPION_BANS_URI, CHAMPION_PICKS_URI, CHAMPION_WINS_URI, TALENT_PICKS_URI, TALENT_WINS_URI } from "@/util/constants";
 import { ChampionsStatsTable } from "./champions-stats-table";
 import { ChampionCardsStatsTable } from "./champion-cards-stats-table";
 import { ItemsStatsTable } from "./items-stats-table";
@@ -122,12 +122,8 @@ export const RankedStats = (props: RankedStatsProps) => {
     const renderChampionPicksTable = () => {
         return (
             <ChampionsStatsTable
-                totalCountRequest={{
-                    uri: TOTAL_MATCH_COUNT_URI,
-                    filter: countFilter
-                }}
-                partialCountRequest={{
-                    uri: CHAMPIONS_MATCH_COUNT_URI,
+                request={{
+                    uri: CHAMPION_PICKS_URI,
                     filter: countFilter
                 }}
                 selectedRole={selectedRole}
@@ -138,13 +134,9 @@ export const RankedStats = (props: RankedStatsProps) => {
     const renderChampionWinsTable = () => {
         return (
             <ChampionsStatsTable
-                totalCountRequest={{
-                    uri: CHAMPIONS_MATCH_COUNT_URI,
+                request={{
+                    uri: CHAMPION_WINS_URI,
                     filter: countFilter
-                }}
-                partialCountRequest={{
-                    uri: CHAMPIONS_MATCH_COUNT_URI,
-                    filter: winCountFilter
                 }}
                 selectedRole={selectedRole}
             />
@@ -154,12 +146,8 @@ export const RankedStats = (props: RankedStatsProps) => {
     const renderChampionBansTable = () => {
         return (
             <ChampionsStatsTable
-                totalCountRequest={{
-                    uri: TOTAL_MATCH_COUNT_URI,
-                    filter: countFilter
-                }}
-                partialCountRequest={{
-                    uri: CHAMPIONS_BAN_COUNT_URI,
+                request={{
+                    uri: CHAMPION_BANS_URI,
                     filter: countFilter
                 }}
                 selectedRole={selectedRole}
@@ -173,12 +161,8 @@ export const RankedStats = (props: RankedStatsProps) => {
         }
         return (
             <ChampionCardsStatsTable
-                totalCountRequest={{
-                    uri: TOTAL_MATCH_COUNT_URI,
-                    filter: countFilter
-                }}
-                partialCountRequest={{
-                    uri: CHAMPIONS_CARD_COUNT_URI,
+                request={{
+                    uri: CARD_PICKS_URI,
                     filter: countFilter
                 }}
                 selectedChampion={selectedChampion}
@@ -193,12 +177,8 @@ export const RankedStats = (props: RankedStatsProps) => {
         }
         return (
             <ChampionCardsStatsTable
-                totalCountRequest={{
-                    uri: TOTAL_MATCH_COUNT_URI,
-                    filter: countFilter
-                }}
-                partialCountRequest={{
-                    uri: TALENTS_MATCH_COUNT_URI,
+                request={{
+                    uri: TALENT_PICKS_URI,
                     filter: countFilter
                 }}
                 selectedChampion={selectedChampion}
@@ -213,13 +193,9 @@ export const RankedStats = (props: RankedStatsProps) => {
         }
         return (
             <ChampionCardsStatsTable
-                totalCountRequest={{
-                    uri: TALENTS_MATCH_COUNT_URI,
+                request={{
+                    uri: TALENT_WINS_URI,
                     filter: countFilter
-                }}
-                partialCountRequest={{
-                    uri: TALENTS_MATCH_COUNT_URI,
-                    filter: winCountFilter
                 }}
                 selectedChampion={selectedChampion}
                 mode='Talent'
@@ -230,7 +206,7 @@ export const RankedStats = (props: RankedStatsProps) => {
     const renderItemsTable = () => {
         return (
             <ItemsStatsTable
-                filter={countFilterWithChampion}
+                filter={{...countFilter, champion: getSelectedItemId(selectedChampion)}}
             />
         );
     };
@@ -241,12 +217,6 @@ export const RankedStats = (props: RankedStatsProps) => {
         rank: getSelectedItemId(selectedRank),
         platform: getSelectedItemName(platforms, selectedPlatform)
     };
-
-    const winCountFilter = { ...countFilter };
-    winCountFilter.matchResult = 'Winner';
-
-    const countFilterWithChampion = { ...countFilter };
-    countFilterWithChampion.championId = getSelectedItemId(selectedChampion);
 
     return (
         <div>
