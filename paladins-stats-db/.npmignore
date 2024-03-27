@@ -1,7 +1,9 @@
 src/
 tests/
 dist/tests
-dist/scripts
+dist/**/scripts
 tsconfig.json
 .env
 *.tgz
+*.sh
+*.log

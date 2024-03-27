@@ -16,6 +16,7 @@
   },
   "scripts": {
     "build": "rm -rf dist; tsc",
+    "prepublishOnly": "sh ./delete-published-package.sh; npm run build",
     "get-ranked-matches": "npm run build; node ./dist/src/scripts/get-ranked-matches.js ",
     "get-ranked-matches-test": "npm run build; node ./dist/src/scripts/get-ranked-matches.js -d 20240117 -t 00,00",
     "clean-database": "npm run build; node dist/src/scripts/clean-database.js",
