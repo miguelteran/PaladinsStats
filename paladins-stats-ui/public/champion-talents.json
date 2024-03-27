@@ -211,7 +211,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "Augment Reckoning, Sanctuary, and Conviction, but increase their base Cooldown by 25%.",
+        "card_description": "Reckoning’s damage and size, Sanctuary’s health, and Conviction’s range increase by 50%, base Cooldowns increase by 25%.",
         "card_id1": 69694,
         "card_id2": 27719,
         "card_name": "Tempering",
@@ -477,7 +477,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[War] Increase the Range and Damage of War, but decrease its rate of fire. War's attacks now deal an additional 20% damage to each enemy hit for each enemy hit in total with your attack.",
+        "card_description": "[War] Increase the Damage of War by 50, but decrease its rate of fire by 20%. War's attacks now deal an additional 20% damage to each enemy hit for each enemy hit in total with your attack.",
         "card_id1": 115000,
         "card_id2": 31059,
         "card_name": "It's Got Some Heft",
@@ -496,7 +496,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "Automatically fire a weaker copy of Rogue's Tempo for every 2 Ammo consumed. This copy deals 400 damage and Slows enemies by 15% for 0.5s.",
+        "card_description": "Automatically fire a weaker copy of Rogue's Tempo for every 4 Ammo consumed. This copy deals 400 damage and Slows enemies by 20% for 0.5s.",
         "card_id1": 114998,
         "card_id2": 31057,
         "card_name": "Measured Cadence",
@@ -667,7 +667,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] The projectile launched by reloading your Cursed Howitzer explodes in a 20-unit-radius area on contact.",
+        "card_description": "[Weapon] Cursed Howitzer's Abyssal Reload now explodes in a 20-unit-radius area on contact.",
         "card_id1": 53584,
         "card_id2": 23690,
         "card_name": "Scuttle",
@@ -724,7 +724,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Armor] Increase your Movement Speed while using your Booster.",
+        "card_description": "[Armor] Increase your Movement Speed by 50% while using your Booster.",
         "card_id1": 22961,
         "card_id2": 16364,
         "card_name": "W.Y.R.M. Jets",
@@ -800,7 +800,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Shield] Your Shield now uses a resource that Regenerates over time instead of using a Cooldown.",
+        "card_description": "[Shield] Increase Chivarly's Shield to 5500, and it begins regenerating 25% sooner and 25% faster. You now only need 20% Shield to activate Chivalry after it is broken.",
         "card_id1": 22972,
         "card_id2": 16379,
         "card_name": "Aegis",
@@ -857,7 +857,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Kindle Soul] Kindle Soul also heals allies within 35 units of your target at 50% effectiveness. Excludes yourself. <font color=\"#75ffda\"><b>Curative</b> (+20% Healing Done)</font>",
+        "card_description": "[Kindle Soul] Kindle Soul also heals allies within 50 units of your target at 50% effectiveness. Excludes yourself.",
         "card_id1": 52379,
         "card_id2": 23394,
         "card_name": "Cherish",
@@ -876,7 +876,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Wrath] Increase the Attack Speed bonus of Wrath to 15% per tier. <font color=\"#ff8271\"><b>Surgery</b> (+10% Damage Done)</font>",
+        "card_description": "[Wrath] Increase the Attack Speed bonus of Wrath to 15% per tier.",
         "card_id1": 52337,
         "card_id2": 23358,
         "card_name": "Exterminate",
@@ -895,7 +895,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Pyre Strike] Refiring Pyre Strike stops it in place. Any ally in its beam is Healed for 150 every 0.1s for 1.5s. Additional hits refresh the effect. <font color=\"#86aeff\"><b>Remedy</b> (+5% Damage and +10% Healing Done)</font>",
+        "card_description": "[Pyre Strike] Pyre Strike now can be stopped by refire & Heals yourself and allies within for 175 every 0.1s. Allies continue to heal for 1.5s on exit.",
         "card_id1": 52338,
         "card_id2": 23362,
         "card_name": "Solar Blessing",
@@ -914,7 +914,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Shock Pulse] Increase the damage of Lightning Staff to 70, your weapon shots reduce the Cooldown of Shock Pulse by 0.5s, and Shock Pulse chains 4 additional times. <font color=\"#ff8271\"><b>Surgery</b> (+10% Damage Done)</font>",
+        "card_description": "[Shock Pulse] Increase the damage of Lightning Staff to 75, your weapon shots reduce the Cooldown of Shock Pulse by 0.5s, and Shock Pulse chains 4 additional times.",
         "card_id1": 22971,
         "card_id2": 16378,
         "card_name": "Maelstrom",
@@ -933,7 +933,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Hitting allies with your Lightning Staff Heals them for 800 per second and your maximum Ammo capacity is increased by 15%. <font color=\"#75ffda\"><b>Curative</b> (+20% Healing Done)</font>",
+        "card_description": "[Weapon] Hitting allies with your Lightning Staff Heals them for 800 per second and increases their Movement Speed by 20% for 1s, and your maximum Ammo capacity is increased by 25%.",
         "card_id1": 37855,
         "card_id2": 20325,
         "card_name": "Spirit's Domain",
@@ -952,7 +952,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Healing Totem] Gain a third charge of Healing Totem, increase their healing by 15%, and increase their radius of 20%. <font color=\"#86aeff\"><b>Remedy</b> (+5% Damage and +10% Healing Done)</font>",
+        "card_description": "[Healing Totem] Gain a third charge of Healing Totem and increase their radius by 20%.",
         "card_id1": 22970,
         "card_id2": 16377,
         "card_name": "Totemic Ward",
@@ -971,7 +971,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Crippling Throw] Crippling Throw chains to nearby enemies up to 2 times, causing a Healing aura to manifest around the nearby enemies and the original one, Healing nearby allies for 50 every 0.5s. <font color=\"#86aeff\"><b>Remedy</b> (+5% Damage and +10% Healing Done)</font>",
+        "card_description": "[Crippling Throw] Crippling Throw now instead Roots targets affected. <font color=\"#86aeff\"><b>Remedy</b> (+5% Damage and +10% Healing Done)</font>",
         "card_id1": 23260,
         "card_id2": 16582,
         "card_name": "Deep Roots",
@@ -1028,7 +1028,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Armor] Remaining still for 1s creates a Mana Rift around you that generates Mana every 1s. Leaving the Mana Rift destroys it.",
+        "card_description": "[Armor] Remaining still for 1s creates a 30-unit Mana Rift around you that generates Mana every 1s. Leaving the Mana Rift destroys it.",
         "card_id1": 55970,
         "card_id2": 24136,
         "card_name": "Mana Rift",
@@ -1085,7 +1085,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Earthen Guard] Reduce your damage taken by 10% and gain Immunity to Crowd Control while Earthen Guard is active.",
+        "card_description": "[Earthen Guard] Increase the Damage Reduction of Earthen Guard by 10% and gain Immunity to Crowd Control while Earthen Guard is active.",
         "card_id1": 23264,
         "card_id2": 16601,
         "card_name": "Mother's Grace",
@@ -1294,7 +1294,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "Extend the duration of your Body and Soul by 1s. After the ability ends, Heal for 70% of the damage your body took (minimum of 15% max health) while traveling, unaffected by Anti-Healing",
+        "card_description": "After the Body and Soul ends, Heal for 70% of the damage your body took (minimum of 15% max health) while traveling, unaffected by Anti-Healing.",
         "card_id1": 115706,
         "card_id2": 31305,
         "card_name": "Unfinished Business",
@@ -1332,7 +1332,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Increase your Attack Speed by 40%, but reduce your damage-per-shot by 25%.",
+        "card_description": "[Weapon] Increase your Attack Speed by 60%, but reduce your damage-per-shot by 25%.",
         "card_id1": 47776,
         "card_id2": 22890,
         "card_name": "Storm of Bullets",
@@ -1427,9 +1427,9 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Generate 1 Energy for every 160 damage done with your Submachine Guns.",
-        "card_id1": 121296,
-        "card_id2": 33054,
+        "card_description": "[Weapon] Generate 1 Energy for every 80 damage done with your Submachine Guns.",
+        "card_id1": 52754,
+        "card_id2": 23518,
         "card_name": "Adrenaline Junkie",
         "card_name_english": "Adrenaline Junkie",
         "championCard_URL": "https://webcdn.hirezstudios.com/paladins/champion-cards/adrenaline-junkie.jpg",
@@ -1484,7 +1484,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Your weapon shots deal 680 damage every 0.7s, but your Ammo count is reduced.",
+        "card_description": "[Weapon] Your weapon shots deal 680 damage every 0.7s, but your maximum Ammo count is reduced by 6.",
         "card_id1": 23580,
         "card_id2": 16909,
         "card_name": "Death Hastens",
@@ -1522,7 +1522,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Combat Slide] Gain Immunity to Crowd Control and reduce your damage taken by 90% while using Combat Slide.",
+        "card_description": "[Combat Slide] Gain Immunity to Crowd Control and reduce your damage taken by 50% while using Combat Slide. Increase Combat Slide's Cooldown to 8s.",
         "card_id1": 23460,
         "card_id2": 16807,
         "card_name": "Heroism",
@@ -1636,7 +1636,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Hitting an enemy with Heart of Crimson while they're affected by Blood Hex or Swarm increases your movement and attack speed by 10% for 4s. Stacks up to 3 times.",
+        "card_description": "[Weapon] Hitting an enemy with Heart of Crimson while they're affected by Blood Hex or Swarm increases your movement by 10% and attack speed by 11% for 4s. Stacks up to 3 times.",
         "card_id1": 121245,
         "card_id2": 33002,
         "card_name": "Murderous Intent",
@@ -1655,7 +1655,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Prowl] Increase the damage of each of your daggers from your first dagger sets within 3s of Prowl ending by 25%.",
+        "card_description": "[Prowl] Increase the damage of each of your daggers from your first two Dagger sets within 3s of Prowl ending by 25%.",
         "card_id1": 121295,
         "card_id2": 33053,
         "card_name": "Cat Burglar",
@@ -1788,7 +1788,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Mending Spirits] Mending Spirits immediately Heals your target for an additional 350.",
+        "card_description": "[Mending Spirits] Mending Spirits heals an additional 350 Health instantly.",
         "card_id1": 23165,
         "card_id2": 16495,
         "card_name": "Spirit's Chosen",
@@ -1807,7 +1807,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Tossing your snake after reloading is faster and deals an additional 500 damage.",
+        "card_description": "[Weapon] Your Snake Toss projectile travels 60% faster and deals an additional 500 damage.",
         "card_id1": 23158,
         "card_id2": 16494,
         "card_name": "Wekono's Wrath",
@@ -1864,7 +1864,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Scamper] Using Scamper Heals allies within 25 units and you for 600 over 3s.",
+        "card_description": "[Scamper] Using Scamper Heals you and allies within 25 units of your starting location for 600 over 3s.",
         "card_id1": 45389,
         "card_id2": 22053,
         "card_name": "Toot",
@@ -2092,7 +2092,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Juggernaut] Reduce your damage taken by 40% while using Juggernaut.",
+        "card_description": "[Juggernaut] Gain 1.2s of Crowd Control Immunity and reduce your damage taken by 40% while using Juggernaut.",
         "card_id1": 59542,
         "card_id2": 24778,
         "card_name": "Enforcer",
@@ -2244,7 +2244,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "Ricocheted shots now target two enemies and deal 200% more damage to Shields.",
+        "card_description": "Ricocheted shots now target two enemies and deal 200% more damage to Shields, but only deal 200 damage.",
         "card_id1": 69262,
         "card_id2": 27510,
         "card_name": "Heads or Tails",
@@ -2434,7 +2434,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Armor] When activating Hidden, refill Wrist Crossbow's Ammo. While Hidden is active, reduce the damage you take by 75%, but reduce the maximum duration of Hidden to 3s. The duration of Hidden cannot be increased.",
+        "card_description": "[Armor] Hidden gains a second charge and refills Wrist Crossbow's Ammo. While Hidden is active, reduce the damage you take by 50%. Permanently set the maximum duration of Hidden to 4s.",
         "card_id1": 22968,
         "card_id2": 16375,
         "card_name": "Preparation",
@@ -2453,7 +2453,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Smoke Screen] Benefits from your Smoke Screen cards also benefit allies who enter Smoke Screen and allies are Healed for 100 every 1s while in your Smoke Screen, but Smoke Screen no longer applies Stealth to you.",
+        "card_description": "[Smoke Screen] Benefits from your Smoke Screen cards also benefit allies who enter Smoke Screen and allies are Healed for 150 every 1s while in your Smoke Screen.",
         "card_id1": 37594,
         "card_id2": 20148,
         "card_name": "Smoke and Dagger",
@@ -2472,7 +2472,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Talon Rifle gains non-scoped Accuracy, but deals 900 Damage, its Effective Range reduced to 200, and applies a 50 damage Burn over 1.5s. Stackable 3 times and refreshes on hit.",
+        "card_description": "[Weapon] Talon Rifle gains non-scoped Accuracy, but deals 900 Damage and applies a 50 damage Burn over 1.5s. Stackable 3 times and refreshes on hit.",
         "card_id1": 27374,
         "card_id2": 19477,
         "card_name": "Crack Shot",
@@ -2776,7 +2776,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Hunter's Mark] Hunter's Mark has 2 charges and grants its benefits to allies.",
+        "card_description": "[Hunter's Mark] Hunter's Mark now grants its damage bonus to allies.",
         "card_id1": 23206,
         "card_id2": 16448,
         "card_name": "Hunting Party",
@@ -2833,7 +2833,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Ambush] Your Ambush gains an additional charge and can now be used on allies.",
+        "card_description": "[Ambush] Your Ambush gains an additional teleport and can now be used on allies.",
         "card_id1": 67956,
         "card_id2": 27084,
         "card_name": "Omnipresence",
@@ -2871,7 +2871,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "Overcharge your Grappling Hook to now pull non-Frontline Champions to VII. Reduce Grappling Hook’s damage by 100, its Charges by 1, and its Cooldown by 2s.",
+        "card_description": "Your Grappling Hook now pulls non-Frontline Champions to you.",
         "card_id1": 70189,
         "card_id2": 27930,
         "card_name": "Overcharged",
@@ -2890,7 +2890,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "Explosive Dodge - Drop an explosion where you land and take off from; decrease the cooldown by 30% and increase range by 25%",
+        "card_description": "Increase the travel distance of Explosive Dodge by 30%, and drop explosive traps at both your starting and ending locations.",
         "card_id1": 70190,
         "card_id2": 27931,
         "card_name": "Spring Loaded",
@@ -2909,7 +2909,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "Heavy SMG has three elemental effects: Fire imbued Mag Dump -- dealing damage over time, Electrically charged burst mode -- dealing damage and Revealing on stacks, and Ice infused Automatic -- shots slows enemies. ",
+        "card_description": "Upgrade your Heavy SMG with the elements. Burst Mode shocks enemies, damaging and Revealing them, Mag Dump adds a Burn over time, and Automatic freezes enemies, Slowing them.",
         "card_id1": 70188,
         "card_id2": 27929,
         "card_name": "Tribunal Upgrades",
@@ -2928,7 +2928,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Switch your rifle to Three-Shot-Burst mode, increasing your effective range and firing three 210-damage shots every 0.4s.",
+        "card_description": "[Weapon] Switch your rifle to Three-Shot-Burst mode, increasing your effective range and firing three 210-damage shots every 0.5s.",
         "card_id1": 23177,
         "card_id2": 16429,
         "card_name": "Burst Mode",
@@ -3099,7 +3099,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Hitting an enemy with your weapon shots increases the damage they take from weapon shots by 80 for 3s, stacking up to 3 times.",
+        "card_description": "[Weapon] Hitting an enemy with your weapon shots increases the damage they take from weapon shots by 20% for 3s, stacking up to 4 times.",
         "card_id1": 24068,
         "card_id2": 17137,
         "card_name": "Blastflower",
@@ -3251,7 +3251,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Shatter] If an Illusion is killed or expires, it triggers a Shatter explosion, dealing 550 damage. Also increases the effectiveness of your Shattered Illusions Movement Speed and Explosion Radius.",
+        "card_description": "[Shatter] If an Illusion is killed or expires, it triggers a Shatter explosion, dealing 550 damage. Also increases your Shattered Illusions' Movement Speed by 65% and Explosion Radius by 5 units.",
         "card_id1": 23025,
         "card_id2": 16366,
         "card_name": "Resonance",

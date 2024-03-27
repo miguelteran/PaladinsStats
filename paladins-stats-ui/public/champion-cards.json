@@ -705,7 +705,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Setback] Gain a {scale=100|100}-Health Shield for 3s after hitting an enemy with Setback.",
+        "card_description": "[Setback] Gain a {scale=100|100}-Health Shield for 5s after hitting an enemy with Setback.",
         "card_id1": 57043,
         "card_id2": 24479,
         "card_name": "Lessons of the Past",
@@ -838,7 +838,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Armor] Generate {scale=2|2}% Ultimate charge after getting an Elimination.",
+        "card_description": "[Armor] Increase your Movement Speed by {scale=5|5}% for 4s after getting an Elimination.",
         "card_id1": 56566,
         "card_id2": 24311,
         "card_name": "Ravages of Time",
@@ -1009,7 +1009,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "Increase the duration of the Lift applied by Reckoning by {scale=10|10}%.",
+        "card_description": "Increase the duration of the Lift applied by Reckoning by {scale=20|20}%.",
         "card_id1": 69676,
         "card_id2": 27702,
         "card_name": "Flames of Wrath",
@@ -1218,7 +1218,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Barricade] Passing through your Barricade increases the Movement Speed of yourself or your allies by {scale=6|6}% for 5s.",
+        "card_description": "[Barricade] Passing through your Barricade increases the Movement Speed of yourself or your allies by {scale=10|10}% for 4s.",
         "card_id1": 18400,
         "card_id2": 12741,
         "card_name": "Accelerator Field",
@@ -1522,7 +1522,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Increase the area of effect of all your explosions by {scale=2|2}%.",
+        "card_description": "[Weapon] Increase the area of effect of all your explosions by {scale=4|4}%.",
         "card_id1": 72303,
         "card_id2": 27993,
         "card_name": "A Lost Realm",
@@ -2130,7 +2130,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Net Shot] Gain {scale=12|12}% Lifesteal against targets Slowed by Net Shot.",
+        "card_description": "[Net Shot] Gain {scale=10|10}% Lifesteal for 2.5s after using Net Shot.",
         "card_id1": 20533,
         "card_id2": 12689,
         "card_name": "Bully",
@@ -2453,7 +2453,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Heal for {scale=15|15} after hitting an enemy with War.",
+        "card_description": "[Weapon] Heal for {scale=15|15} for each enemy hit with War.",
         "card_id1": 115314,
         "card_id2": 31042,
         "card_name": "Both Sides Of The Coin",
@@ -2548,7 +2548,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Love] Extend the duration of Piercing Momentum stacks gained by hitting with Love by {scale=12|12}%.",
+        "card_description": "[Love] Extend the duration of Piercing Momentum stacks gained by {scale=12|12}%.",
         "card_id1": 115301,
         "card_id2": 31053,
         "card_name": "He Shot First",
@@ -2624,7 +2624,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Extend the duration of Sharp Momentum stacks gained by hitting with War by {scale=12|12}%.",
+        "card_description": "[Weapon] Extend the duration of Sharp Momentum stacks gained by {scale=12|12}%.",
         "card_id1": 115313,
         "card_id2": 31041,
         "card_name": "Shining Example",
@@ -3460,7 +3460,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Shortcut] Jump height is increased for your first jump within {scale=2.5|1}s after exiting a Shortcut.",
+        "card_description": "[Shortcut] Jump height is increased for your first jump by 1000% within {scale=2.5|1}s after exiting a Shortcut.",
         "card_id1": 54118,
         "card_id2": 23772,
         "card_name": "Expansive Vault",
@@ -3479,7 +3479,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Increase your maximum Ammo by {scale=1|1}.",
+        "card_description": "[Weapon] Increase your maximum Ammo by {scale=1|1} and Reload Speed by {scale=3|3}%.",
         "card_id1": 53569,
         "card_id2": 23745,
         "card_name": "Gun Deck",
@@ -3517,7 +3517,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Shortcut] Increase your Movement Speed by {scale=10|10}% for 2s after exiting a Shortcut.",
+        "card_description": "[Shortcut] Increase your Reload Speed by {scale=7|7}% for 3s after exiting a Shortcut.",
         "card_id1": 54119,
         "card_id2": 23769,
         "card_name": "Haul on the Bowline",
@@ -4296,7 +4296,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Shield] Increase your Movement Speed by {scale=8|8}% while using Shield.",
+        "card_description": "[Shield] Increase your Movement Speed by {scale=8|8}% while using Chivalry.",
         "card_id1": 18819,
         "card_id2": 12749,
         "card_name": "Dire Need",
@@ -4334,7 +4334,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Shield] Reduce the Cooldown of Charge by {scale=0.5|0.5}s for every 1000 damage your Shield takes.",
+        "card_description": "[Shield] Reduce the Cooldown of Charge by {scale=0.5|0.5}s for every 1000 damage Chivalry takes.",
         "card_id1": 18783,
         "card_id2": 13403,
         "card_name": "Heat Transfer",
@@ -4410,7 +4410,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Shield] Heal for {scale=90|90} every 1s while Shield is active and you are at or below 35% Health.",
+        "card_description": "[Shield] Heal for {scale=90|90} every 1s while Chivalry is active and you are at or below 35% Health.",
         "card_id1": 19802,
         "card_id2": 12809,
         "card_name": "Last Stand",
@@ -4448,7 +4448,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Fireball] Reduce the Cooldown of Charge by {scale=0.6|0.6}s after hitting an enemy with Fireball.",
+        "card_description": "[Fireball] Reduce the Cooldown of Charge by {scale=0.6|0.6}s for each enemy hit with Fireball.",
         "card_id1": 20231,
         "card_id2": 14792,
         "card_name": "Looks That Kill",
@@ -4524,7 +4524,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Shield] Reduce the Cooldown of Shield by {scale=0.8|0.8}s. This card also increases the rate of Shield gain when using Aegis.",
+        "card_description": "[Shield] Increase Chivalry's regeneration rate by {scale=5|5}%.",
         "card_id1": 18855,
         "card_id2": 12597,
         "card_name": "Towering Barrier",
@@ -4790,7 +4790,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Wings of Wrath] Increase the travel distance of Wings of Wrath by {scale=10|10}%.",
+        "card_description": "[Wings of Wrath] Increase your Movement Speed by {scale=6|6}% for 3s after using Wings of Wrath.",
         "card_id1": 50328,
         "card_id2": 23341,
         "card_name": "Righteous Path",
@@ -4961,7 +4961,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Ghost Walk] Decrease the Cooldown of Healing Totem by {scale=0.6|0.6}s after activating Ghost Walk.",
+        "card_description": "[Ghost Walk] Decrease the Cooldown of your next Healing Totem by {scale=0.6|0.6}s after activating Ghost Walk.",
         "card_id1": 18829,
         "card_id2": 11466,
         "card_name": "Gale",
@@ -5740,7 +5740,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Frostfire Glide] FrostFire Glide travels {scale=5|5}% faster.",
+        "card_description": "[Frostfire Glide] Increase your movement speed by {scale=8|8}% for 3s after using FrostFire Glide.",
         "card_id1": 55791,
         "card_id2": 24019,
         "card_name": "Pyretic Momentum",
@@ -6880,7 +6880,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "Increase the duration of Body and Soul by {scale=0.1|0.1}s.",
+        "card_description": "Increase the duration of Body and Soul by {scale=0.3|0.3}s.",
         "card_id1": 115717,
         "card_id2": 31317,
         "card_name": "Soul Siphon",
@@ -7070,7 +7070,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "n",
-        "card_description": "[Battle Shout] Heal for an additional {scale=80|80} after activating Battle Shout.",
+        "card_description": "[Battle Shout] Heal yourself for an additional {scale=80|80} after activating Battle Shout.",
         "card_id1": 47784,
         "card_id2": 22884,
         "card_name": "Hold the Line!",
@@ -8153,7 +8153,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Combat Slide] Increase your Movement Speed by {scale=10|10}% for 2s after Combat Slide ends.",
+        "card_description": "[Combat Slide] Increase your Movement Speed by {scale=8|8}% for 2s after Combat Slide ends.",
         "card_id1": 23421,
         "card_id2": 16716,
         "card_name": "Warrants Out",
@@ -8191,7 +8191,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Combat Slide] Reduce the Cooldown of Combat Slide by {scale=5|5}% for each enemy hit by your weapons.",
+        "card_description": "[Combat Slide] Reduce the Cooldown of Combat Slide by {scale=0.1|0.1}s for each enemy hit by your weapons.",
         "card_id1": 23454,
         "card_id2": 16787,
         "card_name": "Wicked Don't Rest",
@@ -9236,7 +9236,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Dredge Anchor] Reduce your damage taken by {scale=5|5}% for 2s after hitting an enemy with Dredge Anchor.",
+        "card_description": "[Dredge Anchor] Reduce your damage taken by {scale=5|5}% for 4s after hitting an enemy with Dredge Anchor.",
         "card_id1": 20111,
         "card_id2": 14643,
         "card_name": "Harden",
@@ -9578,7 +9578,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Mending Spirits] Reduce your damage taken by {scale=4|4}% while Healing an ally with Mending Spirits.",
+        "card_description": "[Mending Spirits] Reduce your damage taken by {scale=4|4}% for 4s after hitting an ally with Mending Spirits.",
         "card_id1": 21044,
         "card_id2": 15375,
         "card_name": "Possession",
@@ -9616,7 +9616,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Mending Spirits] Heal for {scale=20|20} every 1s for 5s while Healing an ally with Mending Spirits.",
+        "card_description": "[Mending Spirits] Heal for {scale=4|4} every .2s for 5s after hitting an ally with Mending Spirits.",
         "card_id1": 21036,
         "card_id2": 15353,
         "card_name": "Ritual Magic",
@@ -9692,7 +9692,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Mending Spirits] Increase the Movement Speed of allies affected by Mending Spirits by {scale=5|5}%.",
+        "card_description": "[Mending Spirits] Increase the Movement Speed of allies hit by Mending Spirits by {scale=5|5}% for 3s.",
         "card_id1": 21037,
         "card_id2": 15355,
         "card_name": "Swift Spirits",
@@ -10129,7 +10129,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Increase the trigger distance of Realm Breaker's bonus damage by {scale=5|5} units.",
+        "card_description": "[Weapon] Increase the trigger distance of Realm Breaker's bonus damage by {scale=4|4} units.",
         "card_id1": 117788,
         "card_id2": 32118,
         "card_name": "Devastating Blows",
@@ -10395,7 +10395,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "Increase the radius of your Distortion Field by {scale=4|4}%.",
+        "card_description": "Increase the radius of your Distortion Field by {scale=10|10}%.",
         "card_id1": 67633,
         "card_id2": 26952,
         "card_name": "Dominant Dome",
@@ -10661,7 +10661,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Explosive Flask] Gain {scale=10|10}% Lifesteal against enemies Slowed by your Explosive Flask.",
+        "card_description": "[Explosive Flask] Gain {scale=8|8}% Lifesteal for 3s after using Explosive Flask.",
         "card_id1": 18891,
         "card_id2": 12840,
         "card_name": "Acumen",
@@ -11003,7 +11003,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Juggernaut] Increase the potency of Juggernaut's Knockup by {scale=7|7}%.",
+        "card_description": "[Juggernaut] Increase the potency of Juggernaut's Knockup and Knockback by {scale=7|7}%.",
         "card_id1": 59797,
         "card_id2": 25007,
         "card_name": "Declaration of War",
@@ -11231,7 +11231,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Weapon] Reduce the time it takes to spin up your Hellfire Gatling by {scale=4|4}%.",
+        "card_description": "[Weapon] Increase the time it takes to spin down your Hellfire Gatling by {scale=7|7}%.",
         "card_id1": 59798,
         "card_id2": 25008,
         "card_name": "War-torn Plains",
@@ -11573,7 +11573,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Missile Launcher] Generate {scale=10|10} Ammo for each enemy hit by Missile Launcher.",
+        "card_description": "[Missile Launcher] Generate {scale=10|10} Ammo per missile for each enemy hit by Missile Launcher.",
         "card_id1": 20438,
         "card_id2": 14969,
         "card_name": "At The Ready",
@@ -11744,7 +11744,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Missile Launcher] Heal {scale=60|60} health for each player hit by Missile Launcher.",
+        "card_description": "[Missile Launcher] Heal {scale=60|60} Health per missile for each player hit by Missile Launcher.",
         "card_id1": 20433,
         "card_id2": 14971,
         "card_name": "Opulence",
@@ -12067,7 +12067,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "Generate {scale=1|1}% Ultimate Charge after hitting your coin.",
+        "card_description": "Generate {scale=0.8|0.8}% Ultimate Charge after Ricochet hits an enemy.",
         "card_id1": 69214,
         "card_id2": 27531,
         "card_name": "Steady Predictions",
@@ -12979,7 +12979,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Armor] Increase your Movement Speed by {scale=7|7}% while Out of Combat.",
+        "card_description": "[Armor] Heal for {scale=1.5|1.5}% every 0.5s while Hidden.",
         "card_id1": 20061,
         "card_id2": 14601,
         "card_name": "Slip Away",
@@ -14575,7 +14575,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Protection] Increase the Movement Speed of your Protection target by {scale=10|5}% for 2s.",
+        "card_description": "[Protection] Increase the Movement Speed of your Protection target by {scale=8|3}% for 2s.",
         "card_id1": 22340,
         "card_id2": 16177,
         "card_name": "Winddancer",
@@ -15373,7 +15373,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Trigger Discipline] Decrease the recoil of Mag Dump by {scale=10|10}%.",
+        "card_description": "[Trigger Discipline] Decrease the recoil of Mag Dump by {scale=7|7}%.",
         "card_id1": 70194,
         "card_id2": 27921,
         "card_name": "Rapid Response",
@@ -15411,7 +15411,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "(223153) [Grappling Hook] Increase the pull strength of Grappling Hook by {scale=4|4}%.",
+        "card_description": "(223153) [Grappling Hook] Increase the pull strength of Grappling Hook by {scale=5|3}%.",
         "card_id1": 70203,
         "card_id2": 27913,
         "card_name": "Terror",
@@ -15449,7 +15449,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Grappling Hook] Reduce the cooldown of Explosive Dodge by {scale=0.25|0.25}s after activating Grappling Hook.",
+        "card_description": "[Grappling Hook] Reduce the cooldown of Explosive Dodge by {scale=0.4|0.4}s after activating Grappling Hook.",
         "card_id1": 70202,
         "card_id2": 27912,
         "card_name": "The Night",
@@ -16152,7 +16152,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Obliteration] Heal for {scale=60|60} for each enemy hit with Obliteration.",
+        "card_description": "[Obliteration] Heal for {scale=100|100} for each enemy hit with Obliteration.",
         "card_id1": 63196,
         "card_id2": 25581,
         "card_name": "Broken Promises",
@@ -16247,7 +16247,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Armor] Increase your Movement Speed by {scale=5|5}% and gain {scale=5|5}% Lifesteal for 2s after falling to or below 40% Health.",
+        "card_description": "[Armor] Increase your Movement Speed by {scale=7|7}% and gain {scale=10|10}% Lifesteal for 5s after falling to or below 40% Health.",
         "card_id1": 63220,
         "card_id2": 25575,
         "card_name": "False Idol",
@@ -16380,7 +16380,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Dark Siphon] Reduce the damage you take by 10% for {scale=1|1}s after hitting an enemy with Dark Siphon.",
+        "card_description": "[Dark Siphon] Reduce the damage you take by {scale=6|6}% for 3s after hitting an enemy with Dark Siphon.",
         "card_id1": 63195,
         "card_id2": 25580,
         "card_name": "Unified in Purpose",
@@ -17064,7 +17064,7 @@
     {
         "active_flag_activation_schedule": "y",
         "active_flag_lti": "y",
-        "card_description": "[Armor] Increase your Movement Speed by {scale=7|7}% while Out of Combat.",
+        "card_description": "[Armor] Increase your Movement Speed by 40% for 3s when dropping to or below 30% Health.",
         "card_id1": 18772,
         "card_id2": 13392,
         "card_name": "Disappear",
@@ -17077,7 +17077,7 @@
         "exclusive": "n",
         "rank": 1,
         "rarity": "Common",
-        "recharge_seconds": 0,
+        "recharge_seconds": 30,
         "ret_msg": null
     },
     {
