@@ -7,7 +7,6 @@ import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/coun
 import { CustomSelect, NamedSelectItem, OnSelectionChange } from "@/components/select";
 import { RolesSelect } from "@/components/roles-select";
 import { StatsCategory, statsCategories, perChampionStatsCategories } from "@/models/stats-category";
-import { CARD_PICKS_URI, CHAMPION_BANS_URI, CHAMPION_PICKS_URI, CHAMPION_WINS_URI, TALENT_PICKS_URI, TALENT_WINS_URI } from "@/util/constants";
 import { ChampionsStatsTable } from "./champions-stats-table";
 import { ChampionCardsStatsTable } from "./champion-cards-stats-table";
 import { ItemsStatsTable } from "./items-stats-table";
@@ -123,7 +122,7 @@ export const RankedStats = (props: RankedStatsProps) => {
         return (
             <ChampionsStatsTable
                 request={{
-                    uri: CHAMPION_PICKS_URI,
+                    statsCategory: StatsCategory.ChampionPicks,
                     filter: countFilter
                 }}
                 selectedRole={selectedRole}
@@ -135,7 +134,7 @@ export const RankedStats = (props: RankedStatsProps) => {
         return (
             <ChampionsStatsTable
                 request={{
-                    uri: CHAMPION_WINS_URI,
+                    statsCategory: StatsCategory.ChampionWins,
                     filter: countFilter
                 }}
                 selectedRole={selectedRole}
@@ -147,7 +146,7 @@ export const RankedStats = (props: RankedStatsProps) => {
         return (
             <ChampionsStatsTable
                 request={{
-                    uri: CHAMPION_BANS_URI,
+                    statsCategory: StatsCategory.ChampionBans,
                     filter: countFilter
                 }}
                 selectedRole={selectedRole}
@@ -162,7 +161,7 @@ export const RankedStats = (props: RankedStatsProps) => {
         return (
             <ChampionCardsStatsTable
                 request={{
-                    uri: CARD_PICKS_URI,
+                    statsCategory: StatsCategory.ChampionCards,
                     filter: countFilter
                 }}
                 selectedChampion={selectedChampion}
@@ -178,7 +177,7 @@ export const RankedStats = (props: RankedStatsProps) => {
         return (
             <ChampionCardsStatsTable
                 request={{
-                    uri: TALENT_PICKS_URI,
+                    statsCategory: StatsCategory.TalentPicks,
                     filter: countFilter
                 }}
                 selectedChampion={selectedChampion}
@@ -194,7 +193,7 @@ export const RankedStats = (props: RankedStatsProps) => {
         return (
             <ChampionCardsStatsTable
                 request={{
-                    uri: TALENT_WINS_URI,
+                    statsCategory: StatsCategory.TalentWins,
                     filter: countFilter
                 }}
                 selectedChampion={selectedChampion}

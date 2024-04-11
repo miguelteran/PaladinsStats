@@ -8,6 +8,7 @@ import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/coun
 import { ItemsAggregrationResult } from "@miguelteran/paladins-stats-db/dist/src/models/aggregations/items-aggregation-result";
 import { ImageWithTooltip } from "@/components/image-with-tooltip";
 import { CustomTable, CustomTableColumn } from "../../components/table";
+import { getItemPicks } from "../actions";
 import items from '../../../public/items.json';
 
 
@@ -30,12 +31,7 @@ export function ItemsStatsTable(props: ItemsStatsTableProps) {
 
     const [ page, setPage ] = useState(1);
 
-    const response = useSWRImmutable(filter, (filter: CountFilter) => 
-        fetch(`http://${window.location.hostname}:${window.location.port}/api/item-picks`, {
-            method: 'POST',
-            body: JSON.stringify(filter)
-        }).then(res => res.json())
-    );
+    const response = useSWRImmutable(filter, (filter: CountFilter) => getItemPicks(filter));
 
     const renderCell = useCallback((row: ItemsStatsTableRow, columnKey: Key) => {
         if (columnKey === 'itemIcon_URL') {

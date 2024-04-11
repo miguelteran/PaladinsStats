@@ -7,22 +7,15 @@ import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/coun
 import { CountResult } from "@miguelteran/paladins-stats-db/dist/src/models/count-result";
 import { getPercentageString } from "@/util/string-util";
 import { getPercentage } from "@/util/number-util";
+import { StatsCategory } from "@/models/stats-category";
 import { CustomTable, CustomTableCellRenderer, CustomTableColumn, CustomTableRowsFilter, CustomTableSortingDirection } from "../../components/table";
+import { getCountResults } from "../actions";
 
-
-function useCountRequest(request: CountRequest) {
-    return useSWRImmutable(request, (request) => {
-        return fetch(`http://${window.location.hostname}:${window.location.port}/api/${request.uri}`, {
-            method: 'POST',
-            body: JSON.stringify(request.filter)
-        }).then(res => res.json());
-    });
-};
 
 export type StatsTableRow<T> = T & CountResult & { percentage: number };
 
 export interface CountRequest {
-    uri: string;
+    statsCategory: StatsCategory;
     filter: CountFilter;
 }
 
@@ -74,7 +67,7 @@ export function StatsTable<T>(props: StatsTableProps<T>) {
         });
     };
 
-    const response = useCountRequest(request);
+    const response = useSWRImmutable(request, request => getCountResults(request.statsCategory, request.filter));
 
     if (response.isLoading) {
         return <Spinner/>;

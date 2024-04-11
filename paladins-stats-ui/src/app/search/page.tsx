@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button, Input, Spinner } from '@nextui-org/react';
 import { PlayerSearchResult } from '@miguelteran/paladins-api-wrapper';
 import { PlayersTable } from './players-table';
+import { getPlayerSearchResult } from '../actions';
 
 
 export default function SearchPage() {
@@ -49,8 +50,7 @@ export default function SearchPage() {
 
     const search = () => {
         setIsLoading(true);
-        fetch(`http://${window.location.hostname}:${window.location.port}/api/search-players?playerName=` + playerName)
-            .then(res => res.json())
+        getPlayerSearchResult(playerName)
             .then(searchResult => {
                 setPlayerSearchResult(searchResult);
                 setIsLoading(false);
