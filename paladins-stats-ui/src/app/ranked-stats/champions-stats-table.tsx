@@ -1,8 +1,9 @@
 'use client'
 
-import { Key } from "react";
+import { Key, useCallback } from "react";
 import { Selection } from "@nextui-org/react";
 import { Champion } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/champion";
+import { ImageWithFallback } from "@/components/image-with-fallback";
 import { CustomTableColumn } from "../../components/table";
 import { CountRequest, StatsTable, StatsTableRow } from "./stats-table";
 import champions from '../../../public/champions.json';
@@ -27,6 +28,23 @@ export function ChampionsStatsTable(props: ChampionsStatsTableProps) {
 
     const { request, selectedRole } = props;
 
+    const renderCell = useCallback((row: StatsTableRow<Champion>, columnKey: Key) => {
+        if (columnKey === 'ChampionIcon_URL') {
+            return (
+                <div className='min-w-16 max-w-24'>
+                    <ImageWithFallback 
+                        src={row.ChampionIcon_URL}
+                        alt='champion'
+                        fallback='/paladins-logo.jpg'
+                        height={90}
+                        width={90}
+                    />
+                </div>
+            );
+        }
+        return undefined;
+    }, []);
+
     const rowsFilter = (row: StatsTableRow<Champion>) => {
         const roles = Array.from(selectedRole as Set<Key>);
         return roles.length === 0 || roles.findIndex(r => r === row.Roles) !== -1;
@@ -40,6 +58,7 @@ export function ChampionsStatsTable(props: ChampionsStatsTableProps) {
             columns={columns}
             rowsFilter={rowsFilter}
             rowsPerPage={ROWS_PER_PAGE}
+            cellRenderer={renderCell}
         />
     );
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { Tooltip } from "@nextui-org/react";
+import { ImageWithFallback } from "./image-with-fallback";
 
 
 export interface ImageWithTooltipProps {
@@ -20,12 +21,12 @@ export function ImageWithTooltip(props: ImageWithTooltipProps) {
                 placement='bottom'
                 content={content}
             >
-                <img
-                    src={imageUrl}
-                    alt='item'
-                    height='90'
-                    width='90'
-                />
+                <div className='min-w-16 max-w-24'>
+                    <ImageWithFallback
+                        src={imageUrl}
+                        fallback='/unknown-item.png'
+                    />
+                </div>
             </Tooltip>
         </div>
     );

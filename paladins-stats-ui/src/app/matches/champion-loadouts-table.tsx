@@ -63,11 +63,13 @@ export const ChampionLoadoutsTable = (props: ChampionLoadoutsTableProps) => {
 
     const renderImageWithTooltip = (key: number, content: string, imageUrl: string) => {
         return (
-            <ImageWithTooltip 
-                key={key}
-                content={content}
-                imageUrl={imageUrl}
-            />
+            <div className='px-1'>
+                <ImageWithTooltip 
+                    key={key}
+                    content={content}
+                    imageUrl={imageUrl}
+                />
+            </div>
         )
     }
 

@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import { PaladinsRoles } from '@/models/role';
 import { championsMap, getRank } from '@/util/static-data';
 import { TextWithLabel } from '@/components/text-with-label';
+import { ProfilePicture } from '../profile-picture';
 
 
 export default async function PlayerPage( { params }: { params: { playerId: string } }) {
@@ -40,11 +41,7 @@ export default async function PlayerPage( { params }: { params: { playerId: stri
     return (
         <div id='player-container'>
             <div className='flex flex-row flex-wrap pb-4'>
-                <img
-                    src={player.AvatarURL}
-                    alt="Profile picture"
-                    className='max-h-40'
-                />
+                <ProfilePicture url={player.AvatarURL}/>
                 <div className='p-4'>
                     <p className='text-3xl font-bold'>{player.Name}</p>
                     <p>{player.Title}</p>

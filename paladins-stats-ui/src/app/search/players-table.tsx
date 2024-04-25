@@ -48,7 +48,9 @@ export const PlayersTable = (props: PlayersTableProps) => {
                 <User
                     name={player.Name}
                     avatarProps={{
-                        src: player.AvatarURL
+                        src: player.AvatarURL,
+                        showFallback: true,
+                        fallback: <img src='paladins-logo.jpg'/>
                     }}
                 />
             );
