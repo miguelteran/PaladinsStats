@@ -15,7 +15,7 @@ export const statsCategories = [
     { id: StatsCategory.ChampionCards, name: 'Champion Cards Pick Rates' },
     { id: StatsCategory.TalentPicks, name: 'Talent Pick Rates' },
     { id: StatsCategory.TalentWins, name: 'Talent Win Rates' },
-    { id: StatsCategory.Items, name: 'Item Pick Rates' },
+    { id: StatsCategory.Items, name: 'Most Picked Items' },
 ]
 
 export const perChampionStatsCategories = [
