@@ -35,7 +35,7 @@ export function PlayerChampionStatsTable({championStats}: {championStats: Champi
             case 'kdaRatio':
                 return `${champion.kda} (${champion.kdaRatio.toFixed(2)})`;
             case 'minutesPlayed':
-                return getTimeString(champion.minutesPlayed);
+                return getTimeString(champion.minutesPlayed, 'minutes');
             default:
                 return undefined;
         }

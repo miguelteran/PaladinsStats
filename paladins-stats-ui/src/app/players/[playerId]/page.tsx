@@ -21,7 +21,7 @@ export default async function PlayerPage( { params }: { params: { playerId: stri
     const rank = getRank(player.Tier_RankedKBM);
     const totalMatchesPlayed = player.Wins + player.Losses;
     const winRate = getPercentageString(getPercentage(totalMatchesPlayed, player.Wins));
-    const timePlayed = getTimeString(player.MinutesPlayed);
+    const timePlayed = getTimeString(player.MinutesPlayed, 'minutes');
 
     const championSummaries: ChampionStatsSummary[] = championStats.map(champion => {
         const numMatches = champion.Wins + champion.Losses; 

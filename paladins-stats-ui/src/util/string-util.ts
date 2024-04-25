@@ -2,13 +2,13 @@ export function getPercentageString(percentage: number): string {
     return percentage.toFixed(2) + '%';
 }
 
-export function getTimeString(minutes: number): string {
-    if (minutes < 60) {
-        return `${minutes} m`;
+export function getTimeString(value: number, unit: 'minutes'|'seconds'): string {
+    if (value < 60) {
+        return `${value} ${unit === 'minutes' ? 'm' : 's'}`;
     } else {
-        const hours = minutes / 60;
-        const mins = minutes % 60;
-        return `${hours.toFixed(0)} h ${mins} m`;
+        const firstPart = value / 60;
+        const secondPart = value % 60;
+        return `${firstPart.toFixed(0)} ${unit === 'minutes' ? 'h' : 'm'} ${secondPart} ${unit === 'minutes' ? 'm' : 's'}`;
     }
 }
 
