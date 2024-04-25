@@ -9,14 +9,17 @@ import { getRank } from "@/util/static-data";
 import champions from '../../../public/champions.json' assert { type: 'json' };
 
 
+export type PlayerParties = {[partyId: number]: number}
+
 export interface PlayerMatchCardProps {
     key: number;
     playerMatchDetails: PlayerMatchDetails;
+    playerParties: PlayerParties;
 }
 
 export const PlayerMatchCard = (props: PlayerMatchCardProps) => {
 
-    const { key, playerMatchDetails } = props;
+    const { key, playerMatchDetails, playerParties } = props;
 
     const renderRank = (rankId: number) => {
         if (playerMatchDetails.match_queue_id !== RANKED_QUEUE_ID) {
@@ -41,10 +44,10 @@ export const PlayerMatchCard = (props: PlayerMatchCardProps) => {
                     </div>
                     <div id='player-match-card-info'>
                         <Link href={`/players/${playerMatchDetails.playerId}`}>{playerMatchDetails.playerName}</Link>
+                        <p>{championName}</p>
                         <TextWithLabel label='Rank' value={renderRank(playerMatchDetails.League_Tier)}/>
                         <TextWithLabel label='Level' value={playerMatchDetails.Account_Level}/>
-                        <p>{championName}</p>
-                        <p>{playerMatchDetails.Item_Purch_6}</p>
+                        <TextWithLabel label='Party' value={playerParties[playerMatchDetails.PartyId]}/>
                     </div>
                 </div>
             </CardBody>
