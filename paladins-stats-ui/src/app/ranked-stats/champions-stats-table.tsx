@@ -4,15 +4,17 @@ import { Key, useCallback } from "react";
 import { Selection } from "@nextui-org/react";
 import { Champion } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/champion";
 import { ImageWithFallback } from "@/components/image-with-fallback";
+import { RANKED_STATS_TABLE_COLUMN_WIDTH } from "@/util/constants";
 import { CustomTableColumn } from "../../components/table";
 import { CountRequest, StatsTable, StatsTableRow } from "./stats-table";
 import champions from '../../../public/champions.json';
 
 
-const ROWS_PER_PAGE = 15;
+const ROWS_PER_PAGE = 6;
 
 const columns: CustomTableColumn[] = [
-    { key: 'Name', label: 'Champion', sortable: true },
+    { key: 'Name', label: 'Champion', sortable: true, width: RANKED_STATS_TABLE_COLUMN_WIDTH },
+    { key: 'ChampionIcon_URL', label: '', width: RANKED_STATS_TABLE_COLUMN_WIDTH },
     { key: 'percentage', label: 'Rate', sortable: true },
     // for debugging
     // { key: 'partial', label: 'Partial'},

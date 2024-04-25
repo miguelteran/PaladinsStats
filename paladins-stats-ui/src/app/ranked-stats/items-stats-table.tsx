@@ -7,6 +7,7 @@ import { Item } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/item
 import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/count-filter";
 import { ItemsAggregrationResult } from "@miguelteran/paladins-stats-db/dist/src/models/aggregations/items-aggregation-result";
 import { ImageWithTooltip } from "@/components/image-with-tooltip";
+import { RANKED_STATS_TABLE_COLUMN_WIDTH } from "@/util/constants";
 import { CustomTable, CustomTableColumn } from "../../components/table";
 import { getItemPicks } from "../actions";
 import items from '../../../public/items.json';
@@ -15,7 +16,7 @@ import items from '../../../public/items.json';
 const ROWS_PER_PAGE = 5;
 
 const columns: CustomTableColumn[] = [
-    { key: 'DeviceName', label: 'Item' },
+    { key: 'DeviceName', label: 'Item', width: RANKED_STATS_TABLE_COLUMN_WIDTH },
     { key: 'itemIcon_URL', label: '' }
 ];
 

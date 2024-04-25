@@ -5,6 +5,7 @@ import { Selection } from "@nextui-org/react";
 import { ChampionCard } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/loadout";
 import { ImageWithTooltip } from "@/components/image-with-tooltip";
 import { CustomTableColumn } from "../../components/table";
+import { RANKED_STATS_TABLE_COLUMN_WIDTH } from "@/util/constants";
 import { CountRequest, StatsTable, StatsTableRow } from "./stats-table";
 import cards from '../../../public/champion-cards.json';
 import talents from '../../../public/champion-talents.json';
@@ -43,8 +44,8 @@ export function ChampionCardsStatsTable(props: ChampionCardsStatsTableProps) {
     }
 
     const columns: CustomTableColumn[] = [
-        { key: 'card_name', label: mode, sortable: true },
-        { key: 'image', label: '' },
+        { key: 'card_name', label: mode, sortable: true, width: RANKED_STATS_TABLE_COLUMN_WIDTH },
+        { key: 'image', label: '', width: RANKED_STATS_TABLE_COLUMN_WIDTH },
         { key: 'percentage', label: 'Rate', sortable: true },
         // for debugging
         // { key: 'partial', label: 'Partial'},

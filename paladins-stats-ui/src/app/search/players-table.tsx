@@ -12,8 +12,8 @@ import { getPlayers } from '../actions';
 const ROWS_PER_PAGE = 5;
 
 const columns: CustomTableColumn[] = [
-    { key: 'Name', label: 'IGN' },
-    { key: 'Level', label: 'Level' },
+    { key: 'Name', label: 'IGN', width: 500 },
+    { key: 'Level', label: 'Level', width: 100 },
     { key: 'Region', label: 'Region' }
 ]
 

@@ -34,7 +34,8 @@ export interface CustomTableProps<T> {
 export interface CustomTableColumn {
     key: string,
     label: string,
-    sortable?: boolean
+    sortable?: boolean,
+    width?: number
 }
 
 export interface CustomTableSortParams {
@@ -127,7 +128,7 @@ export function CustomTable<T>(props: CustomTableProps<T>) {
         >
             <TableHeader columns={columns}>
                 {(column) => 
-                    <TableColumn key={column.key} allowsSorting={column.sortable}>
+                    <TableColumn key={column.key} allowsSorting={column.sortable} width={column.width}>
                         {column.label}
                     </TableColumn>
                 }
