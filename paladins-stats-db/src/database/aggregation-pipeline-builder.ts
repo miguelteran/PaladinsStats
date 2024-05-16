@@ -4,7 +4,7 @@ import { Document } from "mongodb";
 export class AggregationPipelineBuilder {
 
     private _pipeline: Document[];
-    private _group?: Document;
+    private _group?: Document|string;
 
     constructor() {
         this._pipeline = [];
@@ -15,13 +15,13 @@ export class AggregationPipelineBuilder {
         return this;
     }
 
-    group(group: Document) {
+    group(group: Document|string) {
         this._pipeline.push({'$group': {'_id': group}});
         this._group = group;
         return this;
     }
 
-    groupedCount(group: Document) {
+    groupedCount(group: Document|string) {
         this._pipeline.push({
             '$group': {
               '_id': group, 

@@ -3,7 +3,6 @@ import { BaseDAL } from "./base-dal";
 import { MatchBuilder } from "../database/match-builder";
 import { ChampionMatch } from "../models/champion-match";
 import { getRankBoundaries } from "../models/paladins-rank";
-import { CountFilter } from "../models/count-filter";
 
 
 export class ChampionMatchesDAL extends BaseDAL<ChampionMatch> {
@@ -12,7 +11,7 @@ export class ChampionMatchesDAL extends BaseDAL<ChampionMatch> {
         super(collection);
     }
 
-    buildMatch(filter: CountFilter): Document {
+    buildMatch(filter: any): Document {
         const matchBuilder = new MatchBuilder();
         Object.keys(filter).forEach(key => {
             const value = filter[key];
