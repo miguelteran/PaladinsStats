@@ -3,8 +3,8 @@
 import useSWRImmutable from "swr/immutable";
 import { Key, useCallback, useState } from "react";
 import { SortDescriptor, Spinner } from "@nextui-org/react";
-import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/count-filter";
-import { CountResult } from "@miguelteran/paladins-stats-db/dist/src/models/count-result";
+import { CountFilter } from "@/models/count-filter";
+import { CountResult } from "@/models/count-result";
 import { getPercentageString } from "@/util/string-util";
 import { getPercentage } from "@/util/number-util";
 import { StatsCategory } from "@/models/stats-category";

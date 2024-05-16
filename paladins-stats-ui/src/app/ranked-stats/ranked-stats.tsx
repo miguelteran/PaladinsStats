@@ -1,18 +1,21 @@
 'use client'
 
+import useSWRImmutable from "swr/immutable";
 import { useState, Key } from "react"
 import { Selection } from "@nextui-org/react";
 import { Champion } from "@miguelteran/paladins-api-wrapper/dist/src/interfaces/champion";
-import { CountFilter } from "@miguelteran/paladins-stats-db/dist/src/models/count-filter";
+import { CountFilter } from "@/models/count-filter";
+import { StatsDateRange } from "@/models/stats-date-range";
 import { CustomSelect, NamedSelectItem, OnSelectionChange } from "@/components/select";
+import { TextWithLabel } from "@/components/text-with-label";
 import { RolesSelect } from "@/components/roles-select";
 import { StatsCategory, statsCategories, perChampionStatsCategories } from "@/models/stats-category";
+import { getRankedMaps, getStatsDateRange } from "../actions";
 import { ChampionsStatsTable } from "./champions-stats-table";
 import { ChampionCardsStatsTable } from "./champion-cards-stats-table";
 import { ItemsStatsTable } from "./items-stats-table";
 import champions from '../../../public/champions.json';
 import regions from '../../../public/regions.json';
-import rankedMaps from '../../../public/ranked-maps.json';
 import platforms from '../../../public/platforms.json';
 
 
@@ -210,6 +213,15 @@ export const RankedStats = (props: RankedStatsProps) => {
         );
     };
 
+    // const renderStatsDateRange = (dateRange: StatsDateRange) => {
+    //     return (
+            
+    //     );
+    // }
+
+    const rankedMaps = useSWRImmutable('ranked-maps', getRankedMaps).data ?? [];
+    const dateRange: StatsDateRange|undefined = useSWRImmutable('date-range', getStatsDateRange).data;
+
     const countFilter: CountFilter = {
         region: getSelectedItemName(regions, selectedRegion),
         map: getSelectedItemName(rankedMaps, selectedMap),
@@ -228,6 +240,12 @@ export const RankedStats = (props: RankedStatsProps) => {
                 {renderRolesSelect()}
                 {renderChampionsSelect()}
             </div>
+            {dateRange ? 
+                <div id='ranked-stats-dates' className='flex flex-row flex-wrap w-full gap-4 pb-4'>
+                    <TextWithLabel label='Start Date' value={dateRange.startDate}/>
+                    <TextWithLabel label='End Date' value={dateRange.endDate}/>
+                </div> : undefined
+            }
             <div id='ranked-stats-table-container' className='flex w-full min-h-dvh place-content-center'>
                 {renderStatsTable()}
             </div>
