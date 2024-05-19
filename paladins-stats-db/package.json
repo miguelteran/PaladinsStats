@@ -1,6 +1,6 @@
 {
   "name": "@miguelteran/paladins-stats-db",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Paladins Stats Database Access Layer",
   "author": "Miguel Teran Benalcazar",
   "license": "ISC",
