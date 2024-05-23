@@ -29,7 +29,7 @@ async function deleteOldestEntries(db: PaladinsStatsDatabase) {
     console.log('Performing cleanup...');
     const championMatchesDAL = db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES);
     const championBansDAL = db.getDal(PaladinsStatsCollections.CHAMPION_BANS);
-    const pipeline = new AggregationPipelineBuilder().sort({matchTimestamp: 1}).limit(1).build();
+    const pipeline = new AggregationPipelineBuilder().sort({matchId: 1}).limit(1).build();
     const championMatch = await championMatchesDAL.aggregate<ChampionMatch>(pipeline);
 
     if (championMatch) {

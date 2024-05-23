@@ -62,8 +62,8 @@ export async function getItemPicks(filter: CountFilter) {
 export async function getStatsDateRange(): Promise<StatsDateRange> {
     const db = await getPaladinsStatsDb();
     const championMatchesDAL = db.getDal(PaladinsStatsCollections.CHAMPION_MATCHES);
-    const oldestMatch = await championMatchesDAL.aggregate<ChampionMatch>(new AggregationPipelineBuilder().sort({matchTimestamp: 1}).limit(1).build());
-    const mostRecentMatch = await championMatchesDAL.aggregate<ChampionMatch>(new AggregationPipelineBuilder().sort({matchTimestamp: -1}).limit(1).build());
+    const oldestMatch = await championMatchesDAL.aggregate<ChampionMatch>(new AggregationPipelineBuilder().sort({matchId: 1}).limit(1).build());
+    const mostRecentMatch = await championMatchesDAL.aggregate<ChampionMatch>(new AggregationPipelineBuilder().sort({matchId: -1}).limit(1).build());
     return {
         startDate: getMatchDate(oldestMatch[0]),
         endDate: getMatchDate(mostRecentMatch[0])
